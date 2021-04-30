@@ -1,0 +1,32 @@
+{
+  "modules": {
+    "appsmith": {
+      "enabled": true,
+      "gitRepo": "https://github.com/gochewy/appsmith.git"
+    },
+    "content": {
+      "enabled": true,
+      "gitRepo": "https://github.com/gochewy/content.git"
+    },
+    "gql": {
+      "enabled": true,
+      "gitRepo": "https://github.com/gochewy/gql.git"
+    },
+    "keycloak": {
+      "enabled": true,
+      "gitRepo": "https://github.com/gochewy/keycloak.git"
+    },
+    "server": {
+      "enabled": true,
+      "gitRepo": "https://github.com/gochewy/server.git"
+    },
+    "worker": {
+      "enabled": true,
+      "gitRepo": "https://github.com/gochewy/worker.git"
+    },
+    "mobile": {
+      "enabled": true,
+      "gitRepo": "https://github.com/gochewy/mobile.git"
+    }
+  }
+}

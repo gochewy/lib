@@ -1,6 +1,12 @@
 import * as file from './files'
-export const File = file;
+import * as commands from './commands'
+import * as utils from './utils'
+export const File = file
+export const Commands = commands
+export const Utils = utils
 export const Chewy = {
-    File
+    File,
+    Commands,
+    Utils
 };
 export default Chewy;

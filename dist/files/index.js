@@ -1,11 +1,14 @@
 "use strict";
 exports.__esModule = true;
-exports.fileGenerator = exports.envCreator = exports.help = exports.checkFile = void 0;
+exports.createProjectDirectory = exports.configFileGenerator = exports.envCreator = exports.createConfig = exports.getDirName = exports.checkFile = void 0;
 var fs_1 = require("fs");
+var chalk = require("chalk");
+var fs = require("fs");
 var findUp = require('find-up');
+var log = console.log;
 var checkFile = function () {
     var cwd = process.cwd();
-    var file = findUp.sync('package.json', {
+    var file = findUp.sync('project-config.json', {
         cwd: cwd,
         type: 'file'
     });
@@ -15,11 +18,16 @@ var checkFile = function () {
     return file;
 };
 exports.checkFile = checkFile;
-var help = function () { return "rein gell"; };
-exports.help = help;
+var getDirName = function () {
+    return require('./../../config.json').directory;
+};
+exports.getDirName = getDirName;
+var createConfig = function (dir) {
+    var fileTemplate = "{\n    \"directory\": \"" + dir + "\"\n    }";
+    fs_1.writeFileSync('./config.json', fileTemplate);
+};
+exports.createConfig = createConfig;
 var envCreator = function (dir, subdir) {
-    // eslint-disable-next-line no-console
-    var log = console.log;
     var data = fs_1.readFileSync("./../" + dir + "/" + subdir + "/sample.env");
     fs_1.writeFile("./../" + dir + "/" + subdir + "/.env", data, function (err) {
         if (err) {
@@ -28,8 +36,24 @@ var envCreator = function (dir, subdir) {
     });
 };
 exports.envCreator = envCreator;
-var fileGenerator = function (answers, dir) {
-    var template = "{\n  \"dev\": {\n  \"projectName\": \"Chewy-Stack\",\n    \"modulesEnabled\": {\n      \"directus\": true,\n      \"appsmith\": " + answers.isAppsmith + ",\n      \"client\": true,\n      \"server\": true,\n      \"worker\": true\n  },\n  \"servicesEnabled\": {\n    \"rabbitMQ\": " + answers.isRabbitMQ + "\n  }\n}\n}";
-    fs_1.writeFileSync("./../" + dir + "/project-config.json", template);
+var configFileGenerator = function (answers, dir) {
+    var template = {
+        dev: {
+            projectName: "Chewy-Stack",
+            modulesEnabled: {
+                directus: answers.isContent,
+                appsmith: answers.isAppsmith,
+                client: true,
+                server: true,
+                worker: answers.isRabbitMQ
+            }
+        }
+    };
+    fs_1.writeFileSync("./../" + dir + "/project-config.json", JSON.stringify(template));
 };
-exports.fileGenerator = fileGenerator;
+exports.configFileGenerator = configFileGenerator;
+var createProjectDirectory = function (directory) {
+    fs.mkdirSync("./../" + directory, { recursive: true });
+    log(chalk.greenBright("Created directory named: " + directory));
+};
+exports.createProjectDirectory = createProjectDirectory;
