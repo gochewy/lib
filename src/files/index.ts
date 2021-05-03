@@ -1,13 +1,11 @@
 import {readFileSync, writeFile, writeFileSync} from 'fs'
 import * as chalk from 'chalk'
 import * as fs from "fs";
+import { Answers} from "./constants";
+
 const findUp = require('find-up')
 
-export type Answers=  {
-    isAppsmith: boolean;
-    isRabbitMQ: boolean;
-    isContent: boolean;
-}
+
 const log = console.log;
 export const checkFile = () => {
     let cwd = process.cwd()
@@ -41,20 +39,23 @@ export const envCreator = (dir: string, subdir: string) => {
     })
 }
 
-export const configFileGenerator = (answers: Answers, dir: string) => {
+export const configFileGenerator = (answers: Answers) => {
     const template = {
   dev: {
-  projectName: "Chewy-Stack",
+  projectName: answers.name,
     modulesEnabled: {
-      directus: answers.isContent,
-      appsmith: answers.isAppsmith,
-      client: true,
-      server: true,
-      worker: answers.isRabbitMQ
+      content: answers.isContent,
+      admin: answers.isAdmin,
+      web: true,
+      server: answers.isServer,
+      worker: answers.isWorker,
+      graphql: answers.isGraphQL,
+      auth: answers.isAuth,
+      mobile: answers.isMobile
       }
   }
 }
-    writeFileSync(`./../${dir}/project-config.json`, JSON.stringify(template))
+    writeFileSync(`./../${answers.name}/project-config.json`, JSON.stringify(template, null,2))
 }
 
 export const createProjectDirectory = (directory) => {

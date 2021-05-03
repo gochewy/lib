@@ -64,7 +64,9 @@ exports.installAllApps = installAllApps;
 var installCustomApps = function (directory) { return __awaiter(void 0, void 0, void 0, function () {
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, exports.installMinimalProject(directory)];
+            case 0: return [4 /*yield*/, exports.installMinimalProject(directory)
+                //await execSync(`cd .. && cd ${directory} && git subtree add --prefix appsmith https://gitlab.com/swarnjitchahal/appsmith.git temp --squash`)
+            ];
             case 1:
                 _a.sent();
                 return [2 /*return*/];

@@ -36,20 +36,23 @@ var envCreator = function (dir, subdir) {
     });
 };
 exports.envCreator = envCreator;
-var configFileGenerator = function (answers, dir) {
+var configFileGenerator = function (answers) {
     var template = {
         dev: {
-            projectName: "Chewy-Stack",
+            projectName: answers.name,
             modulesEnabled: {
-                directus: answers.isContent,
-                appsmith: answers.isAppsmith,
-                client: true,
-                server: true,
-                worker: answers.isRabbitMQ
+                content: answers.isContent,
+                admin: answers.isAdmin,
+                web: true,
+                server: answers.isServer,
+                worker: answers.isWorker,
+                graphql: answers.isGraphQL,
+                auth: answers.isAuth,
+                mobile: answers.isMobile
             }
         }
     };
-    fs_1.writeFileSync("./../" + dir + "/project-config.json", JSON.stringify(template));
+    fs_1.writeFileSync("./../" + answers.name + "/project-config.json", JSON.stringify(template, null, 2));
 };
 exports.configFileGenerator = configFileGenerator;
 var createProjectDirectory = function (directory) {
