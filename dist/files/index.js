@@ -1,6 +1,6 @@
 "use strict";
 exports.__esModule = true;
-exports.createProjectDirectory = exports.configFileGenerator = exports.envCreator = exports.createConfig = exports.getDirName = exports.checkFile = void 0;
+exports.createGitIgnore = exports.createProjectDirectory = exports.configFileGenerator = exports.envCreator = exports.createConfig = exports.getDirName = exports.checkFile = void 0;
 var fs_1 = require("fs");
 var chalk = require("chalk");
 var fs = require("fs");
@@ -52,7 +52,7 @@ var configFileGenerator = function (answers) {
             }
         }
     };
-    fs_1.writeFileSync("./../" + answers.name + "/project-config.json", JSON.stringify(template, null, 2));
+    fs_1.writeFileSync("./../" + answers.name + "/chewy.json", JSON.stringify(template, null, 2));
 };
 exports.configFileGenerator = configFileGenerator;
 var createProjectDirectory = function (directory) {
@@ -60,3 +60,8 @@ var createProjectDirectory = function (directory) {
     log(chalk.greenBright("Created directory named: " + directory));
 };
 exports.createProjectDirectory = createProjectDirectory;
+var createGitIgnore = function (dir) {
+    var fileContent = "/data";
+    fs.appendFileSync("./../" + dir + "/admin/.gitignore", fileContent);
+};
+exports.createGitIgnore = createGitIgnore;

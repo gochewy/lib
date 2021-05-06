@@ -55,10 +55,15 @@ export const configFileGenerator = (answers: Answers) => {
       }
   }
 }
-    writeFileSync(`./../${answers.name}/project-config.json`, JSON.stringify(template, null,2))
+    writeFileSync(`./../${answers.name}/chewy.json`, JSON.stringify(template, null,2))
 }
 
 export const createProjectDirectory = (directory) => {
     fs.mkdirSync(`./../${directory}`, {recursive: true})
     log(chalk.greenBright(`Created directory named: ${directory}`))
+}
+
+export const createGitIgnore = (dir: string) => {
+    const fileContent = `/data`
+    fs.appendFileSync(`./../${dir}/admin/.gitignore`, fileContent)
 }
