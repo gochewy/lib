@@ -41,20 +41,38 @@ export const envCreator = (dir: string, subdir: string) => {
 
 export const configFileGenerator = (answers: Answers) => {
     const template = {
-  dev: {
-  projectName: answers.name,
-    modulesEnabled: {
-      content: answers.isContent,
-      admin: answers.isAdmin,
-      web: true,
-      server: answers.isServer,
-      worker: answers.isWorker,
-      graphql: answers.isGraphQL,
-      auth: answers.isAuth,
-      mobile: answers.isMobile
-      }
-  }
-}
+        "projectName": `"${answers.name}"`,
+        "modules": {
+            "admin": {
+                "enabled": answers.isAdmin,
+                "gitRepo": "https://github.com/gochewy/admin.git"
+            },
+            "content": {
+                "enabled": answers.isContent,
+                "gitRepo": "https://github.com/gochewy/content.git"
+            },
+            "graphql": {
+                "enabled": answers.isGraphQL,
+                "gitRepo": "https://github.com/gochewy/graphql.git"
+            },
+            "auth": {
+                "enabled": answers.isAuth,
+                "gitRepo": "https://github.com/gochewy/auth.git"
+            },
+            "server": {
+                "enabled": answers.isServer,
+                "gitRepo": "https://github.com/gochewy/server.git"
+            },
+            "worker": {
+                "enabled": answers.isWorker,
+                "gitRepo": "https://github.com/gochewy/worker.git"
+            },
+            "mobile": {
+                "enabled": answers.isMobile,
+                "gitRepo": "https://github.com/gochewy/mobile.git"
+            }
+        }
+    }
     writeFileSync(`./../${answers.name}/chewy.json`, JSON.stringify(template, null,2))
 }
 
@@ -66,4 +84,20 @@ export const createProjectDirectory = (directory) => {
 export const createGitIgnore = (dir: string) => {
     const fileContent = `/data`
     fs.appendFileSync(`./../${dir}/admin/.gitignore`, fileContent)
+}
+
+export const createAppConfigExpo = (answers) => {
+    const template = `// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+export default ({ config }) => {
+  return {
+    ...config,
+    extra: {
+      name: '${answers.name}',
+      graphql: ${answers.isGraphQL},
+      auth: ${answers.isAuth},
+    },
+  };
+};`
+    writeFileSync(`./../${answers.name}/mobile/app.config.js`, template)
+
 }

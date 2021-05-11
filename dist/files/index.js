@@ -1,6 +1,6 @@
 "use strict";
 exports.__esModule = true;
-exports.createGitIgnore = exports.createProjectDirectory = exports.configFileGenerator = exports.envCreator = exports.createConfig = exports.getDirName = exports.checkFile = void 0;
+exports.createAppConfigExpo = exports.createGitIgnore = exports.createProjectDirectory = exports.configFileGenerator = exports.envCreator = exports.createConfig = exports.getDirName = exports.checkFile = void 0;
 var fs_1 = require("fs");
 var chalk = require("chalk");
 var fs = require("fs");
@@ -38,17 +38,35 @@ var envCreator = function (dir, subdir) {
 exports.envCreator = envCreator;
 var configFileGenerator = function (answers) {
     var template = {
-        dev: {
-            projectName: answers.name,
-            modulesEnabled: {
-                content: answers.isContent,
-                admin: answers.isAdmin,
-                web: true,
-                server: answers.isServer,
-                worker: answers.isWorker,
-                graphql: answers.isGraphQL,
-                auth: answers.isAuth,
-                mobile: answers.isMobile
+        "projectName": "\"" + answers.name + "\"",
+        "modules": {
+            "admin": {
+                "enabled": answers.isAdmin,
+                "gitRepo": "https://github.com/gochewy/admin.git"
+            },
+            "content": {
+                "enabled": answers.isContent,
+                "gitRepo": "https://github.com/gochewy/content.git"
+            },
+            "graphql": {
+                "enabled": answers.isGraphQL,
+                "gitRepo": "https://github.com/gochewy/graphql.git"
+            },
+            "auth": {
+                "enabled": answers.isAuth,
+                "gitRepo": "https://github.com/gochewy/auth.git"
+            },
+            "server": {
+                "enabled": answers.isServer,
+                "gitRepo": "https://github.com/gochewy/server.git"
+            },
+            "worker": {
+                "enabled": answers.isWorker,
+                "gitRepo": "https://github.com/gochewy/worker.git"
+            },
+            "mobile": {
+                "enabled": answers.isMobile,
+                "gitRepo": "https://github.com/gochewy/mobile.git"
             }
         }
     };
@@ -65,3 +83,8 @@ var createGitIgnore = function (dir) {
     fs.appendFileSync("./../" + dir + "/admin/.gitignore", fileContent);
 };
 exports.createGitIgnore = createGitIgnore;
+var createAppConfigExpo = function (answers) {
+    var template = "// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types\nexport default ({ config }) => {\n  return {\n    ...config,\n    extra: {\n      name: '" + answers.name + "',\n      graphql: " + answers.isGraphQL + ",\n      auth: " + answers.isAuth + ",\n    },\n  };\n};";
+    fs_1.writeFileSync("./../" + answers.name + "/mobile/app.config.js", template);
+};
+exports.createAppConfigExpo = createAppConfigExpo;
