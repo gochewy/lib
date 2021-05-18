@@ -70,6 +70,14 @@ export const configFileGenerator = (answers: Answers) => {
             "mobile": {
                 "enabled": answers.isMobile,
                 "gitRepo": "https://github.com/gochewy/mobile.git"
+            },
+            "analytics": {
+                "enabled": answers.isAnalytics,
+                "gitRepo": "https://github.com/gochewy/analytics.git"
+            },
+            "business-intelligence": {
+                "enabled": answers.isBI,
+                "gitRepo": "https://github.com/gochewy/business-intelligence.git"
             }
         }
     }

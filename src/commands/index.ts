@@ -1,4 +1,5 @@
 import {execSync} from "child_process";
+import {Answers} from "../files/constants";
 const modules = require('../../project.json').modules
 
 export const installMinimalProject = (directory: string) => {
@@ -14,7 +15,7 @@ export const installAllApps = async (directory: string) => {
     })
 }
 
-export const installCustomApps = async (directory: string )=> {
-    await installMinimalProject(directory)
-            //await execSync(`cd .. && cd ${directory} && git subtree add --prefix appsmith https://gitlab.com/swarnjitchahal/appsmith.git temp --squash`)
+export const installCustomApps = async (directory: string, answers: Answers )=> {
+    await installMinimalProject(directory);
+
 }

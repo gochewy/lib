@@ -27,6 +27,14 @@
     "mobile": {
       "enabled": true,
       "gitRepo": "https://github.com/gochewy/mobile.git"
+    },
+    "analytics": {
+      "enabled": true,
+      "gitRepo": "https://github.com/gochewy/analytics.git"
+    },
+    "business-intelligence": {
+      "enabled": true,
+      "gitRepo": "https://github.com/gochewy/business-intelligence.git"
     }
   }
 }
