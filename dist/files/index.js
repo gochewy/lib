@@ -1,6 +1,6 @@
 "use strict";
 exports.__esModule = true;
-exports.rootReadmeFile = exports.createAppConfigExpo = exports.rootGitIgnore = exports.createGitIgnore = exports.createProjectDirectory = exports.configFileGenerator = exports.envCreator = exports.createConfig = exports.getDirName = exports.checkFile = void 0;
+exports.rootReadmeFile = exports.createAppConfigExpo = exports.rootGitIgnore = exports.createGitIgnoreAdmin = exports.createProjectDirectory = exports.configFileGenerator = exports.envCreator = exports.createConfig = exports.getDirName = exports.checkFile = void 0;
 var fs_1 = require("fs");
 var chalk = require("chalk");
 var fs = require("fs");
@@ -39,7 +39,7 @@ var envCreator = function (dir, subdir) {
 exports.envCreator = envCreator;
 var configFileGenerator = function (answers) {
     var template = {
-        "projectName": "\"" + answers.name + "\"",
+        "projectName": "" + answers.name,
         "modules": {
             "admin": {
                 "enabled": answers.admin,
@@ -69,6 +69,10 @@ var configFileGenerator = function (answers) {
                 "enabled": answers.mobile,
                 "gitRepo": "https://github.com/gochewy/mobile.git"
             },
+            "web": {
+                "enabled": true,
+                "gitRepo": "https://github.com/gochewy/web.git"
+            },
             "analytics": {
                 "enabled": answers.analytics,
                 "gitRepo": "https://github.com/gochewy/analytics.git"
@@ -87,11 +91,11 @@ var createProjectDirectory = function (directory) {
     log(chalk.greenBright("Created directory named: " + directory));
 };
 exports.createProjectDirectory = createProjectDirectory;
-var createGitIgnore = function (dir) {
+var createGitIgnoreAdmin = function (dir) {
     var fileContent = "/data";
     fs.appendFileSync("./../" + dir + "/admin/.gitignore", fileContent);
 };
-exports.createGitIgnore = createGitIgnore;
+exports.createGitIgnoreAdmin = createGitIgnoreAdmin;
 var rootGitIgnore = function (dir) {
     fs_1.writeFileSync("./../" + dir + "/.gitignore", constants_1.gitignoreTemplate);
 };
@@ -102,6 +106,6 @@ var createAppConfigExpo = function (answers) {
 };
 exports.createAppConfigExpo = createAppConfigExpo;
 var rootReadmeFile = function (dir) {
-    fs_1.writeFileSync("./../" + dir + "/.gitignore", constants_1.readmeFileTemplate);
+    fs_1.writeFileSync("./../" + dir + "/README.md", constants_1.readmeFileTemplate);
 };
 exports.rootReadmeFile = rootReadmeFile;

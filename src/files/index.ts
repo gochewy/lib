@@ -41,7 +41,7 @@ export const envCreator = (dir: string, subdir: string) => {
 
 export const configFileGenerator = (answers: Answers) => {
     const template = {
-        "projectName": `"${answers.name}"`,
+        "projectName": `${answers.name}`,
         "modules": {
             "admin": {
                 "enabled": answers.admin,
@@ -71,6 +71,10 @@ export const configFileGenerator = (answers: Answers) => {
                 "enabled": answers.mobile,
                 "gitRepo": "https://github.com/gochewy/mobile.git"
             },
+            "web": {
+                "enabled": true,
+                "gitRepo": "https://github.com/gochewy/web.git"
+            },
             "analytics": {
                 "enabled": answers.analytics,
                 "gitRepo": "https://github.com/gochewy/analytics.git"
@@ -89,7 +93,7 @@ export const createProjectDirectory = (directory) => {
     log(chalk.greenBright(`Created directory named: ${directory}`))
 }
 
-export const createGitIgnore = (dir: string) => {
+export const createGitIgnoreAdmin = (dir: string) => {
     const fileContent = `/data`
     fs.appendFileSync(`./../${dir}/admin/.gitignore`, fileContent)
 }
@@ -115,5 +119,5 @@ export default ({ config }) => {
 }
 
 export const rootReadmeFile = (dir: string) => {
-    writeFileSync(`./../${dir}/.gitignore`, readmeFileTemplate)
+    writeFileSync(`./../${dir}/README.md`, readmeFileTemplate)
 }

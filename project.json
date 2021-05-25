@@ -8,7 +8,7 @@
       "enabled": true,
       "gitRepo": "https://github.com/gochewy/content.git"
     },
-    "graphql": {
+    "graphQL": {
       "enabled": true,
       "gitRepo": "https://github.com/gochewy/graphql.git"
     },
@@ -35,6 +35,10 @@
     "business-intelligence": {
       "enabled": true,
       "gitRepo": "https://github.com/gochewy/business-intelligence.git"
+    },
+    "web": {
+      "enabled": true,
+      "gitRepo": "https://github.com/gochewy/web.git"
     }
   }
 }

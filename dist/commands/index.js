@@ -36,20 +36,30 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.installCustomApps = exports.installAllApps = exports.addSubtrees = exports.installMinimalProject = void 0;
+exports.installCustomApps = exports.installAllApps = exports.addSubtrees = exports.installMinimalProject = exports.initGitRepo = void 0;
 var child_process_1 = require("child_process");
 var files_1 = require("../files");
 var modules = require('../../project.json').modules;
-var installMinimalProject = function (directory, answers) { return __awaiter(void 0, void 0, void 0, function () {
+var initGitRepo = function (directory) {
+    child_process_1.execSync("cd .. && cd " + directory + " && git init && git add . && git commit --allow-empty -n -m \"add subtree\"");
+    // execSync(`cd .. && cd ${directory} && git commit -m "adding subtree"`)
+};
+exports.initGitRepo = initGitRepo;
+var installMinimalProject = function (answers) { return __awaiter(void 0, void 0, void 0, function () {
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, files_1.createProjectDirectory(directory)];
+            case 0: return [4 /*yield*/, files_1.createProjectDirectory(answers.name)];
             case 1:
                 _a.sent();
+                return [4 /*yield*/, exports.initGitRepo(answers.name)];
+            case 2:
+                _a.sent();
+                return [4 /*yield*/, exports.addSubtrees(answers.name, 'web', modules["web"].gitRepo)];
+            case 3:
+                _a.sent();
                 files_1.configFileGenerator(answers);
-                files_1.rootGitIgnore(directory);
-                files_1.rootReadmeFile(directory);
-                exports.addSubtrees(directory, 'web', modules["web"].gitRepo);
+                files_1.rootGitIgnore(answers.name);
+                files_1.rootReadmeFile(answers.name);
                 return [2 /*return*/];
         }
     });
@@ -59,31 +69,36 @@ var addSubtrees = function (directory, module, url) {
     child_process_1.execSync("cd .. && cd " + directory + " && git subtree add --prefix " + module + " " + url + " main --squash");
 };
 exports.addSubtrees = addSubtrees;
-var installAllApps = function (directory, answers) { return __awaiter(void 0, void 0, void 0, function () {
+var installAllApps = function (answers) { return __awaiter(void 0, void 0, void 0, function () {
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, exports.installMinimalProject(directory, answers)];
+            case 0: return [4 /*yield*/, exports.installMinimalProject(answers)];
             case 1:
                 _a.sent();
                 Object.keys(modules).map(function (module) {
-                    exports.addSubtrees(directory, module, modules[module].gitRepo);
+                    if (module !== 'web') {
+                        exports.addSubtrees(answers.name, module, modules[module].gitRepo);
+                    }
                 });
                 return [2 /*return*/];
         }
     });
 }); };
 exports.installAllApps = installAllApps;
-var installCustomApps = function (directory, answers) { return __awaiter(void 0, void 0, void 0, function () {
+var installCustomApps = function (answers) { return __awaiter(void 0, void 0, void 0, function () {
     var answer;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, exports.installMinimalProject(directory, answers)];
+            case 0: return [4 /*yield*/, exports.installMinimalProject(answers)];
             case 1:
                 _a.sent();
                 for (answer in answers) {
                     if (answers.hasOwnProperty(answer)) {
-                        if (answers[answer] === true)
-                            exports.addSubtrees(directory, answer, modules[answer].gitRepo);
+                        if (answer !== 'name') {
+                            console.log(modules[answer]);
+                            if (modules[answer].enabled === true)
+                                exports.addSubtrees(answers.name, answer, modules[answer].gitRepo);
+                        }
                     }
                 }
                 return [2 /*return*/];
