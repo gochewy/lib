@@ -52,7 +52,7 @@ export const configFileGenerator = (answers: Answers) => {
                 "gitRepo": "https://github.com/gochewy/content.git"
             },
             "graphql": {
-                "enabled": answers.graphQL,
+                "enabled": answers.graphql,
                 "gitRepo": "https://github.com/gochewy/graphql.git"
             },
             "auth": {

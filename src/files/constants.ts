@@ -4,7 +4,7 @@ export type Answers = {
     'business-intelligence': boolean;
     admin: boolean;
     content: boolean;
-    graphQL: boolean;
+    graphql: boolean;
     server: boolean;
     mobile: boolean;
     auth: boolean;
