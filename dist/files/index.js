@@ -50,7 +50,7 @@ var configFileGenerator = function (answers) {
                 "gitRepo": "https://github.com/gochewy/content.git"
             },
             "graphql": {
-                "enabled": answers.graphQL,
+                "enabled": answers.graphql,
                 "gitRepo": "https://github.com/gochewy/graphql.git"
             },
             "auth": {
