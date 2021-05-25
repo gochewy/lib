@@ -1,7 +1,7 @@
 import {readFileSync, writeFile, writeFileSync} from 'fs'
 import * as chalk from 'chalk'
 import * as fs from "fs";
-import { Answers} from "./constants";
+import {Answers, gitignoreTemplate, readmeFileTemplate} from "./constants";
 
 const findUp = require('find-up')
 
@@ -41,42 +41,46 @@ export const envCreator = (dir: string, subdir: string) => {
 
 export const configFileGenerator = (answers: Answers) => {
     const template = {
-        "projectName": `"${answers.name}"`,
+        "projectName": `${answers.name}`,
         "modules": {
             "admin": {
-                "enabled": answers.isAdmin,
+                "enabled": answers.admin,
                 "gitRepo": "https://github.com/gochewy/admin.git"
             },
             "content": {
-                "enabled": answers.isContent,
+                "enabled": answers.content,
                 "gitRepo": "https://github.com/gochewy/content.git"
             },
             "graphql": {
-                "enabled": answers.isGraphQL,
+                "enabled": answers.graphQL,
                 "gitRepo": "https://github.com/gochewy/graphql.git"
             },
             "auth": {
-                "enabled": answers.isAuth,
+                "enabled": answers.auth,
                 "gitRepo": "https://github.com/gochewy/auth.git"
             },
             "server": {
-                "enabled": answers.isServer,
+                "enabled": answers.server,
                 "gitRepo": "https://github.com/gochewy/server.git"
             },
             "worker": {
-                "enabled": answers.isWorker,
+                "enabled": answers.worker,
                 "gitRepo": "https://github.com/gochewy/worker.git"
             },
             "mobile": {
-                "enabled": answers.isMobile,
+                "enabled": answers.mobile,
                 "gitRepo": "https://github.com/gochewy/mobile.git"
             },
+            "web": {
+                "enabled": true,
+                "gitRepo": "https://github.com/gochewy/web.git"
+            },
             "analytics": {
-                "enabled": answers.isAnalytics,
+                "enabled": answers.analytics,
                 "gitRepo": "https://github.com/gochewy/analytics.git"
             },
             "business-intelligence": {
-                "enabled": answers.isBI,
+                "enabled": answers["business-intelligence"],
                 "gitRepo": "https://github.com/gochewy/business-intelligence.git"
             }
         }
@@ -89,9 +93,13 @@ export const createProjectDirectory = (directory) => {
     log(chalk.greenBright(`Created directory named: ${directory}`))
 }
 
-export const createGitIgnore = (dir: string) => {
+export const createGitIgnoreAdmin = (dir: string) => {
     const fileContent = `/data`
     fs.appendFileSync(`./../${dir}/admin/.gitignore`, fileContent)
+}
+
+export const rootGitIgnore = (dir: string) => {
+    writeFileSync(`./../${dir}/.gitignore`, gitignoreTemplate)
 }
 
 export const createAppConfigExpo = (answers) => {
@@ -108,4 +116,8 @@ export default ({ config }) => {
 };`
     writeFileSync(`./../${answers.name}/mobile/app.config.js`, template)
 
+}
+
+export const rootReadmeFile = (dir: string) => {
+    writeFileSync(`./../${dir}/README.md`, readmeFileTemplate)
 }

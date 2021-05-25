@@ -1,9 +1,10 @@
 "use strict";
 exports.__esModule = true;
-exports.createAppConfigExpo = exports.createGitIgnore = exports.createProjectDirectory = exports.configFileGenerator = exports.envCreator = exports.createConfig = exports.getDirName = exports.checkFile = void 0;
+exports.rootReadmeFile = exports.createAppConfigExpo = exports.rootGitIgnore = exports.createGitIgnoreAdmin = exports.createProjectDirectory = exports.configFileGenerator = exports.envCreator = exports.createConfig = exports.getDirName = exports.checkFile = void 0;
 var fs_1 = require("fs");
 var chalk = require("chalk");
 var fs = require("fs");
+var constants_1 = require("./constants");
 var findUp = require('find-up');
 var log = console.log;
 var checkFile = function () {
@@ -38,35 +39,47 @@ var envCreator = function (dir, subdir) {
 exports.envCreator = envCreator;
 var configFileGenerator = function (answers) {
     var template = {
-        "projectName": "\"" + answers.name + "\"",
+        "projectName": "" + answers.name,
         "modules": {
             "admin": {
-                "enabled": answers.isAdmin,
+                "enabled": answers.admin,
                 "gitRepo": "https://github.com/gochewy/admin.git"
             },
             "content": {
-                "enabled": answers.isContent,
+                "enabled": answers.content,
                 "gitRepo": "https://github.com/gochewy/content.git"
             },
             "graphql": {
-                "enabled": answers.isGraphQL,
+                "enabled": answers.graphQL,
                 "gitRepo": "https://github.com/gochewy/graphql.git"
             },
             "auth": {
-                "enabled": answers.isAuth,
+                "enabled": answers.auth,
                 "gitRepo": "https://github.com/gochewy/auth.git"
             },
             "server": {
-                "enabled": answers.isServer,
+                "enabled": answers.server,
                 "gitRepo": "https://github.com/gochewy/server.git"
             },
             "worker": {
-                "enabled": answers.isWorker,
+                "enabled": answers.worker,
                 "gitRepo": "https://github.com/gochewy/worker.git"
             },
             "mobile": {
-                "enabled": answers.isMobile,
+                "enabled": answers.mobile,
                 "gitRepo": "https://github.com/gochewy/mobile.git"
+            },
+            "web": {
+                "enabled": true,
+                "gitRepo": "https://github.com/gochewy/web.git"
+            },
+            "analytics": {
+                "enabled": answers.analytics,
+                "gitRepo": "https://github.com/gochewy/analytics.git"
+            },
+            "business-intelligence": {
+                "enabled": answers["business-intelligence"],
+                "gitRepo": "https://github.com/gochewy/business-intelligence.git"
             }
         }
     };
@@ -78,13 +91,21 @@ var createProjectDirectory = function (directory) {
     log(chalk.greenBright("Created directory named: " + directory));
 };
 exports.createProjectDirectory = createProjectDirectory;
-var createGitIgnore = function (dir) {
+var createGitIgnoreAdmin = function (dir) {
     var fileContent = "/data";
     fs.appendFileSync("./../" + dir + "/admin/.gitignore", fileContent);
 };
-exports.createGitIgnore = createGitIgnore;
+exports.createGitIgnoreAdmin = createGitIgnoreAdmin;
+var rootGitIgnore = function (dir) {
+    fs_1.writeFileSync("./../" + dir + "/.gitignore", constants_1.gitignoreTemplate);
+};
+exports.rootGitIgnore = rootGitIgnore;
 var createAppConfigExpo = function (answers) {
     var template = "// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types\nexport default ({ config }) => {\n  return {\n    ...config,\n    extra: {\n      name: '" + answers.name + "',\n      graphql: " + answers.isGraphQL + ",\n      auth: " + answers.isAuth + ",\n    },\n  };\n};";
     fs_1.writeFileSync("./../" + answers.name + "/mobile/app.config.js", template);
 };
 exports.createAppConfigExpo = createAppConfigExpo;
+var rootReadmeFile = function (dir) {
+    fs_1.writeFileSync("./../" + dir + "/README.md", constants_1.readmeFileTemplate);
+};
+exports.rootReadmeFile = rootReadmeFile;
