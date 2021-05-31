@@ -31,8 +31,8 @@ export const createConfig = (dir) => {
 }
 
 export const envCreator = (dir: string, subdir: string) => {
-    const data = readFileSync(`./../${dir}/${subdir}/sample.env`)
-    writeFile(`./../${dir}/${subdir}/.env`, data, err => {
+    const data = readFileSync(`${dir}/${subdir}/sample.env`)
+    writeFile(`${dir}/${subdir}/.env`, data, err => {
         if (err) {
             log(err)
         }
@@ -45,61 +45,71 @@ export const configFileGenerator = (answers: Answers) => {
         "modules": {
             "admin": {
                 "enabled": answers.admin,
-                "gitRepo": "https://github.com/gochewy/admin.git"
+                "gitRepo": "https://github.com/gochewy/admin.git",
+                "containerized": true
             },
             "content": {
                 "enabled": answers.content,
-                "gitRepo": "https://github.com/gochewy/content.git"
+                "gitRepo": "https://github.com/gochewy/content.git",
+                "containerized": false
             },
             "graphql": {
                 "enabled": answers.graphql,
-                "gitRepo": "https://github.com/gochewy/graphql.git"
+                "gitRepo": "https://github.com/gochewy/graphql.git",
+                "containerized": true
             },
             "auth": {
                 "enabled": answers.auth,
-                "gitRepo": "https://github.com/gochewy/auth.git"
+                "gitRepo": "https://github.com/gochewy/auth.git",
+                "containerized": true
             },
             "server": {
                 "enabled": answers.server,
-                "gitRepo": "https://github.com/gochewy/server.git"
+                "gitRepo": "https://github.com/gochewy/server.git",
+                "containerized": true
             },
             "worker": {
                 "enabled": answers.worker,
-                "gitRepo": "https://github.com/gochewy/worker.git"
+                "gitRepo": "https://github.com/gochewy/worker.git",
+                "containerized": true
             },
             "mobile": {
                 "enabled": answers.mobile,
-                "gitRepo": "https://github.com/gochewy/mobile.git"
+                "gitRepo": "https://github.com/gochewy/mobile.git",
+                "containerized": false
             },
             "web": {
                 "enabled": true,
-                "gitRepo": "https://github.com/gochewy/web.git"
+                "gitRepo": "https://github.com/gochewy/web.git",
+                "containerized": false
             },
             "analytics": {
                 "enabled": answers.analytics,
-                "gitRepo": "https://github.com/gochewy/analytics.git"
+                "gitRepo": "https://github.com/gochewy/analytics.git",
+                "containerized": true
             },
             "business-intelligence": {
                 "enabled": answers["business-intelligence"],
-                "gitRepo": "https://github.com/gochewy/business-intelligence.git"
+                "gitRepo": "https://github.com/gochewy/business-intelligence.git",
+                "containerized": true
             }
         }
     }
-    writeFileSync(`./../${answers.name}/chewy.json`, JSON.stringify(template, null,2))
+    writeFileSync(`${answers.name}/chewy.json`, JSON.stringify(template, null,2))
 }
 
 export const createProjectDirectory = (directory) => {
-    fs.mkdirSync(`./../${directory}`, {recursive: true})
+    fs.mkdirSync(`${directory}`, {recursive: true})
     log(chalk.greenBright(`Created directory named: ${directory}`))
 }
 
 export const createGitIgnoreAdmin = (dir: string) => {
     const fileContent = `/data`
-    fs.appendFileSync(`./../${dir}/admin/.gitignore`, fileContent)
+    fs.appendFileSync(`${dir}/admin/.gitignore`, fileContent)
 }
 
 export const rootGitIgnore = (dir: string) => {
-    writeFileSync(`./../${dir}/.gitignore`, gitignoreTemplate)
+    writeFileSync(`${dir}/.gitignore`, gitignoreTemplate)
 }
 
 export const createAppConfigExpo = (answers) => {
@@ -114,10 +124,10 @@ export default ({ config }) => {
     },
   };
 };`
-    writeFileSync(`./../${answers.name}/mobile/app.config.js`, template)
+    writeFileSync(`${answers.name}/mobile/app.config.js`, template)
 
 }
 
 export const rootReadmeFile = (dir: string) => {
-    writeFileSync(`./../${dir}/README.md`, readmeFileTemplate)
+    writeFileSync(`${dir}/README.md`, readmeFileTemplate)
 }

@@ -4,3 +4,5 @@ export declare const installMinimalProject: (answers: Answers) => Promise<void>;
 export declare const addSubtrees: (directory: string, module: string, url: string) => void;
 export declare const installAllApps: (answers: Answers) => Promise<void>;
 export declare const installCustomApps: (answers: Answers) => Promise<void>;
+export declare const startDocker: () => void;
+export declare const stopDocker: () => void;
