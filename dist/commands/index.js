@@ -36,13 +36,14 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.installCustomApps = exports.installAllApps = exports.addSubtrees = exports.installMinimalProject = exports.initGitRepo = void 0;
+exports.stopDocker = exports.startDocker = exports.installCustomApps = exports.installAllApps = exports.addSubtrees = exports.installMinimalProject = exports.initGitRepo = void 0;
 var child_process_1 = require("child_process");
+var path = require("path");
 var files_1 = require("../files");
 var modules = require('../../project.json').modules;
+var config = require(path.resolve(process.cwd(), "chewy.json"));
 var initGitRepo = function (directory) {
-    child_process_1.execSync("cd .. && cd " + directory + " && git init && git add . && git commit --allow-empty -n -m \"add subtree\"");
-    // execSync(`cd .. && cd ${directory} && git commit -m "adding subtree"`)
+    child_process_1.execSync("cd " + directory + " && git init && git add . && git commit --allow-empty -n -m \"add subtree\"");
 };
 exports.initGitRepo = initGitRepo;
 var installMinimalProject = function (answers) { return __awaiter(void 0, void 0, void 0, function () {
@@ -66,7 +67,7 @@ var installMinimalProject = function (answers) { return __awaiter(void 0, void 0
 }); };
 exports.installMinimalProject = installMinimalProject;
 var addSubtrees = function (directory, module, url) {
-    child_process_1.execSync("cd .. && cd " + directory + " && git subtree add --prefix " + module + " " + url + " main --squash");
+    child_process_1.execSync("cd " + directory + " && git subtree add --prefix " + module + " " + url + " main --squash");
 };
 exports.addSubtrees = addSubtrees;
 var installAllApps = function (answers) { return __awaiter(void 0, void 0, void 0, function () {
@@ -106,3 +107,41 @@ var installCustomApps = function (answers) { return __awaiter(void 0, void 0, vo
     });
 }); };
 exports.installCustomApps = installCustomApps;
+var startDocker = function () {
+    var modules = config.modules;
+    var string = '';
+    Object.entries(modules).forEach(function (_a) {
+        var key = _a[0], value = _a[1];
+        if (value.containerized === true) {
+            string = string + (" -f " + key + "/docker-compose.yml");
+        }
+    });
+    var startCommand = "docker-compose -f docker-compose.yml" + string + " up -d";
+    child_process_1.exec("" + startCommand, function (error, stdout, stderr) {
+        if (error) {
+            console.error("Error: " + error);
+        }
+        console.log(stdout);
+        console.error("Error: " + stderr);
+    });
+};
+exports.startDocker = startDocker;
+var stopDocker = function () {
+    var modules = config.modules;
+    var string = '';
+    Object.entries(modules).forEach(function (_a) {
+        var key = _a[0], value = _a[1];
+        if (value.containerized === true) {
+            string = string + (" -f " + key + "/docker-compose.yml");
+        }
+    });
+    var stopCommand = "docker-compose -f docker-compose.yml" + string + " down";
+    child_process_1.exec("" + stopCommand, function (error, stdout, stderr) {
+        if (error) {
+            console.error("Error: " + error);
+        }
+        console.log(stdout);
+        console.error("Error: " + stderr);
+    });
+};
+exports.stopDocker = stopDocker;
