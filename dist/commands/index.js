@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.stopDocker = exports.startDocker = exports.installCustomApps = exports.installAllApps = exports.addSubtrees = exports.installMinimalProject = exports.initGitRepo = void 0;
+exports.stopDocker = exports.startDocker = exports.dockerCommandRunner = exports.installCustomApps = exports.installAllApps = exports.installMinimalProject = exports.addSubtrees = exports.initGitRepo = void 0;
 var child_process_1 = require("child_process");
 var path = require("path");
 var files_1 = require("../files");
@@ -46,17 +46,31 @@ var initGitRepo = function (directory) {
     child_process_1.execSync("cd " + directory + " && git init && git add . && git commit --allow-empty -n -m \"add subtree\"");
 };
 exports.initGitRepo = initGitRepo;
+var addSubtrees = function (directory, module, url) {
+    child_process_1.execSync("cd " + directory + " && git subtree add --prefix " + module + " " + url + " main --squash");
+};
+exports.addSubtrees = addSubtrees;
 var installMinimalProject = function (answers) { return __awaiter(void 0, void 0, void 0, function () {
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0: return [4 /*yield*/, files_1.createProjectDirectory(answers.name)];
             case 1:
                 _a.sent();
-                return [4 /*yield*/, exports.initGitRepo(answers.name)];
+                return [4 /*yield*/, exports.initGitRepo(answers.name)
+                    // Todo -> Decide if we want search and storage in install options
+                ];
             case 2:
                 _a.sent();
-                return [4 /*yield*/, exports.addSubtrees(answers.name, 'web', modules["web"].gitRepo)];
+                // Todo -> Decide if we want search and storage in install options
+                return [4 /*yield*/, exports.addSubtrees(answers.name, 'web', modules['web'].gitRepo)];
             case 3:
+                // Todo -> Decide if we want search and storage in install options
+                _a.sent();
+                return [4 /*yield*/, exports.addSubtrees(answers.name, 'search', modules['search'].gitRepo)];
+            case 4:
+                _a.sent();
+                return [4 /*yield*/, exports.addSubtrees(answers.name, 'storage', modules['storage'].gitRepo)];
+            case 5:
                 _a.sent();
                 files_1.configFileGenerator(answers);
                 files_1.rootGitIgnore(answers.name);
@@ -66,10 +80,6 @@ var installMinimalProject = function (answers) { return __awaiter(void 0, void 0
     });
 }); };
 exports.installMinimalProject = installMinimalProject;
-var addSubtrees = function (directory, module, url) {
-    child_process_1.execSync("cd " + directory + " && git subtree add --prefix " + module + " " + url + " main --squash");
-};
-exports.addSubtrees = addSubtrees;
 var installAllApps = function (answers) { return __awaiter(void 0, void 0, void 0, function () {
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -107,7 +117,7 @@ var installCustomApps = function (answers) { return __awaiter(void 0, void 0, vo
     });
 }); };
 exports.installCustomApps = installCustomApps;
-var startDocker = function () {
+var dockerCommandRunner = function (cmd) {
     var modules = config.modules;
     var string = '';
     Object.entries(modules).forEach(function (_a) {
@@ -116,8 +126,8 @@ var startDocker = function () {
             string = string + (" -f " + key + "/docker-compose.yml");
         }
     });
-    var startCommand = "docker-compose -f docker-compose.yml" + string + " up -d";
-    child_process_1.exec("" + startCommand, function (error, stdout, stderr) {
+    var command = "docker-compose -f docker-compose.yml" + string + " " + cmd;
+    child_process_1.exec("" + command, function (error, stdout, stderr) {
         if (error) {
             console.error("Error: " + error);
         }
@@ -125,23 +135,12 @@ var startDocker = function () {
         console.error("Error: " + stderr);
     });
 };
+exports.dockerCommandRunner = dockerCommandRunner;
+var startDocker = function () {
+    exports.dockerCommandRunner('up -d');
+};
 exports.startDocker = startDocker;
 var stopDocker = function () {
-    var modules = config.modules;
-    var string = '';
-    Object.entries(modules).forEach(function (_a) {
-        var key = _a[0], value = _a[1];
-        if (value.containerized === true) {
-            string = string + (" -f " + key + "/docker-compose.yml");
-        }
-    });
-    var stopCommand = "docker-compose -f docker-compose.yml" + string + " down";
-    child_process_1.exec("" + stopCommand, function (error, stdout, stderr) {
-        if (error) {
-            console.error("Error: " + error);
-        }
-        console.log(stdout);
-        console.error("Error: " + stderr);
-    });
+    exports.dockerCommandRunner('down');
 };
 exports.stopDocker = stopDocker;

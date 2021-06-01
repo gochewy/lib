@@ -10,17 +10,22 @@ export const initGitRepo = (directory: string) => {
     execSync(`cd ${directory} && git init && git add . && git commit --allow-empty -n -m "add subtree"`)
 }
 
+export const addSubtrees = (directory: string, module: string, url: string) => {
+    execSync(`cd ${directory} && git subtree add --prefix ${module} ${url} main --squash`)
+}
+
 export const installMinimalProject = async (answers: Answers) => {
     await createProjectDirectory(answers.name);
     await initGitRepo(answers.name)
-    await addSubtrees(answers.name, 'web', modules["web"].gitRepo)
+    // Todo -> Decide if we want search and storage in install options
+    await addSubtrees(answers.name, 'web', modules['web'].gitRepo)
+    await addSubtrees(answers.name, 'search', modules['search'].gitRepo)
+    await addSubtrees(answers.name, 'storage', modules['storage'].gitRepo)
     configFileGenerator(answers);
     rootGitIgnore(answers.name);
     rootReadmeFile(answers.name)
 }
-export const addSubtrees = (directory: string, module: string, url: string) => {
-  execSync(`cd ${directory} && git subtree add --prefix ${module} ${url} main --squash`)
-}
+
 export const installAllApps = async (answers: Answers) => {
     await installMinimalProject(answers);
     Object.keys(modules).map(module => {
@@ -43,7 +48,7 @@ export const installCustomApps = async (answers: Answers )=> {
     }
 }
 
-export const startDocker = () => {
+export const dockerCommandRunner = (cmd: string) => {
     const modules = config.modules;
     let string: string = '';
     Object.entries(modules).forEach(([key, value]: any) => {
@@ -51,8 +56,8 @@ export const startDocker = () => {
             string = string + ` -f ${key}/docker-compose.yml`;
         }
     })
-    let startCommand = `docker-compose -f docker-compose.yml${string} up -d`
-    exec(`${startCommand}`, (error, stdout, stderr) => {
+    let command = `docker-compose -f docker-compose.yml${string} ${cmd}`
+    exec(`${command}`, (error, stdout, stderr) => {
         if(error) {
             console.error(`Error: ${error}`)
         }
@@ -61,20 +66,10 @@ export const startDocker = () => {
     })
 }
 
+export const startDocker = () => {
+    dockerCommandRunner('up -d')
+}
+
 export const stopDocker = () => {
-    const modules = config.modules;
-    let string: string = '';
-    Object.entries(modules).forEach(([key, value]: any) => {
-        if (value.containerized === true) {
-            string = string + ` -f ${key}/docker-compose.yml`;
-        }
-    })
-    let stopCommand = `docker-compose -f docker-compose.yml${string} down`
-    exec(`${stopCommand}`, (error, stdout, stderr) => {
-        if(error) {
-            console.error(`Error: ${error}`)
-        }
-        console.log(stdout);
-        console.error(`Error: ${stderr}`);
-    })
+    dockerCommandRunner('down')
 }

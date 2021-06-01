@@ -39,6 +39,14 @@
     "web": {
       "enabled": true,
       "gitRepo": "https://github.com/gochewy/web.git"
+    },
+    "search": {
+      "enabled": true,
+      "gitRepo": "https://github.com/gochewy/search.git"
+    },
+    "storage": {
+      "enabled": true,
+      "gitRepo": "https://github.com/gochewy/storage.git"
     }
   }
 }

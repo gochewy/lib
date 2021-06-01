@@ -1,6 +1,6 @@
 "use strict";
 exports.__esModule = true;
-exports.rootReadmeFile = exports.createAppConfigExpo = exports.rootGitIgnore = exports.createGitIgnoreAdmin = exports.createProjectDirectory = exports.configFileGenerator = exports.envCreator = exports.createConfig = exports.getDirName = exports.checkFile = void 0;
+exports.rootDockerFile = exports.rootReadmeFile = exports.createAppConfigExpo = exports.rootGitIgnore = exports.createGitIgnoreAdmin = exports.createProjectDirectory = exports.configFileGenerator = exports.envCreator = exports.createConfig = exports.getDirName = exports.checkFile = void 0;
 var fs_1 = require("fs");
 var chalk = require("chalk");
 var fs = require("fs");
@@ -119,3 +119,8 @@ var rootReadmeFile = function (dir) {
     fs_1.writeFileSync(dir + "/README.md", constants_1.readmeFileTemplate);
 };
 exports.rootReadmeFile = rootReadmeFile;
+var rootDockerFile = function (dir) {
+    var dockerFile = "version: '3.8'\n## Base docker-compose file for all other ones in this project\n";
+    fs_1.writeFileSync("" + dir, dockerFile);
+};
+exports.rootDockerFile = rootDockerFile;

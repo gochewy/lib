@@ -9,3 +9,4 @@ export declare const createGitIgnoreAdmin: (dir: string) => void;
 export declare const rootGitIgnore: (dir: string) => void;
 export declare const createAppConfigExpo: (answers: any) => void;
 export declare const rootReadmeFile: (dir: string) => void;
+export declare const rootDockerFile: (dir: string) => void;
