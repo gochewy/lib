@@ -131,3 +131,10 @@ export default ({ config }) => {
 export const rootReadmeFile = (dir: string) => {
     writeFileSync(`${dir}/README.md`, readmeFileTemplate)
 }
+
+export const rootDockerFile = (dir: string) => {
+    const dockerFile = `version: '3.8'
+## Base docker-compose file for all other ones in this project
+`
+    writeFileSync(`${dir}`, dockerFile);
+}
