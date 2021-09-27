@@ -4,8 +4,6 @@ import {Answers} from "../files/constants";
 import {configFileGenerator, createConfig, createProjectDirectory, rootGitIgnore, rootReadmeFile} from "../files";
 const modules = require('../../project.json').modules
 
-const config = require(path.resolve(process.cwd(), "chewy.json"));
-
 export const initGitRepo = (directory: string) => {
     execSync(`cd ${directory} && git init && git add . && git commit --allow-empty -n -m "add subtree"`)
 }
@@ -49,6 +47,7 @@ export const installCustomApps = async (answers: Answers )=> {
 }
 
 export const dockerCommandRunner = (cmd: string) => {
+    const config = require(path.resolve(process.cwd(), "chewy.json"));
     const modules = config.modules;
     let string: string = '';
     Object.entries(modules).forEach(([key, value]: any) => {
