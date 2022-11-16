@@ -4,14 +4,20 @@
   "description": "Chewy lib",
   "main": "./dist/index.js",
   "scripts": {
-    "build": "npx tsc"
+    "build": "npx tsc",
+    "build-schemas": "ts-node ./src/scripts/build-schemas.ts"
   },
   "dependencies": {
+    "@types/fs-extra": "^9.0.13",
     "chalk": "^4.1.0",
-    "find-up": "^5.0.0"
+    "find-up": "^5.0.0",
+    "fs-extra": "^10.1.0",
+    "zod": "^3.19.1",
+    "zod-to-json-schema": "^3.19.0"
   },
   "devDependencies": {
     "@types/node": "^14.14.37",
+    "ts-node": "^10.9.1",
     "typescript": "^4.4.3"
   }
 }
