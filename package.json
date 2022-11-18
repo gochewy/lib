@@ -10,6 +10,7 @@
   "dependencies": {
     "@types/fs-extra": "^9.0.13",
     "chalk": "^4.1.0",
+    "dugite": "^2.1.0",
     "find-up": "^5.0.0",
     "fs-extra": "^10.1.0",
     "zod": "^3.19.1",
