@@ -11,7 +11,19 @@ const projectSchema = zodToJsonSchema(projectConfigSchema);
 const environmentSchema = zodToJsonSchema(environmentDefinitionSchema);
 const providerSchema = zodToJsonSchema(providerDefinitionSchema);
 
-writeJsonSync(resolve(__dirname+'/../../schemas/chewy-component-schema.json'), componentSchema);
-writeJsonSync(resolve(__dirname+'/../../schemas/chewy-project-schema.json'), projectSchema);
-writeJsonSync(resolve(__dirname+'/../../schemas/chewy-environment-schema.json'), environmentSchema);
-writeJsonSync(resolve(__dirname+'/../../schemas/chewy-provider-schema.json'), providerSchema);
+writeJsonSync(
+  resolve(__dirname + '/../../schemas/chewy-component-schema.json'),
+  componentSchema
+);
+writeJsonSync(
+  resolve(__dirname + '/../../schemas/chewy-project-schema.json'),
+  projectSchema
+);
+writeJsonSync(
+  resolve(__dirname + '/../../schemas/chewy-environment-schema.json'),
+  environmentSchema
+);
+writeJsonSync(
+  resolve(__dirname + '/../../schemas/chewy-provider-schema.json'),
+  providerSchema
+);

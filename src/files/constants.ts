@@ -1,15 +1,15 @@
 export type Answers = {
-    name: string;
-    analytics: boolean;
-    'business-intelligence': boolean;
-    admin: boolean;
-    content: boolean;
-    graphql: boolean;
-    server: boolean;
-    mobile: boolean;
-    auth: boolean;
-    worker: boolean;
-}
+  name: string;
+  analytics: boolean;
+  'business-intelligence': boolean;
+  admin: boolean;
+  content: boolean;
+  graphql: boolean;
+  server: boolean;
+  mobile: boolean;
+  auth: boolean;
+  worker: boolean;
+};
 
 export const gitignoreTemplate = `# Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio, WebStorm and Rider
 # Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
@@ -66,9 +66,9 @@ fabric.properties
 # Codestream file
 .idea/codestream.xml
 .DS_Store
-`
+`;
 
 export const readmeFileTemplate = `
 ## About Project
 This is where project information should go
-`
+`;
