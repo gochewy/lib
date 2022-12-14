@@ -35,7 +35,7 @@ export const installMinimalProject = async (answers: Answers) => {
 
 export const installAllApps = async (answers: Answers) => {
   await installMinimalProject(answers);
-  Object.keys(modules).map(module => {
+  Object.keys(modules).forEach(module => {
     if (module !== 'web') {
       addSubtrees(answers.name, module, modules[module].gitRepo);
     }
