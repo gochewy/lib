@@ -26,3 +26,5 @@ export const CHEWY_ENVIRONMENT_DEFINITION_DIR_NAME =
  */
 export const CHEWY_COMPONENT_DEFINITION_FILE_NAME =
   process.env.CHEWY_COMPONENT_DEFINITION_FILE_NAME || 'chewy-component.yml';
+export const CHEWY_PROJECT_CONFIG_FILE_NAME =
+  process.env.CHEWY_PROJECT_CONFIG_FILE_NAME || 'chewy-project.yml';

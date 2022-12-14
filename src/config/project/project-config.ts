@@ -6,3 +6,4 @@ export const projectConfigSchema = z.object({
 });
 
 export type ProjectConfig = z.TypeOf<typeof projectConfigSchema>;
+export type ProjectConfigInput = Omit<ProjectConfig, 'id'>;
