@@ -9,30 +9,36 @@ import {
 import {
   ProjectConfig,
   ProjectConfigInput,
+  projectConfigSchema,
 } from '../../../config/project/project-config';
 import { installRoot } from './install-root';
 
-test('creates a new directory for a chewy project and writes its config to a file', async () => {
+describe('installRoot', () => {
   const path = 'test-project';
   const projectConfig: ProjectConfigInput = {
     name: 'test-project',
   };
-  await installRoot(path, projectConfig);
 
-  const writtenConfig = load(
-    (
-      await readFile(
-        join(
-          path,
-          CHEWY_PROJECT_CONFIG_DIR_NAME,
-          CHEWY_PROJECT_CONFIG_FILE_NAME
+  it('creates a new directory for a chewy project and writes its config to a file', async () => {
+    await installRoot(path, projectConfig);
+
+    const writtenConfig = load(
+      (
+        await readFile(
+          join(
+            path,
+            CHEWY_PROJECT_CONFIG_DIR_NAME,
+            CHEWY_PROJECT_CONFIG_FILE_NAME
+          )
         )
-      )
-    ).toString()
-  ) as ProjectConfig;
+      ).toString()
+    ) as ProjectConfig;
 
-  expect(writtenConfig.id).toBeDefined();
-  expect(writtenConfig.name).toBe(projectConfig.name);
+    expect(writtenConfig.id).toBeDefined();
+    expect(projectConfigSchema.safeParse(writtenConfig).success).toBe(true);
+  });
 
-  await rmfr(path);
+  afterAll(async () => {
+    await rmfr(path);
+  });
 });
