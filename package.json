@@ -1,12 +1,50 @@
 {
-  "name": "chewy-lib",
-  "version": "0.0.6",
-  "description": "Chewy lib",
-  "main": "./dist/index.js",
+  "version": "0.1.0",
+  "license": "AGPL",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "engines": {
+    "node": ">=10"
+  },
   "scripts": {
-    "build": "npx tsc",
+    "start": "tsdx watch",
+    "build": "tsdx build",
+    "test": "tsdx test",
+    "lint": "tsdx lint",
+    "prepare": "tsdx build",
+    "size": "size-limit",
+    "analyze": "size-limit --why",
     "build-schemas": "ts-node ./src/scripts/build-schemas.ts"
   },
+  "peerDependencies": {},
+  "husky": {
+    "hooks": {
+      "pre-commit": "tsdx lint"
+    }
+  },
+  "prettier": {
+    "printWidth": 80,
+    "semi": true,
+    "singleQuote": true,
+    "trailingComma": "es5"
+  },
+  "name": "chewy-lib",
+  "author": "Ephemere Creative Ltd",
+  "module": "dist/chewy-lib.esm.js",
+  "size-limit": [
+    {
+      "path": "dist/chewy-lib.cjs.production.min.js",
+      "limit": "10 KB"
+    },
+    {
+      "path": "dist/chewy-lib.esm.js",
+      "limit": "10 KB"
+    }
+  ],
   "dependencies": {
     "@types/fs-extra": "^9.0.13",
     "chalk": "^4.1.0",
@@ -17,8 +55,11 @@
     "zod-to-json-schema": "^3.19.0"
   },
   "devDependencies": {
-    "@types/node": "^14.14.37",
-    "ts-node": "^10.9.1",
-    "typescript": "^4.4.3"
+    "@size-limit/preset-small-lib": "^8.1.0",
+    "husky": "^8.0.2",
+    "size-limit": "^8.1.0",
+    "tsdx": "^0.14.1",
+    "tslib": "^2.4.1",
+    "typescript": "^4.9.4"
   }
 }
