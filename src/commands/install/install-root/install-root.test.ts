@@ -11,7 +11,7 @@ import {
   ProjectConfigInput,
   projectConfigSchema,
 } from '../../../config/project/project-config';
-import { installRoot } from './install-root';
+import installRoot from './install-root';
 
 describe('installRoot', () => {
   const path = 'test-project';
