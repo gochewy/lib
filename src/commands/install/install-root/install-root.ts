@@ -18,7 +18,10 @@ import { setInstallingDir, setIsInstallingRoot } from './install-root-state';
  * @param path The path to install to.
  * @param config The project configuration.
  */
-export const installRoot = async (path: string, config: ProjectConfigInput) => {
+export default async function installRoot(
+  path: string,
+  config: ProjectConfigInput
+) {
   setIsInstallingRoot(true);
   const installingDir = resolve(path);
   setInstallingDir(installingDir);
@@ -31,4 +34,4 @@ export const installRoot = async (path: string, config: ProjectConfigInput) => {
   writeFile(configFilePath, dump(completeConfig));
 
   setIsInstallingRoot(false);
-};
+}

@@ -1,3 +1,3 @@
-export const installComponent = () => {
+export default function installComponent() {
   return;
-};
+}

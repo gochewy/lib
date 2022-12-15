@@ -10,7 +10,7 @@ import {
 } from '../../config/global/constants';
 import searchForNestedFileUpwards from '../search-for-nested-file-upwards/search-for-nested-file-upwards';
 
-export default function getProjectConfigDir() {
+export default function getProjectConfigPath() {
   const isInstallingRoot = getIsInstallingRoot();
   const installingDir = getInstallingDir();
   if (isInstallingRoot && installingDir)

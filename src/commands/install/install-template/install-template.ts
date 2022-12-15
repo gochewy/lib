@@ -1,3 +1,3 @@
-export const installTemplate = () => {
+export default function installTemplate() {
   return;
-};
+}

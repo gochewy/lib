@@ -49,7 +49,7 @@
     "@types/fs-extra": "^9.0.13",
     "@types/js-yaml": "^4.0.5",
     "@types/rmfr": "^2.0.1",
-    "chalk": "^4.1.0",
+    "colorette": "^2.0.19",
     "dugite": "^2.1.0",
     "find-up": "^5.0.0",
     "fs-extra": "^10.1.0",

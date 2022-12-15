@@ -1,12 +1,10 @@
-import * as file from './files';
-import * as commands from './commands';
-import * as utils from './utils';
-export const File = file;
-export const Commands = commands;
-export const Utils = utils;
+import files from './files';
+import utils from './utils';
+import commands from './commands';
+
 export const Chewy = {
-  File,
-  Commands,
-  Utils,
+  files,
+  commands,
+  utils,
 };
 export default Chewy;
