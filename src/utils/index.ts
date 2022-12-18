@@ -1,4 +1,3 @@
-import { printInstallOptions } from './print-install-options';
-import resourceNameSchema from './resource-name-schema';
-
-export default { printInstallOptions, resourceNameSchema };
+/* eslint-disable prettier/prettier */
+export * as printInstallOptions from './print-install-options';
+export * as resourceNameSchema from './resource-name-schema';

@@ -1,10 +1,5 @@
-import files from './files';
-import utils from './utils';
-import commands from './commands';
-
-export const Chewy = {
-  files,
-  commands,
-  utils,
-};
-export default Chewy;
+/* eslint-disable prettier/prettier */
+export * as commands from './commands';
+export * as config from './config';
+export * as files from './files';
+export * as utils from './utils';

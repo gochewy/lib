@@ -1,5 +1,3 @@
-import install from './install';
+import * as _install from './install';
 
-export default {
-  install,
-};
+export const install = _install;
