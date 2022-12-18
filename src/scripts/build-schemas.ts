@@ -1,10 +1,10 @@
 import { writeJsonSync } from 'fs-extra';
 import { resolve } from 'path';
 import zodToJsonSchema from 'zod-to-json-schema';
-import { componentDefinitionSchema } from '../config/component/component-definition-schema';
-import { environmentDefinitionSchema } from '../config/environment/environment-definition-schema';
-import { projectConfigSchema } from '../config/project/project-config';
-import { providerDefinitionSchema } from '../config/provider/provider-definition';
+import { componentDefinitionSchema } from '../config/component';
+import { environmentDefinitionSchema } from '../config/environment';
+import { projectConfigSchema } from '../config/project';
+import { providerDefinitionSchema } from '../config/provider';
 
 const componentSchema = zodToJsonSchema(componentDefinitionSchema);
 const projectSchema = zodToJsonSchema(projectConfigSchema);

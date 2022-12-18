@@ -7,12 +7,12 @@ import {
   CHEWY_PROJECT_CONFIG_FILE_NAME,
   CHEWY_VERSION,
 } from '../../../constants';
+import installRoot from './install-root';
 import {
-  ProjectConfig,
   ProjectConfigInput,
   projectConfigSchema,
-} from '../../../config/project/project-config';
-import installRoot from './install-root';
+  ProjectConfig,
+} from '../../../config/project';
 
 describe('installRoot', () => {
   const path = 'test-project';
