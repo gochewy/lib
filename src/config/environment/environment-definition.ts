@@ -1,3 +1,4 @@
+import { z } from 'zod';
 import environmentDefinitionSchema from './environment-definition-schema';
 
 type EnvironmentDefinition = z.TypeOf<typeof environmentDefinitionSchema>;
