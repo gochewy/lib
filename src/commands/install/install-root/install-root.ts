@@ -1,13 +1,12 @@
-import { randomUUID } from 'crypto';
-import { mkdir, writeFile } from 'fs/promises';
-import { dump } from 'js-yaml';
-import { join, resolve } from 'path';
+import { resolve } from 'path';
+import { ProjectConfigInput } from '../../../config/project';
+import createComponentDirs from './create-component-dirs/create-component-dirs';
+import createProjectConfig from './create-project-config/create-project-config';
+import initializeRootRepo from './initialize-root-repo/initialize-root-repo';
 import {
-  CHEWY_PROJECT_CONFIG_DIR_NAME,
-  CHEWY_PROJECT_CONFIG_FILE_NAME,
-} from '../../../constants';
-import { ProjectConfigInput, ProjectConfig } from '../../../config/project';
-import { setInstallingDir, setIsInstallingRoot } from './install-root-state';
+  setInstallingDir,
+  setIsInstallingRoot,
+} from './install-root-state/install-root-state';
 
 /**
  * Creates a new project configuration file in the given path.
@@ -23,12 +22,9 @@ export default async function installRoot(
   const installingDir = resolve(path);
   setInstallingDir(installingDir);
 
-  const configDir = join(path, CHEWY_PROJECT_CONFIG_DIR_NAME);
-  await mkdir(configDir, { recursive: true });
-  const id = randomUUID();
-  const completeConfig: ProjectConfig = { ...config, id };
-  const configFilePath = join(configDir, CHEWY_PROJECT_CONFIG_FILE_NAME);
-  writeFile(configFilePath, dump(completeConfig));
+  createProjectConfig(config);
+  createComponentDirs();
+  initializeRootRepo();
 
   setIsInstallingRoot(false);
 }

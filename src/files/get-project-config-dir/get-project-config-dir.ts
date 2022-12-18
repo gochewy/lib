@@ -3,7 +3,7 @@ import { cwd } from 'process';
 import {
   getInstallingDir,
   getIsInstallingRoot,
-} from '../../commands/install/install-root/install-root-state';
+} from '../../commands/install/install-root/install-root-state/install-root-state';
 import {
   CHEWY_PROJECT_CONFIG_DIR_NAME,
   CHEWY_PROJECT_CONFIG_FILE_NAME,
