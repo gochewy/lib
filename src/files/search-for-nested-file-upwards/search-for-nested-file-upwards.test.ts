@@ -8,7 +8,7 @@ import {
 import searchForNestedFileUpwards from './search-for-nested-file-upwards';
 
 describe('searchForDirectoryUpwards', () => {
-  const tmpDirBase = '/tmp/tmp';
+  const tmpDirBase = path.resolve('/tmp/tmp');
   const tmpDir = path.resolve(tmpDirBase, CHEWY_PROJECT_CONFIG_DIR_NAME);
   const tmpFile = path.resolve(tmpDir, CHEWY_PROJECT_CONFIG_FILE_NAME);
   const search = [
@@ -22,7 +22,7 @@ describe('searchForDirectoryUpwards', () => {
   });
 
   it('returns the path to the directory if it exists', () => {
-    expect(searchForNestedFileUpwards(tmpDir, search)).toBe('/tmp/tmp');
+    expect(searchForNestedFileUpwards(tmpDir, search)).toBe(tmpDirBase);
   });
 
   it('returns an empty string if the directory does not exist', () => {
