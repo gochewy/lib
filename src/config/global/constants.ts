@@ -1,4 +1,9 @@
 /**
+ * Chewy meta config.
+ */
+export const CHEWY_VERSION = '0.1.1-beta';
+
+/**
  * Environment config.
  */
 export const IS_CHEWY_CONTRIBUTOR = process.env.IS_CHEWY_CONTRIBUTOR === 'true';
