@@ -1,4 +1,4 @@
-import { IS_CHEWY_CONTRIBUTOR } from '../global/constants';
+import { IS_CHEWY_CONTRIBUTOR } from '../../constants';
 
 interface ChewyComponents {
   hasura: string;

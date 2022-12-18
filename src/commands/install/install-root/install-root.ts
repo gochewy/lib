@@ -5,7 +5,7 @@ import { join, resolve } from 'path';
 import {
   CHEWY_PROJECT_CONFIG_DIR_NAME,
   CHEWY_PROJECT_CONFIG_FILE_NAME,
-} from '../../../config/global/constants';
+} from '../../../constants';
 import { ProjectConfigInput, ProjectConfig } from '../../../config/project';
 import { setInstallingDir, setIsInstallingRoot } from './install-root-state';
 

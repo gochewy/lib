@@ -6,7 +6,7 @@ import {
   CHEWY_PROJECT_CONFIG_DIR_NAME,
   CHEWY_PROJECT_CONFIG_FILE_NAME,
   CHEWY_VERSION,
-} from '../../../config/global/constants';
+} from '../../../constants';
 import {
   ProjectConfig,
   ProjectConfigInput,

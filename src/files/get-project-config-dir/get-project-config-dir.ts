@@ -7,7 +7,7 @@ import {
 import {
   CHEWY_PROJECT_CONFIG_DIR_NAME,
   CHEWY_PROJECT_CONFIG_FILE_NAME,
-} from '../../config/global/constants';
+} from '../../constants';
 import searchForNestedFileUpwards from '../search-for-nested-file-upwards/search-for-nested-file-upwards';
 
 export default function getProjectConfigDir() {
