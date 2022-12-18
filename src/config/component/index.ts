@@ -1,3 +1,4 @@
 /* eslint-disable prettier/prettier */
-export * as componentSources from './component-sources';
-export * as componentDefinition from './component-definition';
+export {default as componentSources} from './component-sources';
+export {default as componentDefinitionSchema } from './component-definition-schema';
+export {default as ComponentDefinition } from './component-definition';

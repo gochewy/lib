@@ -7,11 +7,9 @@ const environmentVariableSchema = z.object({
   public: z.boolean().optional(),
 });
 
-export const environmentDefinitionSchema = z.object({
+const environmentDefinitionSchema = z.object({
   name: z.string(),
   config: z.array(environmentVariableSchema),
 });
 
-export type EnvironmentDefinition = z.TypeOf<
-  typeof environmentDefinitionSchema
->;
+export default environmentDefinitionSchema;

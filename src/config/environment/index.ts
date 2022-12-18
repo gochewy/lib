@@ -1,2 +1,3 @@
 /* eslint-disable prettier/prettier */
-export * as environmentDefinition from './environment-definition';
+export {default as environmentDefinitionSchema} from './environment-definition-schema';
+export {default as EnvironmentDefinition} from './environment-definition';

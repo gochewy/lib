@@ -8,7 +8,7 @@ interface ChewyComponents {
   'ory-oathkeeper': string;
 }
 
-export const componentSources: ChewyComponents = IS_CHEWY_CONTRIBUTOR
+const componentSources: ChewyComponents = IS_CHEWY_CONTRIBUTOR
   ? {
       hasura: '/workspace/chewy-global/components/hasura',
       nextjs: '/workspace/chewy-global/components/nextjs',
@@ -23,3 +23,5 @@ export const componentSources: ChewyComponents = IS_CHEWY_CONTRIBUTOR
       'ory-kratos': '/workspace/chewy-global/components/ory-kratos',
       'ory-oathkeeper': '/workspace/chewy-global/components/ory-oathkeeper',
     };
+
+export default componentSources;

@@ -6,10 +6,7 @@ import {
   CHEWY_PROJECT_CONFIG_DIR_NAME,
   CHEWY_PROJECT_CONFIG_FILE_NAME,
 } from '../../../config/global/constants';
-import {
-  ProjectConfig,
-  ProjectConfigInput,
-} from '../../../config/project/project-config';
+import { ProjectConfigInput, ProjectConfig } from '../../../config/project';
 import { setInstallingDir, setIsInstallingRoot } from './install-root-state';
 
 /**

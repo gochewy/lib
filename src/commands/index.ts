@@ -1,3 +1,2 @@
-import * as _install from './install';
-
-export const install = _install;
+/* eslint-disable prettier/prettier */
+export * as install from './install';

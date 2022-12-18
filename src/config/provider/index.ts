@@ -1,2 +1,3 @@
 /* eslint-disable prettier/prettier */
-export * as providerDefinition from './provider-definition';
+export {default as ProviderDefinition} from './provider-definition';
+export {default as providerDefinitionSchema} from './provider-definition-schema';
