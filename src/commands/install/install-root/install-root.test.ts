@@ -5,6 +5,7 @@ import rmfr from 'rmfr';
 import {
   CHEWY_PROJECT_CONFIG_DIR_NAME,
   CHEWY_PROJECT_CONFIG_FILE_NAME,
+  CHEWY_VERSION,
 } from '../../../config/global/constants';
 import {
   ProjectConfig,
@@ -17,6 +18,9 @@ describe('installRoot', () => {
   const path = 'test-project';
   const projectConfig: ProjectConfigInput = {
     name: 'test-project',
+    chewy: {
+      version: CHEWY_VERSION,
+    },
   };
 
   it('creates a new directory for a chewy project and writes its config to a file', async () => {
