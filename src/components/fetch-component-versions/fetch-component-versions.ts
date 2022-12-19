@@ -13,7 +13,7 @@ export default async function fetchComponentVersions(
   const { stdout, exitCode } = response;
 
   if (exitCode !== 0) {
-    throw new Error('Failed to fetch component versions');
+    throw new Error(`Failed to fetch component versions for ${url}`);
   }
 
   const versions = stdout
