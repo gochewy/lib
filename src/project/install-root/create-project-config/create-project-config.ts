@@ -7,10 +7,10 @@ import {
   CHEWY_PROJECT_CONFIG_DIR_NAME,
   CHEWY_PROJECT_CONFIG_FILE_NAME,
 } from '../../../constants';
-import { getInstallingDir } from '../install-root-state/install-root-state';
+import { getRootInstallationPath } from '../../../state';
 
 export default function createProjectConfig(config: ProjectConfigInput) {
-  const path = getInstallingDir();
+  const path = getRootInstallationPath();
 
   if (!path)
     throw new Error('Cannot create project config without installing dir');

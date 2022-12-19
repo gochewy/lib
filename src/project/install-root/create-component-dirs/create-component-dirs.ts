@@ -1,14 +1,14 @@
 import { mkdirSync, writeFileSync } from 'fs-extra';
-import { getInstallingDir } from '../install-root-state/install-root-state';
 import { resolve } from 'path';
 import {
   CHEWY_INFRA_DIR_NAME,
   CHEWY_SERVICE_DIR_NAME,
   CHEWY_SOURCE_DIR_NAME,
 } from '../../../constants';
+import { getRootInstallationPath } from '../../../state';
 
 export default async function createComponentDirs() {
-  const path = getInstallingDir();
+  const path = getRootInstallationPath();
 
   if (!path)
     throw new Error('Cannot create component dirs without installing dir');

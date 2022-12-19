@@ -1,19 +1,15 @@
 import path from 'path';
 import { cwd } from 'process';
 import {
-  getInstallingDir,
-  getIsInstallingRoot,
-} from '../../project/install-root/install-root-state/install-root-state';
-import {
   CHEWY_PROJECT_CONFIG_DIR_NAME,
   CHEWY_PROJECT_CONFIG_FILE_NAME,
 } from '../../constants';
+import { getRootInstallationPath } from '../../state';
 import searchForNestedFileUpwards from '../search-for-nested-file-upwards/search-for-nested-file-upwards';
 
 export default function getProjectRootDir() {
-  const isInstallingRoot = getIsInstallingRoot();
-  const installingDir = getInstallingDir();
-  if (isInstallingRoot && installingDir) return path.resolve(installingDir);
+  const installingDir = getRootInstallationPath();
+  if (!!installingDir) return path.resolve(installingDir);
 
   const dir = searchForNestedFileUpwards(cwd(), [
     CHEWY_PROJECT_CONFIG_DIR_NAME,

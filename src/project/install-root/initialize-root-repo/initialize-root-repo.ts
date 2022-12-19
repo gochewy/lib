@@ -1,8 +1,8 @@
 import { GitProcess } from 'dugite';
-import { getInstallingDir } from '../install-root-state/install-root-state';
+import { getRootInstallationPath } from '../../../state';
 
 export default async function initializeRootRepo() {
-  const path = getInstallingDir();
+  const path = getRootInstallationPath();
 
   if (!path) throw new Error('Installation directory missing');
 
