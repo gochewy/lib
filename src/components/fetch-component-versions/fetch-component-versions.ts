@@ -19,18 +19,11 @@ export default async function fetchComponentVersions(
   const versions = stdout
     .split('\n') // split on newlines
     .filter(line => line !== '') // there is always a trailing newline
-    .map(line => line.split('\t')[1].split('/')[2]); // get the version (tab separated, and strip the refs/heads/ or refs/tags/)
+    .map(line => line.split('\t')) // get the version (tab separated, and strip the refs/heads/ or refs/tags/)
+    .map(([sha, ref]) => ({
+      sha,
+      ref: ref.split('/')[2],
+    }));
 
   return versions;
 }
-
-(async () => {
-  let output = await fetchComponentVersions(
-    'https://github.com/gochewy/hasura.git'
-  );
-  console.log(output);
-  output = await fetchComponentVersions(
-    '/workspace/chewy-global/components/hasura/'
-  );
-  console.log(output);
-})();

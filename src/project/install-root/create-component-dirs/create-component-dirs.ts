@@ -5,7 +5,7 @@ import {
   CHEWY_INFRA_DIR_NAME,
   CHEWY_SERVICE_DIR_NAME,
   CHEWY_SOURCE_DIR_NAME,
-} from '../../../../constants';
+} from '../../../constants';
 
 export default async function createComponentDirs() {
   const path = getInstallingDir();

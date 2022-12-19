@@ -1,5 +1,5 @@
 import { resolve } from 'path';
-import { ProjectConfigInput } from '../../../config/project';
+import { ProjectConfigInput } from '../../config/project';
 import createComponentDirs from './create-component-dirs/create-component-dirs';
 import createProjectConfig from './create-project-config/create-project-config';
 import initializeRootRepo from './initialize-root-repo/initialize-root-repo';

@@ -9,13 +9,13 @@ import {
   CHEWY_SERVICE_DIR_NAME,
   CHEWY_SOURCE_DIR_NAME,
   CHEWY_VERSION,
-} from '../../../constants';
+} from '../../constants';
 import installRoot from './install-root';
 import {
   ProjectConfigInput,
   projectConfigSchema,
   ProjectConfig,
-} from '../../../config/project';
+} from '../../config/project';
 import { existsSync } from 'fs-extra';
 import { GitProcess } from 'dugite';
 

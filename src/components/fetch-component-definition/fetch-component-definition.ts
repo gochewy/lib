@@ -6,6 +6,7 @@ import { z } from 'zod';
 import {
   CHEWY_COMPONENT_CONFIG_DIR_NAME,
   CHEWY_COMPONENT_DEFINITION_FILE_NAME,
+  CHEWY_GLOBAL_CONFIG_DIR_PATH,
   CHEWY_GLOBAL_TMP_COMPONENT_DIR_NAME,
 } from '../../constants';
 import { createHash } from 'crypto';
@@ -23,8 +24,8 @@ export default async function fetchComponentDefinition(
   const validUrl = z.string().parse(url);
 
   const globalComponentsDir = resolve(
-    `${CHEWY_GLOBAL_TMP_COMPONENT_DIR_NAME}`,
-    'component-tmp'
+    CHEWY_GLOBAL_CONFIG_DIR_PATH,
+    CHEWY_GLOBAL_TMP_COMPONENT_DIR_NAME
   );
 
   mkdirSync(globalComponentsDir, { recursive: true });

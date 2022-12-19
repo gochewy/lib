@@ -2,11 +2,11 @@ import { randomUUID } from 'crypto';
 import { mkdirSync, writeFileSync } from 'fs-extra';
 import { dump } from 'js-yaml';
 import { resolve } from 'path';
-import { ProjectConfig, ProjectConfigInput } from '../../../../config/project';
+import { ProjectConfig, ProjectConfigInput } from '../../../config/project';
 import {
   CHEWY_PROJECT_CONFIG_DIR_NAME,
   CHEWY_PROJECT_CONFIG_FILE_NAME,
-} from '../../../../constants';
+} from '../../../constants';
 import { getInstallingDir } from '../install-root-state/install-root-state';
 
 export default function createProjectConfig(config: ProjectConfigInput) {
