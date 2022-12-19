@@ -4,35 +4,40 @@ import getProjectRootDir from '../../../files/get-project-root-dir/get-project-r
 import { resourceNameSchema } from '../../../utils';
 import { resolve } from 'path';
 import { CHEWY_GLOBAL_TMP_COMPONENT_DIR_NAME } from '../../../constants';
+import fetchComponentDefinition from '../../../components/fetch-component-definition/fetch-component-definition';
 
 interface InstallComponentOptions {
   name: string;
   url: string;
   version: string;
+  refType?: Parameters<typeof fetchComponentDefinition>[2];
 }
 
 export default async function installComponent({
   name,
   url,
   version,
+  refType,
 }: InstallComponentOptions) {
   const root = getProjectRootDir();
   const validName = resourceNameSchema.parse(name);
   const validUrl = z.string().parse(url);
 
-  const globalComponentsDir = resolve(
-    `${CHEWY_GLOBAL_TMP_COMPONENT_DIR_NAME}`,
-    'components'
-  );
+  const definition = await fetchComponentDefinition(validUrl, version, refType);
+
+  // const globalComponentsDir = resolve(
+  //   `${CHEWY_GLOBAL_TMP_COMPONENT_DIR_NAME}`,
+  //   'components'
+  // );
 
   // const componentDir = resolve(globalComponentsDir, validName);
 
-  const cloneResult = await GitProcess.exec(
-    ['clone', validUrl, validName],
-    globalComponentsDir
-  );
+  // const cloneResult = await GitProcess.exec(
+  //   ['clone', validUrl, validName],
+  //   globalComponentsDir
+  // );
 
-  console.log(cloneResult);
+  // console.log(cloneResult);
 
   // try {
   //   await GitProcess.exec(
