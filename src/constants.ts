@@ -74,6 +74,12 @@ export const CHEWY_GLOBAL_TMP_COMPONENT_DIR_NAME =
 export const CHEWY_ENVIRONMENT_DEFINITION_DIR_NAME =
   process.env.CHEWY_ENVIRONMENT_DEFINITION_DIR_NAME || 'environments';
 
+/**
+ * Component CLI plugin directory.
+ */
+export const CHEWY_COMPONENT_CLI_PLUGIN_DIR_NAME =
+  process.env.CHEWY_COMPONENT_CLI_PLUGIN_DIR_NAME || 'cli-plugin';
+
 /***********************************************
  * Files for diferent parts of Chewy.
  ***********************************************/
