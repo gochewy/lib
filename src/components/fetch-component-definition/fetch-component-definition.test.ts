@@ -5,17 +5,17 @@ import fetchComponentDefinition from './fetch-component-definition';
 describe('fetchComponentDefinition', () => {
   it('fetches the component definition', async () => {
     const definition = await fetchComponentDefinition(
-      componentSources.hasura,
+      componentSources['ory-kratos'],
       CHEWY_VERSION,
       'branch'
     );
-    expect(definition.name).toEqual('hasura');
+    expect(definition.name).toEqual('ory-kratos');
   });
 
   it('throws an appropriate error for bad versions', async () => {
     try {
       await fetchComponentDefinition(
-        componentSources.hasura,
+        componentSources['ory-kratos'],
         'bad-version',
         'tag'
       );

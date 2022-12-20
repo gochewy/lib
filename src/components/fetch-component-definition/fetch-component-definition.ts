@@ -38,6 +38,7 @@ export default async function fetchComponentDefinition(
   );
 
   await GitProcess.exec(['reset'], tmpComponentDir);
+  await GitProcess.exec(['fetch'], tmpComponentDir);
 
   const filePath = join(
     CHEWY_COMPONENT_CONFIG_DIR_NAME,
