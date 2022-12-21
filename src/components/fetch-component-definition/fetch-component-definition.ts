@@ -4,7 +4,7 @@ import jsyaml from 'js-yaml';
 import { join, resolve } from 'path';
 import { z } from 'zod';
 import {
-  CHEWY_COMPONENT_CONFIG_DIR_NAME,
+  CHEWY_COMPONENT_DEFINITION_DIR_NAME,
   CHEWY_COMPONENT_DEFINITION_FILE_NAME,
   CHEWY_GLOBAL_CONFIG_DIR_PATH,
   CHEWY_GLOBAL_TMP_COMPONENT_DIR_NAME,
@@ -13,13 +13,22 @@ import { createHash } from 'crypto';
 import rmfr from 'rmfr';
 import { componentDefinitionSchema } from '../../config/component';
 
+/**
+ * Fetches the component definition from a component repository by cloning it to a
+ * temporary directory and reading the definition file.
+ *
+ * @param url The url of the component repository
+ * @param version The version of the component to fetch
+ * @param refType The type of ref (branch, tag, commit)
+ * @returns The component definition
+ */
 export default async function fetchComponentDefinition(
   url: string,
   version: string,
   refType: 'branch' | 'tag' | 'commit' = 'tag'
 ) {
   const componentDirectoryName = createHash('shake256', { outputLength: 4 })
-    .update(url)
+    .update(`${url}-${version}`)
     .digest('hex');
   const validUrl = z.string().parse(url);
 
@@ -41,7 +50,7 @@ export default async function fetchComponentDefinition(
   await GitProcess.exec(['fetch'], tmpComponentDir);
 
   const filePath = join(
-    CHEWY_COMPONENT_CONFIG_DIR_NAME,
+    CHEWY_COMPONENT_DEFINITION_DIR_NAME,
     CHEWY_COMPONENT_DEFINITION_FILE_NAME
   );
 
@@ -63,14 +72,12 @@ export default async function fetchComponentDefinition(
   const content = readFileSync(
     resolve(
       tmpComponentDir,
-      CHEWY_COMPONENT_CONFIG_DIR_NAME,
+      CHEWY_COMPONENT_DEFINITION_DIR_NAME,
       CHEWY_COMPONENT_DEFINITION_FILE_NAME
     )
   );
 
   let componentDefinition = jsyaml.load(content.toString());
-
-  await rmfr(tmpComponentDir);
 
   const parsedComponentDefinition = componentDefinitionSchema.parse(
     componentDefinition

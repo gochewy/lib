@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import componentTypeSchema from './component-type-schema copy';
 
 const dependencySchema = z.object({
   repository: z.string(),
@@ -8,7 +9,7 @@ const dependencySchema = z.object({
 const componentDefinitionSchema = z.object({
   repository: z.string().url(),
   name: z.string(),
-  type: z.enum(['infrastructure', 'service', 'source']),
+  type: componentTypeSchema,
   version: z.string(),
   dependencies: z.array(dependencySchema),
 });
