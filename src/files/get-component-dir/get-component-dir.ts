@@ -9,6 +9,7 @@ import { cwd } from 'process';
 import getProjectRootDir from '../get-project-root-dir/get-project-root-dir';
 import { resolve } from 'path';
 import { existsSync } from 'fs-extra';
+import { getWorkingDirectory } from '../../state/working-directory/working-directory';
 
 type GetComponentDirOptions =
   | {
@@ -21,7 +22,8 @@ type GetComponentDirOptions =
 
 export default function getComponentDir(opts?: GetComponentDirOptions) {
   if (!opts) {
-    const path = searchForNestedFileUpwards(cwd(), [
+    const workingDirectory = getWorkingDirectory();
+    const path = searchForNestedFileUpwards(workingDirectory, [
       CHEWY_COMPONENT_DEFINITION_DIR_NAME,
       CHEWY_COMPONENT_DEFINITION_FILE_NAME,
     ]);
