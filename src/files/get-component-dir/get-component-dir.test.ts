@@ -51,7 +51,7 @@ describe('getComponentDir', () => {
     );
   });
 
-  afterAll(() => {
-    rmfr(installOutput.rootInstallPath);
+  afterAll(async () => {
+    await rmfr(installOutput.rootInstallPath);
   });
 });

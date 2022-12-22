@@ -1,6 +1,7 @@
 import { createFileSync } from 'fs-extra';
 import { mkdir, rm } from 'fs/promises';
 import path from 'path';
+import rmfr from 'rmfr';
 import {
   CHEWY_BASE_TEST_DIR,
   CHEWY_PROJECT_CONFIG_DIR_NAME,
@@ -30,7 +31,7 @@ describe('searchForDirectoryUpwards', () => {
     expect(searchForNestedFileUpwards('/tmp', search)).toBe(null);
   });
 
-  afterAll(() => {
-    rm(tmpDirBase, { recursive: true, force: true });
+  afterAll(async () => {
+    await rmfr(tmpDirBase);
   });
 });

@@ -1,15 +1,14 @@
+import { existsSync } from 'fs-extra';
+import { resolve } from 'path';
 import ComponentType from '../../config/component/component-type';
 import {
   CHEWY_COMPONENT_DEFINITION_DIR_NAME,
   CHEWY_COMPONENT_DEFINITION_FILE_NAME,
   CHEWY_COMPONENT_DIRECTORY_NAMES,
 } from '../../constants';
-import searchForNestedFileUpwards from '../search-for-nested-file-upwards/search-for-nested-file-upwards';
-import { cwd } from 'process';
-import getProjectRootDir from '../get-project-root-dir/get-project-root-dir';
-import { resolve } from 'path';
-import { existsSync } from 'fs-extra';
 import { getWorkingDirectory } from '../../state/working-directory/working-directory';
+import getProjectRootDir from '../get-project-root-dir/get-project-root-dir';
+import searchForNestedFileUpwards from '../search-for-nested-file-upwards/search-for-nested-file-upwards';
 
 type GetComponentDirOptions =
   | {
