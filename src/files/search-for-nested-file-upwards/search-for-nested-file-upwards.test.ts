@@ -1,5 +1,5 @@
 import { createFileSync } from 'fs-extra';
-import { mkdir, rm } from 'fs/promises';
+import { mkdir } from 'fs/promises';
 import path from 'path';
 import rmfr from 'rmfr';
 import {

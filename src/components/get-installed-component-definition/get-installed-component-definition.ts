@@ -1,15 +1,12 @@
-import getComponentDir from '../../files/get-component-dir/get-component-dir';
+import { readFileSync } from 'fs-extra';
+import jsyaml from 'js-yaml';
 import { resolve } from 'path';
+import { componentDefinitionSchema } from '../../config/component';
 import {
   CHEWY_COMPONENT_DEFINITION_DIR_NAME,
   CHEWY_COMPONENT_DEFINITION_FILE_NAME,
 } from '../../constants';
-import {
-  ComponentDefinition,
-  componentDefinitionSchema,
-} from '../../config/component';
-import { readFileSync } from 'fs-extra';
-import jsyaml from 'js-yaml';
+import getComponentDir from '../../files/get-component-dir/get-component-dir';
 
 type Opts = Parameters<typeof getComponentDir>;
 
