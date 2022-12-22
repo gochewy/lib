@@ -26,11 +26,6 @@
     "build-schemas": "ts-node --project ./src/scripts/build-schemas/tsconfig.json ./src/scripts/build-schemas/build-schemas.ts"
   },
   "peerDependencies": {},
-  "husky": {
-    "hooks": {
-      "pre-commit": "tsdx lint && yarn build-schemas"
-    }
-  },
   "prettier": {
     "printWidth": 80,
     "semi": true,
