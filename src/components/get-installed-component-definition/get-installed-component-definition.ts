@@ -1,3 +1,1 @@
-export default function getInstalledComponentDefinition(
-  componentPath: string
-) {}
+export default function getInstalledComponentDefinition() {}

@@ -3,6 +3,7 @@ import { load } from 'js-yaml';
 import { resolve } from 'path';
 import rmfr from 'rmfr';
 import {
+  CHEWY_BASE_TEST_DIR,
   CHEWY_INFRA_DIR_NAME,
   CHEWY_PROJECT_CONFIG_DIR_NAME,
   CHEWY_PROJECT_CONFIG_FILE_NAME,
@@ -20,7 +21,7 @@ import { existsSync } from 'fs-extra';
 import { GitProcess } from 'dugite';
 
 describe('installRoot', () => {
-  const path = resolve('/tmp/test-project');
+  const path = resolve(CHEWY_BASE_TEST_DIR, 'install-root-test');
   const projectConfig: ProjectConfigInput = {
     name: 'test-project',
     chewy: {

@@ -2,13 +2,14 @@ import { createFileSync } from 'fs-extra';
 import { mkdir, rm } from 'fs/promises';
 import path from 'path';
 import {
+  CHEWY_BASE_TEST_DIR,
   CHEWY_PROJECT_CONFIG_DIR_NAME,
   CHEWY_PROJECT_CONFIG_FILE_NAME,
 } from '../../constants';
 import searchForNestedFileUpwards from './search-for-nested-file-upwards';
 
 describe('searchForDirectoryUpwards', () => {
-  const tmpDirBase = path.resolve('/tmp/tmp');
+  const tmpDirBase = path.resolve(CHEWY_BASE_TEST_DIR, 'dir-search-test');
   const tmpDir = path.resolve(tmpDirBase, CHEWY_PROJECT_CONFIG_DIR_NAME);
   const tmpFile = path.resolve(tmpDir, CHEWY_PROJECT_CONFIG_FILE_NAME);
   const search = [
@@ -25,7 +26,7 @@ describe('searchForDirectoryUpwards', () => {
     expect(searchForNestedFileUpwards(tmpDir, search)).toBe(tmpDirBase);
   });
 
-  it('returns an empty string if the directory does not exist', () => {
+  it('returns null if the directory does not exist', () => {
     expect(searchForNestedFileUpwards('/tmp', search)).toBe(null);
   });
 

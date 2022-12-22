@@ -1,4 +1,5 @@
 import { homedir } from 'os';
+import path from 'path';
 
 /***********************************************
  * Chewy meta config.
@@ -26,6 +27,12 @@ export const IS_CHEWY_DEV_MODE = process.env.IS_CHEWY_DEV_MODE === 'true';
 /***********************************************
  * Directories for different parts of Chewy.
  ***********************************************/
+
+/**
+ * Chewy base test directory.
+ */
+export const CHEWY_BASE_TEST_DIR =
+  process.env.CHEWY_BASE_TEST_DIR || path.resolve('/tmp', 'chewy-test');
 
 /**
  * The directory where the project config file is stored within the project.
@@ -72,8 +79,8 @@ export const CHEWY_GLOBAL_CONFIG_DIR_PATH =
 /**
  * The absolutely path to the directory where the global config file is stored (in the user's home directory).
  */
-export const CHEWY_GLOBAL_TMP_COMPONENT_DIR_NAME =
-  process.env.CHEWY_GLOBAL_TMP_COMPONENT_DIR_NAME || `component-tmp`;
+export const CHEWY_GLOBAL_COMPONENT_CACHE_DIR_NAME =
+  process.env.CHEWY_GLOBAL_COMPONENT_CACHE_DIR_NAME || `component-cache`;
 
 /**
  * The directory where environment definitions are stored.

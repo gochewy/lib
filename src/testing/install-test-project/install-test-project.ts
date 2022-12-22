@@ -5,7 +5,7 @@ import {
   installComponent,
 } from '../../components';
 import { componentSources } from '../../config/component';
-import { CHEWY_VERSION } from '../../constants';
+import { CHEWY_BASE_TEST_DIR, CHEWY_VERSION } from '../../constants';
 import { installRoot } from '../../project';
 import {
   setWorkingDirectory,
@@ -26,8 +26,7 @@ export default async function installTestProject({
   testComponentRefType = 'branch',
 }: InstallTestProjectOptions) {
   const rootInstallPath = resolve(
-    '/tmp',
-    'chewy',
+    CHEWY_BASE_TEST_DIR,
     `${testProjectName}-${Math.floor(Math.random() * 100)}`
   );
 

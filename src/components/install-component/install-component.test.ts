@@ -4,6 +4,7 @@ import { resolve } from 'path';
 import rmfr from 'rmfr';
 import { ComponentDefinition, componentSources } from '../../config/component';
 import {
+  CHEWY_BASE_TEST_DIR,
   CHEWY_COMPONENT_DEFINITION_DIR_NAME,
   CHEWY_COMPONENT_DEFINITION_FILE_NAME,
   CHEWY_VERSION,
@@ -19,8 +20,7 @@ import installComponent from './install-component';
 
 describe('installComponent', () => {
   const rootInstallPath = resolve(
-    '/tmp',
-    'chewy',
+    CHEWY_BASE_TEST_DIR,
     `chewy-test-project-${Date.now()}-${Math.floor(Math.random() * 10)}`
   );
 

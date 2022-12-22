@@ -1,17 +1,29 @@
 import { GitProcess } from 'dugite';
-import { mkdirSync, readFileSync } from 'fs-extra';
+import { existsSync, mkdirSync, readFileSync } from 'fs-extra';
 import jsyaml from 'js-yaml';
 import { join, resolve } from 'path';
 import { z } from 'zod';
+import { componentDefinitionSchema } from '../../config/component';
 import {
   CHEWY_COMPONENT_DEFINITION_DIR_NAME,
   CHEWY_COMPONENT_DEFINITION_FILE_NAME,
+  CHEWY_GLOBAL_COMPONENT_CACHE_DIR_NAME,
   CHEWY_GLOBAL_CONFIG_DIR_PATH,
-  CHEWY_GLOBAL_TMP_COMPONENT_DIR_NAME,
 } from '../../constants';
-import { createHash } from 'crypto';
-import rmfr from 'rmfr';
-import { componentDefinitionSchema } from '../../config/component';
+
+const urlToDirectoryName = (url: string) => {
+  let name: string = url;
+  if (name.includes('chewy-global/components')) {
+    name = name.split('chewy-global/components').pop() || '';
+  }
+  name = name.split('://').pop() || '';
+  name = name.split('@').pop() || '';
+  name = name.replace(/[^a-zA-Z0-9]/g, '-');
+  name = name.replace(/-+/g, '-');
+  name = name.replace(/-$/, '');
+  name = name.replace(/^-/, '');
+  return name;
+};
 
 /**
  * Fetches the component definition from a component repository by cloning it to a
@@ -27,27 +39,29 @@ export default async function fetchComponentDefinition(
   version: string,
   refType: 'branch' | 'tag' | 'commit' = 'tag'
 ) {
-  const componentDirectoryName = createHash('shake256', { outputLength: 4 })
-    .update(`${url}-${version}`)
-    .digest('hex');
+  const componentDirectoryName = urlToDirectoryName(url);
   const validUrl = z.string().parse(url);
 
   const globalComponentsDir = resolve(
     CHEWY_GLOBAL_CONFIG_DIR_PATH,
-    CHEWY_GLOBAL_TMP_COMPONENT_DIR_NAME
+    CHEWY_GLOBAL_COMPONENT_CACHE_DIR_NAME
   );
 
   mkdirSync(globalComponentsDir, { recursive: true });
 
   const tmpComponentDir = resolve(globalComponentsDir, componentDirectoryName);
 
-  await GitProcess.exec(
-    ['clone', '--no-checkout', validUrl, componentDirectoryName],
-    globalComponentsDir
-  );
-
-  await GitProcess.exec(['reset'], tmpComponentDir);
-  await GitProcess.exec(['fetch'], tmpComponentDir);
+  if (!existsSync(tmpComponentDir)) {
+    await GitProcess.exec(
+      ['clone', '--no-checkout', validUrl, componentDirectoryName],
+      globalComponentsDir
+    );
+    await GitProcess.exec(['reset'], tmpComponentDir);
+    await GitProcess.exec(['fetch'], tmpComponentDir);
+  } else {
+    await GitProcess.exec(['fetch'], tmpComponentDir);
+    await GitProcess.exec(['reset'], tmpComponentDir);
+  }
 
   const filePath = join(
     CHEWY_COMPONENT_DEFINITION_DIR_NAME,
