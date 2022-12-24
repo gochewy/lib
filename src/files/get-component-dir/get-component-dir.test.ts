@@ -7,26 +7,26 @@ import { setWorkingDirectory } from '../../state/working-directory/working-direc
 import installTestProject from '../../testing/install-test-project/install-test-project';
 import getComponentDir from './get-component-dir';
 
-describe('getComponentDir', () => {
-  const testComponentName = 'ory-kratos';
-  const testProjectName = 'get-component-dir-test';
-  const testComponentUrl = componentSources['ory-kratos'];
-  const testProjectPath = resolve(
-    CHEWY_BASE_TEST_DIR,
-    `${testProjectName}-${Math.floor(Math.random() * 1000)}`
-  );
+const testComponentName = 'ory-kratos';
+const testProjectName = 'get-component-dir-test';
+const testComponentUrl = componentSources['ory-kratos'];
+const testProjectPath = resolve(
+  CHEWY_BASE_TEST_DIR,
+  `${testProjectName}-${Math.floor(Math.random() * 1000)}`
+);
 
-  beforeAll(async () => {
-    const output = await installTestProject({
-      testProjectPath,
-      testProjectName,
-      testComponentName,
-      testComponentUrl,
-    });
-    console.log(output);
-    return output;
+beforeAll(async () => {
+  const output = await installTestProject({
+    testProjectPath,
+    testProjectName,
+    testComponentName,
+    testComponentUrl,
   });
+  console.log(output);
+  return output;
+});
 
+describe('getComponentDir', () => {
   it('gets the component directory by name', async () => {
     setWorkingDirectory(testProjectPath);
     const directory = getComponentDir({
