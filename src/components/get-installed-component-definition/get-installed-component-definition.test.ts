@@ -10,6 +10,7 @@ describe('getInstalledComponentDefinition', () => {
 
   beforeAll(async () => {
     installOutput = await installTestProject({
+      testProjectName: 'get-installed-component-definition-test',
       testComponentName,
       testComponentUrl: componentSources['ory-kratos'],
     });

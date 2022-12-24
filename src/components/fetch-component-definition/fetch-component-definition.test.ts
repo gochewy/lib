@@ -13,15 +13,13 @@ describe('fetchComponentDefinition', () => {
   });
 
   it('throws an appropriate error for bad versions', async () => {
+    const version = 'bad-version';
+    const source = componentSources['ory-kratos'];
     try {
-      await fetchComponentDefinition(
-        componentSources['ory-kratos'],
-        'bad-version',
-        'tag'
-      );
+      await fetchComponentDefinition(source, version, 'tag');
     } catch (e) {
       expect((e as any).message).toEqual(
-        'No matching version found for component. (branch/tag/commit)'
+        `No match found for version ${version} of component ${source}`
       );
     }
   });

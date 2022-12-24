@@ -13,12 +13,12 @@ import installComponent from './install-component';
 describe('installComponent', () => {
   const rootInstallPath = resolve(
     CHEWY_BASE_TEST_DIR,
-    `chewy-test-project-${Date.now()}-${Math.floor(Math.random() * 10)}`
+    `install-component-test-${Math.floor(Math.random() * 10)}`
   );
 
   beforeAll(async () => {
     await installRoot(rootInstallPath, {
-      name: 'chewy-test-project',
+      name: 'install-component-test',
       chewy: {
         version: CHEWY_VERSION,
       },

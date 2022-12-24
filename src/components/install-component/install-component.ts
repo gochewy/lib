@@ -54,6 +54,7 @@ function createConfigDir(root: string, path: string) {
 async function fetchUsableVersion(url: string, version: string) {
   const refType = version.includes('branch') ? 'branch' : 'tag';
   const versions = await fetchComponentVersions(url, refType);
+  console.log(url);
   console.log(version);
   const validVersion = versions.find(({ ref }) => ref === version);
 
@@ -94,7 +95,7 @@ export default async function installComponent({
   const validVersion = await fetchUsableVersion(validUrl, version);
   const definition = await fetchComponentDefinition(
     url,
-    validVersion.ref,
+    validVersion.sha,
     'commit'
   );
   let tmpName = name ?? definition.name;

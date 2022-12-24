@@ -11,6 +11,7 @@ describe('getComponentDir', () => {
 
   beforeAll(async () => {
     installOutput = await installTestProject({
+      testProjectName: 'get-component-dir-test',
       testComponentName,
       testComponentUrl: componentSources['ory-kratos'],
     });
