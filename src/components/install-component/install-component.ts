@@ -54,8 +54,6 @@ function createConfigDir(root: string, path: string) {
 async function fetchUsableVersion(url: string, version: string) {
   const refType = version.includes('branch') ? 'branch' : 'tag';
   const versions = await fetchComponentVersions(url, refType);
-  console.log(url);
-  console.log(version);
   const validVersion = versions.find(({ ref }) => ref === version);
 
   if (!validVersion) throw new Error('No version found for component.');

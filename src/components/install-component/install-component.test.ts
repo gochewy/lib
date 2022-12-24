@@ -1,3 +1,4 @@
+import { readdirSync } from 'fs-extra';
 import { resolve } from 'path';
 import rmfr from 'rmfr';
 import { componentSources } from '../../config/component';
@@ -19,9 +20,13 @@ describe('installComponent', () => {
   beforeAll(async () => {
     await installRoot(rootInstallPath, {
       name: 'install-component-test',
-      chewy: {
-        version: CHEWY_VERSION,
-      },
+      chewy: { version: CHEWY_VERSION },
+    });
+    readdirSync(rootInstallPath).forEach(file => {
+      console.log(file);
+    });
+    readdirSync(resolve(rootInstallPath, '.chewy')).forEach(file => {
+      console.log(file);
     });
   });
 
