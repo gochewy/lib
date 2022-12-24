@@ -23,8 +23,8 @@ const componentSources: ChewyComponents = IS_CHEWY_CONTRIBUTOR
       nextjs: 'https://github.com/gochewy/nextjs.git',
       nestjs: 'https://github.com/gochewy/nestjs.git',
       postgres: 'https://github.com/gochewy/postgres.git',
-      'ory-kratos': '/workspace/chewy-global/components/ory-kratos',
-      'ory-oathkeeper': '/workspace/chewy-global/components/ory-oathkeeper',
+      'ory-kratos': 'https://github.com/gochewy/ory-kratos.git',
+      'ory-oathkeeper': 'https://github.com/gochewy/ory-oathkeeper.git',
     } as const);
 
 export default componentSources;
