@@ -103,6 +103,8 @@ export default async function installComponent({
   const validName = resourceNameSchema.parse(tmpName);
   const path = join(definition.type, validName);
 
+  console.log('@@ validVersion: ', validVersion);
+
   await setLocalGit();
   const output = await GitProcess.exec(
     ['subtree', 'add', '--prefix', path, validUrl, validVersion.sha],
