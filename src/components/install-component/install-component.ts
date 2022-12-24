@@ -104,10 +104,11 @@ export default async function installComponent({
   const path = join(definition.type, validName);
 
   await setLocalGit();
-  await GitProcess.exec(
+  const output = await GitProcess.exec(
     ['subtree', 'add', '--prefix', path, validUrl, validVersion.sha],
     root
   );
+  console.log('@@ subtree output: ', output);
   unsetLocalGit();
 
   createConfigDir(root, path);
