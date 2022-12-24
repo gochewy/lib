@@ -1,9 +1,11 @@
 import { z } from 'zod';
-import componentTypeSchema from './component-type-schema copy';
+import { CHEWY_VERSION } from '../../constants';
+import componentTypeSchema from './component-type-schema';
 
 const dependencySchema = z.object({
   repository: z.string(),
   role: z.string(),
+  version: z.string().default(CHEWY_VERSION),
 });
 
 const componentDefinitionSchema = z.object({
@@ -11,7 +13,8 @@ const componentDefinitionSchema = z.object({
   name: z.string(),
   type: componentTypeSchema,
   version: z.string(),
-  dependencies: z.array(dependencySchema),
+  dependencies: z.array(dependencySchema).optional(),
+  config: z.record(z.any()).optional(),
 });
 
 export default componentDefinitionSchema;

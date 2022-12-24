@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import componentTypeSchema from './component-type-schema copy';
+import componentTypeSchema from './component-type-schema';
 
 type ComponentType = z.TypeOf<typeof componentTypeSchema>;
 

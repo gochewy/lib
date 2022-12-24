@@ -120,4 +120,10 @@ export const CHEWY_COMPONENT_DEFINITION_FILE_NAME =
  * The name of the file where the component config is stored.
  */
 export const CHEWY_COMPONENT_CONFIG_FILE_NAME =
-  process.env.CHEWY_COMPONENT_CONFIG_FILE_NAME || 'config.yml';
+  process.env.CHEWY_COMPONENT_CONFIG_FILE_NAME || 'chewy-config.yml';
+
+/**
+ * The name of the file where the component links are stored. (links between components)
+ */
+export const CHEWY_COMPONENT_LINKS_FILE_NAME =
+  process.env.CHEWY_COMPONENT_LINKS_FILE_NAME || 'chewy-links.yml';

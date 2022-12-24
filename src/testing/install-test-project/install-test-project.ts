@@ -59,13 +59,10 @@ export default async function installTestProject({
 
   setWorkingDirectory(rootInstallPath);
 
-  console.log(definition);
-
   await installComponent({
     name: testComponentName,
     url: testComponentUrl,
-    versionSha: version.sha,
-    type: definition.type,
+    version: CHEWY_VERSION,
   });
 
   unsetWorkingDirectory();

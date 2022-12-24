@@ -81,7 +81,7 @@ export default async function fetchComponentDefinition(
     );
   }
   if (checkoutOutput.exitCode !== 0)
-    throw Error('No matching version found for component. (branch/tag/commit)');
+    throw Error(`No match found for version ${version} of component ${url}`);
 
   const content = readFileSync(
     resolve(
