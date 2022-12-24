@@ -9,6 +9,8 @@ describe('getComponentDir', () => {
   let installOutput: Awaited<ReturnType<typeof installTestProject>>;
   const testComponentName = 'ory-kratos';
 
+  console.log('@@ sources', componentSources);
+
   beforeAll(async () => {
     installOutput = await installTestProject({
       testProjectName: 'get-component-dir-test',

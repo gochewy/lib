@@ -20,6 +20,11 @@ export const CHEWY_VERSION = '0.1.1-branch';
 export const IS_CHEWY_CONTRIBUTOR = process.env.IS_CHEWY_CONTRIBUTOR === 'true';
 
 /**
+ * Whether the current process is running in a CI environment.
+ */
+export const IS_CI = process.env.CI === 'true';
+
+/**
  * Whether the current process is running in a dev environment.
  */
 export const IS_CHEWY_DEV_MODE = process.env.IS_CHEWY_DEV_MODE === 'true';
