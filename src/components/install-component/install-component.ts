@@ -52,8 +52,7 @@ function createConfigDir(root: string, path: string) {
 }
 
 async function fetchUsableVersion(url: string, version: string) {
-  const refType = version.includes('branch') ? 'branch' : 'tag';
-  const versions = await fetchComponentVersions(url, refType);
+  const versions = await fetchComponentVersions(url);
   const validVersion = versions.find(({ ref }) => ref === version);
 
   if (!validVersion) throw new Error('No version found for component.');
@@ -91,11 +90,7 @@ export default async function installComponent({
   const root = getProjectRootDir();
   const validUrl = z.string().parse(url);
   const validVersion = await fetchUsableVersion(validUrl, version);
-  const definition = await fetchComponentDefinition(
-    url,
-    validVersion.sha,
-    'commit'
-  );
+  const definition = await fetchComponentDefinition(url, validVersion.ref);
   let tmpName = name ?? definition.name;
   if (dependent && !name) {
     tmpName = `${dependent.name}-${dependent.role}-${definition.name}`;

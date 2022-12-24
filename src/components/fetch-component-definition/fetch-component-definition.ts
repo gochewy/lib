@@ -10,6 +10,7 @@ import {
   CHEWY_GLOBAL_COMPONENT_CACHE_DIR_NAME,
   CHEWY_GLOBAL_CONFIG_DIR_PATH,
 } from '../../constants';
+import fetchComponentVersions from '../fetch-component-versions/fetch-component-versions';
 
 const urlToDirectoryName = (url: string) => {
   let name: string = url;
@@ -36,11 +37,16 @@ const urlToDirectoryName = (url: string) => {
  */
 export default async function fetchComponentDefinition(
   url: string,
-  version: string,
-  refType: 'branch' | 'tag' | 'commit' = 'tag'
+  version: string
 ) {
   const componentDirectoryName = urlToDirectoryName(url);
   const validUrl = z.string().parse(url);
+
+  const validVersion = (await fetchComponentVersions(url)).find(
+    ({ ref }) => ref === version
+  );
+
+  if (!validVersion) throw new Error('No version found for component.');
 
   const globalComponentsDir = resolve(
     CHEWY_GLOBAL_CONFIG_DIR_PATH,
@@ -69,17 +75,11 @@ export default async function fetchComponentDefinition(
   );
 
   let checkoutOutput: Awaited<ReturnType<typeof GitProcess.exec>>;
-  if (refType === 'branch') {
-    checkoutOutput = await GitProcess.exec(
-      ['checkout', `origin/${version}`, filePath],
-      tmpComponentDir
-    );
-  } else {
-    checkoutOutput = await GitProcess.exec(
-      ['checkout', version, filePath],
-      tmpComponentDir
-    );
-  }
+  checkoutOutput = await GitProcess.exec(
+    ['checkout', validVersion.sha, filePath],
+    tmpComponentDir
+  );
+
   if (checkoutOutput.exitCode !== 0)
     throw Error(`No match found for version ${version} of component ${url}`);
 

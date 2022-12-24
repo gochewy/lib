@@ -7,14 +7,9 @@ export default async function initializeRootRepo() {
 
   if (!path) throw new Error('Installation directory missing');
 
-  const initOutput = await GitProcess.exec(['init'], path);
+  const initOutput = await GitProcess.exec(['init', '-b', 'main'], path);
   if (initOutput.exitCode !== 0) {
     throw new Error(`Failed to initialize git repo: ${initOutput.stderr}`);
-  }
-
-  const branchOutput = await GitProcess.exec(['branch', '-m', 'main'], path);
-  if (branchOutput.exitCode !== 0) {
-    throw new Error(`Failed to rename branch: ${branchOutput.stderr}`);
   }
 
   const addOutput = await GitProcess.exec(['add', '.'], path);

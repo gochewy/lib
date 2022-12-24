@@ -42,7 +42,10 @@ export const IS_CHEWY_DEV_MODE = process.env.IS_CHEWY_DEV_MODE === 'true';
  * Chewy base test directory.
  */
 export const CHEWY_BASE_TEST_DIR =
-  process.env.CHEWY_BASE_TEST_DIR || path.resolve('testing', 'tests');
+  process.env.CHEWY_BASE_TEST_DIR ||
+  (IS_CI
+    ? path.resolve('testing', 'tests')
+    : path.resolve('/tmp', 'chewy-tests', 'tests'));
 
 /**
  * The directory where the project config file is stored within the project.

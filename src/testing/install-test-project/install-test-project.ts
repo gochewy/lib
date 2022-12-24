@@ -16,7 +16,6 @@ interface InstallTestProjectOptions {
   testProjectName?: string;
   testComponentName?: string;
   testComponentUrl?: string;
-  testComponentRefType?: Parameters<typeof fetchComponentVersions>[1];
   testProjectPath?: string;
 }
 
@@ -25,7 +24,6 @@ export default async function installTestProject({
   testProjectName = 'chewy-test-project',
   testComponentName = 'ory-kratos',
   testComponentUrl = componentSources['ory-kratos'],
-  testComponentRefType = 'branch',
 }: InstallTestProjectOptions) {
   const rootInstallPath =
     testProjectPath ||
@@ -41,10 +39,7 @@ export default async function installTestProject({
     },
   });
 
-  const versions = await fetchComponentVersions(
-    testComponentUrl,
-    testComponentRefType
-  );
+  const versions = await fetchComponentVersions(testComponentUrl);
 
   const versionMatchingChewyLib = versions.find(
     ({ ref }) => ref === CHEWY_VERSION
@@ -57,8 +52,7 @@ export default async function installTestProject({
 
   const definition = await fetchComponentDefinition(
     testComponentUrl,
-    version.ref,
-    testComponentRefType
+    version.ref
   );
 
   setWorkingDirectory(rootInstallPath);

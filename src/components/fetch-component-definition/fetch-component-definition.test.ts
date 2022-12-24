@@ -6,8 +6,7 @@ describe('fetchComponentDefinition', () => {
   it('fetches the component definition', async () => {
     const definition = await fetchComponentDefinition(
       componentSources['ory-kratos'],
-      CHEWY_VERSION,
-      'branch'
+      CHEWY_VERSION
     );
     expect(definition.name).toEqual('ory-kratos');
   });
@@ -16,11 +15,9 @@ describe('fetchComponentDefinition', () => {
     const version = 'bad-version';
     const source = componentSources['ory-kratos'];
     try {
-      await fetchComponentDefinition(source, version, 'tag');
+      await fetchComponentDefinition(source, version);
     } catch (e) {
-      expect((e as any).message).toEqual(
-        `No match found for version ${version} of component ${source}`
-      );
+      expect((e as any).message).toEqual('No version found for component.');
     }
   });
 });

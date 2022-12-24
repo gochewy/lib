@@ -5,26 +5,24 @@ import installTestProject from '../../testing/install-test-project/install-test-
 import getInstalledComponentDefinition from './get-installed-component-definition';
 
 describe('getInstalledComponentDefinition', () => {
-  let installOutput: Awaited<ReturnType<typeof installTestProject>>;
   const testComponentName = 'ory-kratos';
+  const testProjectName = 'get-installed-component-definition-test';
+  const testComponentUrl = componentSources['ory-kratos'];
 
-  beforeAll(async () => {
-    installOutput = await installTestProject({
-      testProjectName: 'get-installed-component-definition-test',
+  const install = () =>
+    installTestProject({
+      testProjectName,
       testComponentName,
-      testComponentUrl: componentSources['ory-kratos'],
+      testComponentUrl,
     });
-  });
 
-  it('gets the component definition', () => {
+  it('gets the component definition', async () => {
+    const installOutput = await install();
     setWorkingDirectory(installOutput.rootInstallPath);
     const componentDefinition = getInstalledComponentDefinition({
       name: testComponentName,
     });
     expect(componentDefinition.name).toBeTruthy();
-  });
-
-  afterAll(async () => {
     await rmfr(installOutput.rootInstallPath);
   });
 });
