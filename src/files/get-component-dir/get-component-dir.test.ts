@@ -8,6 +8,7 @@ import installTestProject from '../../testing/install-test-project/install-test-
 import getComponentDir from './get-component-dir';
 
 describe('getComponentDir', () => {
+  let installOutput: Awaited<ReturnType<typeof installTestProject>>;
   const testComponentName = 'ory-kratos';
   const testProjectName = 'get-component-dir-test';
   const testComponentUrl = componentSources['ory-kratos'];
@@ -16,23 +17,18 @@ describe('getComponentDir', () => {
     `${testProjectName}-${Math.floor(Math.random() * 1000)}`
   );
 
-  const install = async () => {
-    console.log('installing test project');
+  beforeAll(async () => {
     const output = await installTestProject({
       testProjectPath,
       testProjectName,
       testComponentName,
       testComponentUrl,
     });
-    console.log('@@ output', output);
+    installOutput = output;
     return output;
-  };
-
-  const teardown = () => rmfr(testProjectPath);
+  }, 30000);
 
   it('gets the component directory by name', async () => {
-    await install();
-    console.log('@@ in the test');
     setWorkingDirectory(testProjectPath);
     const directory = getComponentDir({
       name: testComponentName,
@@ -40,11 +36,9 @@ describe('getComponentDir', () => {
     expect(directory).toEqual(
       `${testProjectPath}/${componentTypeSchema.Enum.service}/${testComponentName}`
     );
-    await teardown();
   });
 
   it('gets the component directory by name and type', async () => {
-    await install();
     console.log('@@ in the test');
     setWorkingDirectory(testProjectPath);
     const directory = getComponentDir({
@@ -54,11 +48,9 @@ describe('getComponentDir', () => {
     expect(directory).toEqual(
       `${testProjectPath}/${componentTypeSchema.Enum.service}/${testComponentName}`
     );
-    await teardown();
   });
 
   it('gets the component from the current directory', async () => {
-    await install();
     console.log('@@ in the test');
     setWorkingDirectory(
       resolve(
@@ -71,6 +63,7 @@ describe('getComponentDir', () => {
     expect(directory).toEqual(
       `${testProjectPath}/${componentTypeSchema.Enum.service}/${testComponentName}`
     );
-    await teardown();
   });
+
+  afterAll(async () => rmfr(installOutput.rootInstallPath));
 });
