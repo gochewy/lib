@@ -12,11 +12,13 @@ describe('getComponentDir', () => {
   console.log('@@ sources', componentSources);
 
   beforeAll(async () => {
+    console.log('@@ about to install');
     installOutput = await installTestProject({
       testProjectName: 'get-component-dir-test',
       testComponentName,
       testComponentUrl: componentSources['ory-kratos'],
     });
+    console.log('@@ installOutput', installOutput);
   });
 
   it('gets the component directory by name', async () => {
