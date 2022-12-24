@@ -110,6 +110,11 @@ export default async function installComponent({
   console.log('@@ exec: ', exec);
   console.log('@@ path: ', root);
   const output = await GitProcess.exec(exec, root);
+
+  if (output.exitCode !== 0) {
+    throw new Error(`Failed to add subtree for ${validName}: ${output.stderr}`);
+  }
+
   console.log('@@ subtree output: ', output);
   unsetLocalGit();
 
