@@ -1,63 +1,68 @@
+import { resolve } from 'path';
 import rmfr from 'rmfr';
 import { componentSources } from '../../config/component';
+import componentTypeSchema from '../../config/component/component-type-schema';
+import { CHEWY_BASE_TEST_DIR } from '../../constants';
 import { setWorkingDirectory } from '../../state/working-directory/working-directory';
 import installTestProject from '../../testing/install-test-project/install-test-project';
 import getComponentDir from './get-component-dir';
-import { resolve } from 'path';
 
 describe('getComponentDir', () => {
-  let installOutput: Awaited<ReturnType<typeof installTestProject>>;
   const testComponentName = 'ory-kratos';
-
-  console.log('@@ sources', componentSources);
+  const testProjectName = 'get-component-dir-test';
+  const testComponentUrl = componentSources['ory-kratos'];
+  const testProjectPath = resolve(
+    CHEWY_BASE_TEST_DIR,
+    `${testProjectName}-${Math.floor(Math.random() * 1000)}`
+  );
 
   beforeAll(async () => {
-    console.log('@@ about to install');
     const output = await installTestProject({
-      testProjectName: 'get-component-dir-test',
+      testProjectPath,
+      testProjectName,
       testComponentName,
-      testComponentUrl: componentSources['ory-kratos'],
+      testComponentUrl,
     });
-    console.log('@@ installOutput', output);
-    installOutput = output;
+    console.log(output);
+    return output;
   });
 
   it('gets the component directory by name', async () => {
-    setWorkingDirectory(installOutput.rootInstallPath);
+    setWorkingDirectory(testProjectPath);
     const directory = getComponentDir({
-      name: installOutput.testComponentName,
+      name: testComponentName,
     });
     expect(directory).toEqual(
-      `${installOutput.rootInstallPath}/${installOutput.testComponentType}/${testComponentName}`
+      `${testProjectPath}/${componentTypeSchema.Enum.service}/${testComponentName}`
     );
   });
 
   it('gets the component directory by name and type', async () => {
-    setWorkingDirectory(installOutput.rootInstallPath);
+    setWorkingDirectory(testProjectPath);
     const directory = getComponentDir({
-      name: installOutput.testComponentName,
-      type: installOutput.testComponentType,
+      name: testComponentName,
+      type: componentTypeSchema.Enum.service,
     });
     expect(directory).toEqual(
-      `${installOutput.rootInstallPath}/${installOutput.testComponentType}/${testComponentName}`
+      `${testProjectPath}/${componentTypeSchema.Enum.service}/${testComponentName}`
     );
   });
 
   it('gets the component from the current directory', async () => {
     setWorkingDirectory(
       resolve(
-        installOutput.rootInstallPath,
-        installOutput.testComponentType,
-        installOutput.testComponentName
+        testProjectPath,
+        componentTypeSchema.Enum.service,
+        testComponentName
       )
     );
     const directory = getComponentDir();
     expect(directory).toEqual(
-      `${installOutput.rootInstallPath}/${installOutput.testComponentType}/${testComponentName}`
+      `${testProjectPath}/${componentTypeSchema.Enum.service}/${testComponentName}`
     );
   });
 
   afterAll(async () => {
-    await rmfr(installOutput.rootInstallPath);
+    await rmfr(testProjectPath);
   });
 });

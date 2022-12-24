@@ -17,18 +17,22 @@ interface InstallTestProjectOptions {
   testComponentName?: string;
   testComponentUrl?: string;
   testComponentRefType?: Parameters<typeof fetchComponentVersions>[1];
+  testProjectPath?: string;
 }
 
 export default async function installTestProject({
+  testProjectPath,
   testProjectName = 'chewy-test-project',
   testComponentName = 'ory-kratos',
   testComponentUrl = componentSources['ory-kratos'],
   testComponentRefType = 'branch',
 }: InstallTestProjectOptions) {
-  const rootInstallPath = resolve(
-    CHEWY_BASE_TEST_DIR,
-    `${testProjectName}-${Math.floor(Math.random() * 1000)}`
-  );
+  const rootInstallPath =
+    testProjectPath ||
+    resolve(
+      CHEWY_BASE_TEST_DIR,
+      `${testProjectName}-${Math.floor(Math.random() * 1000)}`
+    );
 
   await installRoot(rootInstallPath, {
     name: testProjectName,
