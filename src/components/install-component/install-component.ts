@@ -106,10 +106,10 @@ export default async function installComponent({
   console.log('@@ validVersion: ', validVersion);
 
   await setLocalGit();
-  const output = await GitProcess.exec(
-    ['subtree', 'add', '--prefix', path, validUrl, validVersion.sha],
-    root
-  );
+  const exec = ['subtree', 'add', '--prefix', path, validUrl, validVersion.sha];
+  console.log('@@ exec: ', exec);
+  console.log('@@ path: ', root);
+  const output = await GitProcess.exec(exec, root);
   console.log('@@ subtree output: ', output);
   unsetLocalGit();
 
