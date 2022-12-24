@@ -13,7 +13,7 @@ import installComponent from './install-component';
 describe('installComponent', () => {
   const rootInstallPath = resolve(
     CHEWY_BASE_TEST_DIR,
-    `install-component-test-${Math.floor(Math.random() * 10)}`
+    `install-component-test-${Math.floor(Math.random() * 1000)}`
   );
 
   beforeAll(async () => {
