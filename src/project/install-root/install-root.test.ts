@@ -23,7 +23,6 @@ import installRoot from './install-root';
 
 describe('installRoot', () => {
   const path = getTestPath('install-root');
-  console.log('@@ test path: ', path);
   const projectConfig: ProjectConfigInput = {
     name: 'test-project',
     chewy: {
@@ -74,7 +73,6 @@ describe('installRoot', () => {
 
   it.only('initializes a git repository', async () => {
     const result = await GitProcess.exec(['status'], path);
-    console.log(result);
     expect(result.exitCode).toBe(0);
   });
 

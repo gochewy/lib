@@ -1,10 +1,8 @@
 import { GitProcess } from 'dugite';
 import { IS_CI } from '../../../constants';
 import { getRootInstallationPath } from '../../../state';
-import { setLocalGit, unsetLocalGit } from '../../../state/local-git/local-git';
 
 export default async function initializeRootRepo() {
-  await setLocalGit();
   const path = getRootInstallationPath();
 
   if (!path) throw new Error('Installation directory missing');
@@ -16,7 +14,6 @@ export default async function initializeRootRepo() {
 
   const addOutput = await GitProcess.exec(['add', '.'], path);
   if (addOutput.exitCode !== 0) {
-    console.log(`@@ working directory: ${path}`);
     throw new Error(`Failed to add files to git: ${addOutput.stderr}`);
   }
 
@@ -44,5 +41,4 @@ export default async function initializeRootRepo() {
   if (commitOutput.exitCode !== 0) {
     throw new Error(`Failed to commit files: ${commitOutput.stderr}`);
   }
-  unsetLocalGit();
 }

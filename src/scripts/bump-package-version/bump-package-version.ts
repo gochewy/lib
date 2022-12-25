@@ -10,8 +10,6 @@ async function bumpPackageVersion() {
   const currentBranch = (
     await GitProcess.exec(['rev-parse', '--abbrev-ref', 'HEAD'], dir)
   ).stdout.trim();
-  console.log(currentBranch);
-  console.log(jsPackage.version);
   const packageVersion = jsPackage.version;
   if (!packageVersion.startsWith(currentBranch)) {
     return;
