@@ -26,7 +26,7 @@ describe('getInstalledComponentDefinition', () => {
     return output;
   }, 30000);
 
-  it('gets the component definition', async () => {
+  it('gets the component definition', () => {
     setWorkingDirectory(installOutput.rootInstallPath);
     const componentDefinition = getInstalledComponentDefinition({
       name: testComponentName,

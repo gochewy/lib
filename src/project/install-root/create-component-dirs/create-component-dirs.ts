@@ -7,7 +7,7 @@ import {
 } from '../../../constants';
 import { getRootInstallationPath } from '../../../state';
 
-export default async function createComponentDirs() {
+export default function createComponentDirs() {
   const path = getRootInstallationPath();
 
   if (!path)

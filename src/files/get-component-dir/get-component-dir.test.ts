@@ -28,7 +28,7 @@ describe('getComponentDir', () => {
     return output;
   }, 30000);
 
-  it('gets the component directory by name', async () => {
+  it('gets the component directory by name', () => {
     setWorkingDirectory(testProjectPath);
     const directory = getComponentDir({
       name: testComponentName,
@@ -38,8 +38,7 @@ describe('getComponentDir', () => {
     );
   });
 
-  it('gets the component directory by name and type', async () => {
-    console.log('@@ in the test');
+  it('gets the component directory by name and type', () => {
     setWorkingDirectory(testProjectPath);
     const directory = getComponentDir({
       name: testComponentName,
@@ -50,8 +49,7 @@ describe('getComponentDir', () => {
     );
   });
 
-  it('gets the component from the current directory', async () => {
-    console.log('@@ in the test');
+  it('gets the component from the current directory', () => {
     setWorkingDirectory(
       resolve(
         testProjectPath,

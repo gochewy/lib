@@ -21,7 +21,7 @@ export default async function installRoot(
 
   createProjectConfig(config);
   createComponentDirs();
-  initializeRootRepo();
+  await initializeRootRepo();
 
   unsetRootInstallationPath();
 }

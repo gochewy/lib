@@ -1,9 +1,15 @@
+import { GitProcess } from 'dugite';
+import { existsSync } from 'fs-extra';
 import { readFile } from 'fs/promises';
 import { load } from 'js-yaml';
 import { resolve } from 'path';
 import rmfr from 'rmfr';
 import {
-  CHEWY_BASE_TEST_DIR,
+  ProjectConfig,
+  ProjectConfigInput,
+  projectConfigSchema,
+} from '../../config/project';
+import {
   CHEWY_COMPONENT_DIRECTORY_NAMES,
   CHEWY_INFRA_DIR_NAME,
   CHEWY_PROJECT_CONFIG_DIR_NAME,
@@ -12,15 +18,8 @@ import {
   CHEWY_SOURCE_DIR_NAME,
   CHEWY_VERSION,
 } from '../../constants';
-import installRoot from './install-root';
-import {
-  ProjectConfigInput,
-  projectConfigSchema,
-  ProjectConfig,
-} from '../../config/project';
-import { existsSync } from 'fs-extra';
-import { GitProcess } from 'dugite';
 import getTestPath from '../../files/get-test-path/get-test-path';
+import installRoot from './install-root';
 
 describe('installRoot', () => {
   const path = getTestPath('install-root');
@@ -54,7 +53,7 @@ describe('installRoot', () => {
     expect(projectConfigSchema.safeParse(writtenConfig).success).toBe(true);
   });
 
-  it('creates the directories for the project components', async () => {
+  it('creates the directories for the project components', () => {
     const dirs = [
       CHEWY_INFRA_DIR_NAME,
       CHEWY_SERVICE_DIR_NAME,
@@ -66,19 +65,20 @@ describe('installRoot', () => {
     expect(exists).toBe(true);
   });
 
-  it('creates gitignore files for component directories', async () => {
+  it('creates gitignore files for component directories', () => {
     const exists = CHEWY_COMPONENT_DIRECTORY_NAMES.map(dir =>
       existsSync(resolve(path, dir, '.gitignore'))
     ).reduce((acc, val) => acc && val, true);
     expect(exists).toBe(true);
   });
 
-  it('initializes a git repository', async () => {
+  it.only('initializes a git repository', async () => {
     const result = await GitProcess.exec(['status'], path);
+    console.log(result);
     expect(result.exitCode).toBe(0);
   });
 
   afterAll(async () => {
-    await rmfr(path);
+    // await rmfr(path);
   });
 });

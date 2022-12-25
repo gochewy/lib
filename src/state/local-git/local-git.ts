@@ -3,8 +3,11 @@ import { default as findGit, Git } from 'find-git-exec';
 
 export const setLocalGit = async () => {
   let git: Git | undefined = undefined;
+  console.log('@@ About to find local git');
 
   git = await findGit();
+
+  console.log('@@ git', git);
 
   if (git.path && git.execPath) {
     const { path, execPath } = git;

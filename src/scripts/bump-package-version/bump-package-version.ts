@@ -4,13 +4,15 @@ import { cwd } from 'process';
 
 async function bumpPackageVersion() {
   const dir = cwd();
-  const jsPackage = JSON.parse(readFileSync('package.json', 'utf8'));
+  const jsPackage = JSON.parse(readFileSync('package.json', 'utf8')) as {
+    version: string;
+  };
   const currentBranch = (
     await GitProcess.exec(['rev-parse', '--abbrev-ref', 'HEAD'], dir)
   ).stdout.trim();
   console.log(currentBranch);
   console.log(jsPackage.version);
-  const packageVersion = jsPackage.version as string;
+  const packageVersion = jsPackage.version;
   if (!packageVersion.startsWith(currentBranch)) {
     return;
   }
@@ -27,4 +29,4 @@ async function bumpPackageVersion() {
   }
 }
 
-bumpPackageVersion();
+bumpPackageVersion().catch(e => console.log(e));
