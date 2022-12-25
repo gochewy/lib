@@ -13,5 +13,5 @@ module.exports = {
     require.resolve('jest-watch-typeahead/filename'),
     require.resolve('jest-watch-typeahead/testname'),
   ],
-  testTimeout: 20000,
+  testTimeout: 30000,
 };
