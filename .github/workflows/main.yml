@@ -31,3 +31,15 @@ jobs:
 
       - name: Build
         run: yarn build
+
+      - name: Publish version to NPM
+        if: startsWith(github.ref, 'refs/tags/')
+        run: yarn publish --access public --non-interactive --new-version ${{github.ref_name}} --tag latest
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Publish alpha to NPM
+        if: startsWith(github.ref, 'refs/heads/')
+        run: yarn publish --access public --non-interactive --tag alpha-${{github.ref_name}}
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
