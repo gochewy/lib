@@ -25,13 +25,6 @@ async function bumpPackageVersion() {
   if (addOutput.exitCode !== 0) {
     throw new Error(`Failed to add files to git: ${addOutput.stderr}`);
   }
-  const commitOutput = await GitProcess.exec(
-    ['commit', '-m', `Bump version to ${newVersion}`, '--no-verify'],
-    dir
-  );
-  if (commitOutput.exitCode !== 0) {
-    throw new Error(`Failed to commit files: ${commitOutput.stderr}`);
-  }
 }
 
 bumpPackageVersion();
