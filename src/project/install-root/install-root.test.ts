@@ -4,6 +4,7 @@ import { resolve } from 'path';
 import rmfr from 'rmfr';
 import {
   CHEWY_BASE_TEST_DIR,
+  CHEWY_COMPONENT_DIRECTORY_NAMES,
   CHEWY_INFRA_DIR_NAME,
   CHEWY_PROJECT_CONFIG_DIR_NAME,
   CHEWY_PROJECT_CONFIG_FILE_NAME,
@@ -64,14 +65,9 @@ describe('installRoot', () => {
   });
 
   it('creates gitignore files for component directories', async () => {
-    const dirs = [
-      CHEWY_INFRA_DIR_NAME,
-      CHEWY_SERVICE_DIR_NAME,
-      CHEWY_SOURCE_DIR_NAME,
-    ];
-    const exists = dirs
-      .map(dir => existsSync(resolve(path, dir, '.gitignore')))
-      .reduce((acc, val) => acc && val, true);
+    const exists = CHEWY_COMPONENT_DIRECTORY_NAMES.map(dir =>
+      existsSync(resolve(path, dir, '.gitignore'))
+    ).reduce((acc, val) => acc && val, true);
     expect(exists).toBe(true);
   });
 
