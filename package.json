@@ -2,7 +2,7 @@
   "name": "@gochewy/lib",
   "author": "Ephemere Creative Ltd",
   "module": "dist/chewy-lib.esm.js",
-  "version": "0.1.1-branch.8",
+  "version": "0.1.1-beta.1",
   "license": "AGPL-3.0",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -24,7 +24,8 @@
     "size": "size-limit",
     "analyze": "size-limit --why",
     "build-schemas": "ts-node --project ./src/scripts/tsconfig.json ./src/scripts/build-schemas/build-schemas.ts",
-    "bump-version": "ts-node --project ./src/scripts/tsconfig.json ./src/scripts/bump-package-version/bump-package-version.ts"
+    "bump-package": "ts-node --project ./src/scripts/tsconfig.json ./src/scripts/bump-package-version/bump-package-version.ts",
+    "bump-tag": "bump"
   },
   "peerDependencies": {},
   "prettier": {
@@ -71,7 +72,8 @@
     "size-limit": "^8.1.0",
     "tsdx": "^0.14.1",
     "tslib": "^2.4.1",
-    "typescript": "^4.9.4"
+    "typescript": "^4.9.4",
+    "version-bump-prompt": "^6.1.0"
   },
   "resolutions": {
     "**/@typescript-eslint/eslint-plugin": "^4.11.1",
