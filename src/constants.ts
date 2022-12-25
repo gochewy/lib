@@ -43,9 +43,9 @@ export const IS_CHEWY_DEV_MODE = process.env.IS_CHEWY_DEV_MODE === 'true';
  */
 export const CHEWY_BASE_TEST_DIR =
   process.env.CHEWY_BASE_TEST_DIR ||
-  (IS_CI
+  (IS_CI && process.env.RUNNER_TEMP
     ? // ? path.resolve('testing', 'tests')
-      path.resolve('/tmp', 'chewy-tests', 'tests')
+      path.resolve(process.env.RUNNER_TEMP, 'chewy-tests', 'tests')
     : path.resolve('/tmp', 'chewy-tests', 'tests'));
 
 /**

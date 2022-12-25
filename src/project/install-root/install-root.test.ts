@@ -20,9 +20,11 @@ import {
 } from '../../config/project';
 import { existsSync } from 'fs-extra';
 import { GitProcess } from 'dugite';
+import getTestPath from '../../files/get-test-path/get-test-path';
 
 describe('installRoot', () => {
-  const path = resolve(CHEWY_BASE_TEST_DIR, 'install-root-test');
+  const path = getTestPath('install-root');
+  console.log('@@ test path: ', path);
   const projectConfig: ProjectConfigInput = {
     name: 'test-project',
     chewy: {
