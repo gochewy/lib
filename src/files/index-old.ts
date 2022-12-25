@@ -1,7 +1,7 @@
 import { readFileSync, writeFile, writeFileSync } from 'fs';
 import * as colorette from 'colorette';
 import * as fs from 'fs';
-import { Answers, gitignoreTemplate, readmeFileTemplate } from './constants';
+import { Answers, gitignoreTemplate, readmeFileTemplate } from './constants-old';
 
 const findUp = require('find-up');
 

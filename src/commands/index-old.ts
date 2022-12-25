@@ -6,7 +6,7 @@ import {
   rootGitIgnore,
   rootReadmeFile,
 } from '../files/index-old';
-import { Answers } from '../files/constants';
+import { Answers } from '../files/constants-old';
 const modules = require('../../project.json').modules;
 
 export const initGitRepo = (directory: string) => {

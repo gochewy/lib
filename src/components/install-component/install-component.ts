@@ -3,7 +3,7 @@ import { createFileSync, mkdirSync, writeFileSync } from 'fs-extra';
 import jsyaml from 'js-yaml';
 import { join, resolve } from 'path';
 import { z } from 'zod';
-import { ComponentDefinition } from '../../config/component';
+import ComponentDefinition from '../../config/component/component-definition';
 import componentLinksSchema from '../../config/component/component-links-schema';
 import {
   CHEWY_COMPONENT_CONFIG_DIR_NAME,
