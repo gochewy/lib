@@ -19,6 +19,11 @@ async function bumpPackageVersion() {
   const newVersion = `${currentBranch}.${parseInt(increment) + 1}`;
   jsPackage.version = newVersion;
   writeFileSync('package.json', JSON.stringify(jsPackage, null, 2));
+  await GitProcess.exec(['add', 'package.json'], __dirname);
+  await GitProcess.exec(
+    ['commit', '-m', `Bump version to ${newVersion}`, '--no-verify'],
+    __dirname
+  );
 }
 
 bumpPackageVersion();
