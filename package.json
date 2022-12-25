@@ -23,7 +23,8 @@
     "prepare": "tsdx build && husky install",
     "size": "size-limit",
     "analyze": "size-limit --why",
-    "build-schemas": "ts-node --project ./src/scripts/build-schemas/tsconfig.json ./src/scripts/build-schemas/build-schemas.ts"
+    "build-schemas": "ts-node --project ./src/scripts/tsconfig.json ./src/scripts/build-schemas/build-schemas.ts",
+    "bump-version": "ts-node --project ./src/scripts/tsconfig.json ./src/scripts/bump-package-version/bump-package-version.ts"
   },
   "peerDependencies": {},
   "prettier": {
