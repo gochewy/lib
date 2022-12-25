@@ -16,7 +16,7 @@ interface InstallTestProjectOptions {
   testProjectName?: string;
   testComponentName?: string;
   testComponentUrl?: string;
-  testProjectPath?: string;
+  testProjectPath: string;
 }
 
 export default async function installTestProject({
@@ -25,12 +25,7 @@ export default async function installTestProject({
   testComponentName = 'ory-kratos',
   testComponentUrl = componentSources['ory-kratos'],
 }: InstallTestProjectOptions) {
-  const rootInstallPath =
-    testProjectPath ||
-    resolve(
-      CHEWY_BASE_TEST_DIR,
-      `${testProjectName}-${Math.floor(Math.random() * 1000)}`
-    );
+  const rootInstallPath = testProjectPath;
 
   await installRoot(rootInstallPath, {
     name: testProjectName,
