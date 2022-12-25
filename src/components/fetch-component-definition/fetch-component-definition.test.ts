@@ -17,7 +17,9 @@ describe('fetchComponentDefinition', () => {
     try {
       await fetchComponentDefinition(source, version);
     } catch (e) {
-      expect((e as any).message).toEqual('No version found for component.');
+      expect((e as { message: string }).message).toEqual(
+        'No version found for component.'
+      );
     }
   });
 });

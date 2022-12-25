@@ -74,8 +74,7 @@ export default async function fetchComponentDefinition(
     CHEWY_COMPONENT_DEFINITION_FILE_NAME
   );
 
-  let checkoutOutput: Awaited<ReturnType<typeof GitProcess.exec>>;
-  checkoutOutput = await GitProcess.exec(
+  const checkoutOutput = await GitProcess.exec(
     ['checkout', validVersion.sha, filePath],
     tmpComponentDir
   );
@@ -91,7 +90,7 @@ export default async function fetchComponentDefinition(
     )
   );
 
-  let componentDefinition = jsyaml.load(content.toString());
+  const componentDefinition = jsyaml.load(content.toString());
 
   const parsedComponentDefinition = componentDefinitionSchema.parse(
     componentDefinition

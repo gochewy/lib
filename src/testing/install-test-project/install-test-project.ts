@@ -1,11 +1,10 @@
-import { resolve } from 'path';
 import {
   fetchComponentDefinition,
   fetchComponentVersions,
   installComponent,
 } from '../../components';
 import { componentSources } from '../../config/component';
-import { CHEWY_BASE_TEST_DIR, CHEWY_VERSION } from '../../constants';
+import { CHEWY_VERSION } from '../../constants';
 import { installRoot } from '../../project';
 import {
   setWorkingDirectory,

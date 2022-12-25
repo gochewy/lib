@@ -10,10 +10,10 @@ import searchForNestedFileUpwards from '../search-for-nested-file-upwards/search
 
 export default function getProjectRootDir() {
   const installingDir = getRootInstallationPath();
-  if (!!installingDir) return path.resolve(installingDir);
+  if (installingDir) return path.resolve(installingDir);
 
   const workingDirectory = getWorkingDirectory();
-  if (!!workingDirectory) return workingDirectory;
+  if (workingDirectory) return workingDirectory;
 
   const dir = searchForNestedFileUpwards(cwd(), [
     CHEWY_PROJECT_CONFIG_DIR_NAME,

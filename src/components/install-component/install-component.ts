@@ -115,7 +115,7 @@ export default async function installComponent({
   const dependencyDefinitions: InstallComponentOutput[] = [];
 
   if (autoInstallDependencies) {
-    for (let dependency of definition.dependencies || []) {
+    for (const dependency of definition.dependencies || []) {
       const depInstallOutput = await installComponent({
         url: dependency.repository,
         version: dependency.version,
