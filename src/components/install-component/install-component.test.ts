@@ -11,17 +11,15 @@ import getInstalledComponentDefinition from '../get-installed-component-definiti
 import installComponent from './install-component';
 
 describe('installComponent', () => {
-  const rootInstallPath = resolve(
-    CHEWY_BASE_TEST_DIR,
-    `install-component-test-${Math.floor(Math.random() * 1000)}`
-  );
+  const rootInstallPath = resolve(CHEWY_BASE_TEST_DIR, `install-component`);
 
   beforeAll(async () => {
+    await rmfr(rootInstallPath);
     await installRoot(rootInstallPath, {
       name: 'install-component-test',
       chewy: { version: CHEWY_VERSION },
     });
-  });
+  }, 30000);
 
   it('installs the component', async () => {
     const name = 'ory-kratos';

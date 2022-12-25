@@ -14,6 +14,7 @@ export default async function initializeRootRepo() {
 
   const addOutput = await GitProcess.exec(['add', '.'], path);
   if (addOutput.exitCode !== 0) {
+    console.log(`@@ working directory: ${path}`);
     throw new Error(`Failed to add files to git: ${addOutput.stderr}`);
   }
 
