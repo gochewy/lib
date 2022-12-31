@@ -37,5 +37,8 @@ jobs:
         # run: yarn test src/project/install-root/install-root.test.ts --ci --coverage --maxWorkers=2
         run: yarn test --ci --coverage --maxWorkers=2
 
+      - name: Codecov
+        uses: codecov/codecov-action@v3.1.1
+
       - name: Build
         run: yarn build
