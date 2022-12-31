@@ -2,7 +2,10 @@ version = 1
 
 test_patterns = ["**/*.test.ts"]
 
-exclude_patterns = ["/dist/**.*"]
+exclude_patterns = [
+  "/dist/**.*",
+  "**/*-old.*"
+]
 
 [[analyzers]]
 name = "javascript"
