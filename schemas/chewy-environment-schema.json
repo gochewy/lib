@@ -1,1 +1,23 @@
-{"type":"object","properties":{"name":{"type":"string"},"config":{"type":"array","items":{"type":"object","properties":{"name":{"type":"string"},"value":{"type":"string"},"encrypted":{"type":"boolean"},"public":{"type":"boolean"}},"required":["name","value"],"additionalProperties":false}}},"required":["name","config"],"additionalProperties":false,"$schema":"http://json-schema.org/draft-07/schema#"}
+{
+  "type": "object",
+  "properties": {
+    "name": { "type": "string" },
+    "config": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "value": { "type": "string" },
+          "encrypted": { "type": "boolean" },
+          "public": { "type": "boolean" }
+        },
+        "required": ["name", "value"],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": ["name", "config"],
+  "additionalProperties": false,
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

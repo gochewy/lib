@@ -21,8 +21,8 @@ export default async function fetchComponentVersions(url: string) {
 
   const branches = branchResponse.stdout
     .split('\n') // split on newlines
-    .filter(line => line !== '') // there is always a trailing newline
-    .map(line => line.split('\t')) // get the version (tab separated, and strip the refs/heads/ or refs/tags/)
+    .filter((line) => line !== '') // there is always a trailing newline
+    .map((line) => line.split('\t')) // get the version (tab separated, and strip the refs/heads/ or refs/tags/)
     .map(([sha, ref]) => ({
       sha,
       ref: ref.split('/')[2],
@@ -32,8 +32,8 @@ export default async function fetchComponentVersions(url: string) {
 
   const tags = tagResponse.stdout
     .split('\n') // split on newlines
-    .filter(line => line !== '') // there is always a trailing newline
-    .map(line => line.split('\t')) // get the version (tab separated, and strip the refs/heads/ or refs/tags/)
+    .filter((line) => line !== '') // there is always a trailing newline
+    .map((line) => line.split('\t')) // get the version (tab separated, and strip the refs/heads/ or refs/tags/)
     .map(([sha, ref]) => ({
       sha,
       ref: ref.split('/')[2],

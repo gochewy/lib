@@ -1,7 +1,11 @@
 import { readFileSync, writeFile, writeFileSync } from 'fs';
 import * as colorette from 'colorette';
 import * as fs from 'fs';
-import { Answers, gitignoreTemplate, readmeFileTemplate } from './constants-old';
+import {
+  Answers,
+  gitignoreTemplate,
+  readmeFileTemplate,
+} from './constants-old';
 
 const findUp = require('find-up');
 
@@ -31,7 +35,7 @@ export const createConfig = (dir: any) => {
 
 export const envCreator = (dir: string, subdir: string) => {
   const data = readFileSync(`${dir}/${subdir}/sample.env`);
-  writeFile(`${dir}/${subdir}/.env`, data, err => {
+  writeFile(`${dir}/${subdir}/.env`, data, (err) => {
     if (err) {
       log(err);
     }
