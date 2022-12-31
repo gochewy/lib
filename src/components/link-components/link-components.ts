@@ -17,7 +17,7 @@ export default function linkComponents(
 ) {
   const links = getComponentLinks(dependent)?.links || [];
   const exists = !!links.find(
-    link => link.repository === dependency.repository && link.role === role
+    (link) => link.repository === dependency.repository && link.role === role
   );
   if (exists) throw Error('This dependency role is already satisfied.');
   links.push({ ...dependency, role });

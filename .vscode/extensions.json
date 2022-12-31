@@ -1,6 +1,3 @@
 {
-    "recommendations": [
-        "wallabyjs.wallaby-vscode",
-        "wallabyjs.quokka-vscode"
-    ]
+  "recommendations": ["wallabyjs.wallaby-vscode", "wallabyjs.quokka-vscode"]
 }

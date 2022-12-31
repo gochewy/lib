@@ -42,7 +42,7 @@ export default function getComponentDir(opts?: GetComponentDirOptions) {
     const found: string[] = [];
     const projectRoot = getProjectRootDir();
 
-    CHEWY_COMPONENT_DIRECTORY_NAMES.forEach(dir => {
+    CHEWY_COMPONENT_DIRECTORY_NAMES.forEach((dir) => {
       const path = resolve(projectRoot, dir, opts.name);
       if (existsSync(path)) found.push(path);
     });

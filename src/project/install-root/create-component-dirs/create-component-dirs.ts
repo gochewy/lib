@@ -19,8 +19,8 @@ export default function createComponentDirs() {
     resolve(path, CHEWY_SOURCE_DIR_NAME),
   ];
 
-  dirs.forEach(dir => mkdirSync(dir, { recursive: true }));
-  dirs.forEach(dir => {
+  dirs.forEach((dir) => mkdirSync(dir, { recursive: true }));
+  dirs.forEach((dir) => {
     const gitignorePath = resolve(dir, '.gitignore');
     writeFileSync(gitignorePath, '');
   });

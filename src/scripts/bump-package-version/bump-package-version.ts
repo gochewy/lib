@@ -27,4 +27,4 @@ async function bumpPackageVersion() {
   }
 }
 
-bumpPackageVersion().catch(e => console.log(e));
+bumpPackageVersion().catch((e) => console.log(e));

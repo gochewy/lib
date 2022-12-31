@@ -92,9 +92,8 @@ export default async function fetchComponentDefinition(
 
   const componentDefinition = jsyaml.load(content.toString());
 
-  const parsedComponentDefinition = componentDefinitionSchema.parse(
-    componentDefinition
-  );
+  const parsedComponentDefinition =
+    componentDefinitionSchema.parse(componentDefinition);
 
   return parsedComponentDefinition;
 }
