@@ -5,6 +5,7 @@ on:
       - "*"
     paths:
       - "**.ts"
+      - ".github/**.*"
 
 jobs:
   build:
