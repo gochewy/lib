@@ -71,12 +71,10 @@ describe('installRoot', () => {
     expect(exists).toBe(true);
   });
 
-  it.only('initializes a git repository', async () => {
+  it('initializes a git repository', async () => {
     const result = await GitProcess.exec(['status'], path);
     expect(result.exitCode).toBe(0);
   });
 
-  afterAll(async () => {
-    // await rmfr(path);
-  });
+  afterAll(() => rmfr(path));
 });

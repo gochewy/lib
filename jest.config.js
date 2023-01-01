@@ -5,13 +5,16 @@ module.exports = {
   },
   transformIgnorePatterns: ['[/\\\\]node_modules[/\\\\].+\\.(js|jsx)$'],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
+  collectCoverage: false,
   collectCoverageFrom: ['src/**/*.{ts,tsx,js,jsx}'],
+  coverageDirectory: 'coverage',
+  coverageProvider: 'babel',
+  coverageReporters: ['json', 'text', 'lcov', 'clover'],
   testMatch: ['<rootDir>/**/*.(spec|test).{ts,tsx,js,jsx}'],
   testURL: 'http://localhost',
-  rootDir: './src',
+  rootDir: './',
   watchPlugins: [
     require.resolve('jest-watch-typeahead/filename'),
     require.resolve('jest-watch-typeahead/testname'),
   ],
-  testTimeout: 30000,
 };
