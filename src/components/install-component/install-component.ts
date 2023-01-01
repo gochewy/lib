@@ -98,6 +98,7 @@ export default async function installComponent({
   const validName = resourceNameSchema.parse(tmpName);
   const path = join(definition.type, validName);
 
+  console.log('@@ Set local git');
   await setLocalGit();
   const exec = ['subtree', 'add', '--prefix', path, validUrl, validVersion.sha];
   const output = await GitProcess.exec(exec, root);
@@ -106,6 +107,7 @@ export default async function installComponent({
     throw new Error(`Failed to add subtree for ${validName}: ${output.stderr}`);
   }
 
+  console.log('@@ Unset local git');
   unsetLocalGit();
 
   createConfigDir(root, path);
@@ -116,6 +118,7 @@ export default async function installComponent({
 
   if (autoInstallDependencies) {
     for (const dependency of definition.dependencies || []) {
+      console.log(`@@ install component: ${dependency.role}`);
       const depInstallOutput = await installComponent({
         url: dependency.repository,
         version: dependency.version,
