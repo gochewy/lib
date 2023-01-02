@@ -59,13 +59,13 @@ describe('installRoot', () => {
       CHEWY_SOURCE_DIR_NAME,
     ];
     const exists = dirs
-      .map(dir => existsSync(resolve(path, dir)))
+      .map((dir) => existsSync(resolve(path, dir)))
       .reduce((acc, val) => acc && val, true);
     expect(exists).toBe(true);
   });
 
   it('creates gitignore files for component directories', () => {
-    const exists = CHEWY_COMPONENT_DIRECTORY_NAMES.map(dir =>
+    const exists = CHEWY_COMPONENT_DIRECTORY_NAMES.map((dir) =>
       existsSync(resolve(path, dir, '.gitignore'))
     ).reduce((acc, val) => acc && val, true);
     expect(exists).toBe(true);
