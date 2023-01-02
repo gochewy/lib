@@ -5,7 +5,7 @@ on:
       - "*"
     paths:
       - "**.ts"
-      - ".github/**.*"
+      - ".github/workflows/main.yml"
 
 jobs:
   build:
