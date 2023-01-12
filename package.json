@@ -25,6 +25,7 @@
     "analyze": "size-limit --why",
     "build-schemas": "ts-node --project ./src/scripts/tsconfig.json ./src/scripts/build-schemas/build-schemas.ts",
     "bump-package": "ts-node --project ./src/scripts/tsconfig.json ./src/scripts/bump-package-version/bump-package-version.ts",
+    "build-compose-schema": "ts-node --project ./src/scripts/tsconfig.json ./src/scripts/build-compose-schema/build-compose-schema.ts",
     "bump-tag": "bump --tag --commit --push"
   },
   "peerDependencies": {},
@@ -47,6 +48,7 @@
   "dependencies": {
     "@types/fs-extra": "^9.0.13",
     "@types/js-yaml": "^4.0.5",
+    "@types/node-fetch": "^2",
     "@types/rmfr": "^2.0.1",
     "@types/semver": "^7.3.13",
     "colorette": "^2.0.19",
@@ -56,9 +58,12 @@
     "find-up": "^5.0.0",
     "fs-extra": "^10.1.0",
     "js-yaml": "^4.1.0",
+    "json-schema-to-typescript": "^11.0.2",
+    "node-fetch": "^2",
     "rmfr": "^2.0.0",
     "semver": "^7.3.8",
     "ts-node": "^10.9.1",
+    "ts-to-zod": "^1.13.1",
     "zod": "^3.19.1",
     "zod-to-json-schema": "^3.19.0"
   },
