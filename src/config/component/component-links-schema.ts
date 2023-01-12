@@ -9,6 +9,7 @@ const componentLinksSchema = z.object({
         type: componentTypeSchema,
         repository: z.string(),
         role: z.string(),
+        unique: z.boolean().default(true),
       })
     )
     .optional(),

@@ -1,26 +1,46 @@
 import { writeFileSync } from 'fs-extra';
 import jsyaml from 'js-yaml';
-import ComponentType from '../../config/component/component-type';
+import getComponentDir from '../../files/get-component-dir/get-component-dir';
 import getComponentLinksFile from '../../files/get-component-links-file/get-component-links-file';
 import getComponentLinks from '../get-component-links/get-component-links';
-
-interface Component {
-  name: string;
-  type: ComponentType;
-  repository: string;
-}
+import getInstalledComponentDefinition from '../get-installed-component-definition/get-installed-component-definition';
 
 export default function linkComponents(
-  dependency: Component,
+  dependency: NonNullable<Parameters<typeof getComponentDir>[0]>,
   role: string,
-  dependent: Component
+  dependent: NonNullable<Parameters<typeof getComponentDir>[0]>
 ) {
   const links = getComponentLinks(dependent)?.links || [];
-  const exists = !!links.find(
-    link => link.repository === dependency.repository && link.role === role
+  const dependentDefinition = getInstalledComponentDefinition(dependent);
+  const dependencyDefinitions = dependentDefinition.dependencies || [];
+
+  const dependencyDefinition = dependencyDefinitions.find(
+    dep => dep.role === role
   );
-  if (exists) throw Error('This dependency role is already satisfied.');
-  links.push({ ...dependency, role });
+  const roleIsUnique = dependencyDefinition?.unique ?? true;
+  const satisfyingLink = links.find(link => link.role === role);
+
+  if (!dependentDefinition) {
+    throw new Error(
+      `${dependent.name} does not have a dependency with role ${role}`
+    );
+  }
+
+  if (!!satisfyingLink && roleIsUnique)
+    throw Error(`${role} is already fulfilled by ${satisfyingLink?.name}`);
+
+  const dependencyComponentDefinition = getInstalledComponentDefinition(
+    dependency
+  );
+
+  links.push({
+    role,
+    name: dependency.name,
+    type: dependencyComponentDefinition.type,
+    repository: dependencyComponentDefinition.repository,
+    unique: roleIsUnique,
+  });
+
   const linkFile = getComponentLinksFile(dependent);
   const yaml = jsyaml.dump({ links });
   writeFileSync(linkFile, yaml);

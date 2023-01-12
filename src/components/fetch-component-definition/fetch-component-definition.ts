@@ -46,7 +46,10 @@ export default async function fetchComponentDefinition(
     ({ ref }) => ref === version
   );
 
-  if (!validVersion) throw new Error('No version found for component.');
+  if (!validVersion)
+    throw new Error(
+      'No version found for component while fetching definition.'
+    );
 
   const globalComponentsDir = resolve(
     CHEWY_GLOBAL_CONFIG_DIR_PATH,

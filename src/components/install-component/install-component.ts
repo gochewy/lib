@@ -15,6 +15,7 @@ import { setLocalGit, unsetLocalGit } from '../../state/local-git/local-git';
 import { resourceNameSchema } from '../../utils';
 import fetchComponentDefinition from '../fetch-component-definition/fetch-component-definition';
 import fetchComponentVersions from '../fetch-component-versions/fetch-component-versions';
+import linkComponents from '../link-components/link-components';
 
 function createEmptyLinksFile(root: string, path: string) {
   const emptyLinks = componentLinksSchema.parse({
@@ -55,7 +56,12 @@ async function fetchUsableVersion(url: string, version: string) {
   const versions = await fetchComponentVersions(url);
   const validVersion = versions.find(({ ref }) => ref === version);
 
-  if (!validVersion) throw new Error('No version found for component.');
+  if (!validVersion)
+    throw new Error(
+      `No version found for component ${url}. Available versions are ${versions
+        .map(({ ref }) => ref)
+        .join(', ')}.}`
+    );
 
   return validVersion;
 }
@@ -72,6 +78,7 @@ interface InstallComponentOptions {
 }
 
 interface InstallComponentOutput {
+  name: string;
   definition: ComponentDefinition;
   dependencyDefinitions: InstallComponentOutput[];
 }
@@ -99,6 +106,7 @@ export default async function installComponent({
   const path = join(definition.type, validName);
 
   await setLocalGit();
+
   const exec = ['subtree', 'add', '--prefix', path, validUrl, validVersion.sha];
   const output = await GitProcess.exec(exec, root);
 
@@ -126,10 +134,15 @@ export default async function installComponent({
         },
       });
       dependencyDefinitions.push(depInstallOutput);
+
+      linkComponents({ name: depInstallOutput.name }, dependency.role, {
+        name: validName,
+      });
     }
   }
 
   return {
+    name: validName,
     definition,
     dependencyDefinitions,
   };

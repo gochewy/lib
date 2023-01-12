@@ -8,7 +8,7 @@ import path from 'path';
 /**
  * The current version of Chewy.
  */
-export const CHEWY_VERSION = '0.1.1-branch';
+export const CHEWY_VERSION = 'main';
 
 /***********************************************
  * Environment config.

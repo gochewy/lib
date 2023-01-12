@@ -6,6 +6,8 @@ const dependencySchema = z.object({
   repository: z.string(),
   role: z.string(),
   version: z.string().default(CHEWY_VERSION),
+  unique: z.boolean().default(true),
+  required: z.boolean().default(true),
 });
 
 const componentDefinitionSchema = z.object({

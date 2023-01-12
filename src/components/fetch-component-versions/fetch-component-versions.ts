@@ -28,7 +28,7 @@ export default async function fetchComponentVersions(url: string) {
       ref: ref.split('/')[2],
       type: 'branch',
     }))
-    .filter(({ ref }) => semver.valid(ref));
+    .filter(({ ref }) => semver.valid(ref) || ref === 'main');
 
   const tags = tagResponse.stdout
     .split('\n') // split on newlines
