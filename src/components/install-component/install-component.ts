@@ -1,13 +1,16 @@
+import childProcess from 'child_process';
 import { GitProcess } from 'dugite';
-import { createFileSync, mkdirSync, writeFileSync } from 'fs-extra';
+import { createFileSync, existsSync, mkdirSync, writeFileSync } from 'fs-extra';
 import jsyaml from 'js-yaml';
 import { join, resolve } from 'path';
 import { z } from 'zod';
 import ComponentDefinition from '../../config/component/component-definition';
 import componentLinksSchema from '../../config/component/component-links-schema';
 import {
+  CHEWY_COMPONENT_COMMANDS_DIRECTORY,
   CHEWY_COMPONENT_CONFIG_DIR_NAME,
   CHEWY_COMPONENT_CONFIG_FILE_NAME,
+  CHEWY_COMPONENT_DEFINITION_DIR_NAME,
   CHEWY_COMPONENT_LINKS_FILE_NAME,
 } from '../../constants';
 import getProjectRootDir from '../../files/get-project-root-dir/get-project-root-dir';
@@ -16,8 +19,40 @@ import { resourceNameSchema } from '../../utils';
 import fetchComponentDefinition from '../fetch-component-definition/fetch-component-definition';
 import fetchComponentVersions from '../fetch-component-versions/fetch-component-versions';
 import linkComponents from '../link-components/link-components';
+import { promisify } from 'util';
+import colorette from 'colorette';
 
-function createEmptyLinksFile(root: string, path: string) {
+const exec = promisify(childProcess.exec);
+
+async function initializeComponentCommands(
+  projectRoot: string,
+  componentPath: string
+) {
+  const cwd = join(
+    projectRoot,
+    componentPath,
+    CHEWY_COMPONENT_DEFINITION_DIR_NAME,
+    CHEWY_COMPONENT_COMMANDS_DIRECTORY
+  );
+
+  // check if the commands directory exists
+  if (!existsSync(cwd)) {
+    return;
+  }
+
+  try {
+    await exec('yarn install', { cwd });
+    await exec('yarn build', { cwd });
+  } catch (e) {
+    console.error(
+      'Failed to initialize component commands. ' +
+        'You may need to run `yarn install` and `yarn build` manually in the component commands directory for ' +
+        componentPath
+    );
+  }
+}
+
+function createEmptyLinksFile(projectRoot: string, componentPath: string) {
   const emptyLinks = componentLinksSchema.parse({
     links: [],
   });
@@ -26,8 +61,8 @@ function createEmptyLinksFile(root: string, path: string) {
 
   writeFileSync(
     resolve(
-      root,
-      path,
+      projectRoot,
+      componentPath,
       CHEWY_COMPONENT_CONFIG_DIR_NAME,
       CHEWY_COMPONENT_LINKS_FILE_NAME
     ),
@@ -35,21 +70,24 @@ function createEmptyLinksFile(root: string, path: string) {
   );
 }
 
-function createEmptyConfigFile(root: string, path: string) {
+function createEmptyConfigFile(projectRoot: string, componentPath: string) {
   createFileSync(
     resolve(
-      root,
-      path,
+      projectRoot,
+      componentPath,
       CHEWY_COMPONENT_CONFIG_DIR_NAME,
       CHEWY_COMPONENT_CONFIG_FILE_NAME
     )
   );
 }
 
-function createConfigDir(root: string, path: string) {
-  mkdirSync(resolve(root, path, CHEWY_COMPONENT_CONFIG_DIR_NAME), {
-    recursive: true,
-  });
+function createConfigDir(projectRoot: string, componentPath: string) {
+  mkdirSync(
+    resolve(projectRoot, componentPath, CHEWY_COMPONENT_CONFIG_DIR_NAME),
+    {
+      recursive: true,
+    }
+  );
 }
 
 async function fetchUsableVersion(url: string, version: string) {
@@ -94,7 +132,7 @@ export default async function installComponent({
   autoInstallDependencies = true,
   dependent,
 }: InstallComponentOptions): Promise<InstallComponentOutput> {
-  const root = getProjectRootDir();
+  const projectRoot = getProjectRootDir();
   const validUrl = z.string().parse(url);
   const validVersion = await fetchUsableVersion(validUrl, version);
   const definition = await fetchComponentDefinition(url, validVersion.ref);
@@ -103,26 +141,52 @@ export default async function installComponent({
     tmpName = `${dependent.name}-${dependent.role}-${definition.name}`;
   }
   const validName = resourceNameSchema.parse(tmpName);
-  const path = join(definition.type, validName);
+  const componentPath = join(definition.type, validName);
 
   await setLocalGit();
 
-  const exec = ['subtree', 'add', '--prefix', path, validUrl, validVersion.sha];
-  const output = await GitProcess.exec(exec, root);
+  const exec = [
+    'subtree',
+    'add',
+    '--prefix',
+    componentPath,
+    validUrl,
+    validVersion.sha,
+  ];
+  const output = await GitProcess.exec(exec, projectRoot);
 
   if (output.exitCode !== 0) {
-    throw new Error(`Failed to add subtree for ${validName}: ${output.stderr}`);
+    throw new Error(
+      colorette.red(`Failed to add subtree for ${validName}: ${output.stderr}`)
+    );
   }
 
   unsetLocalGit();
 
-  createConfigDir(root, path);
-  createEmptyConfigFile(root, path);
-  createEmptyLinksFile(root, path);
+  console.log(
+    `${colorette.green(colorette.bold(validName))} ${colorette.gray(
+      'Setting up configuration files...'
+    )}`
+  );
+  createConfigDir(projectRoot, componentPath);
+  createEmptyConfigFile(projectRoot, componentPath);
+  createEmptyLinksFile(projectRoot, componentPath);
+
+  console.log(
+    `${colorette.green(colorette.bold(validName))} ${colorette.gray(
+      'Installing commands...'
+    )}`
+  );
+  await initializeComponentCommands(projectRoot, componentPath);
 
   const dependencyDefinitions: InstallComponentOutput[] = [];
 
-  if (autoInstallDependencies) {
+  if (autoInstallDependencies && definition.dependencies?.length) {
+    console.log(
+      `${colorette.green(colorette.bold(validName))} ${colorette.gray(
+        'Installing dependencies...'
+      )}`
+    );
     for (const dependency of definition.dependencies || []) {
       const depInstallOutput = await installComponent({
         url: dependency.repository,
