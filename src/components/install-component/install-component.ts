@@ -20,7 +20,7 @@ import fetchComponentDefinition from '../fetch-component-definition/fetch-compon
 import fetchComponentVersions from '../fetch-component-versions/fetch-component-versions';
 import linkComponents from '../link-components/link-components';
 import { promisify } from 'util';
-import colorette from 'colorette';
+import { green, bold, red, gray } from 'colorette';
 
 const exec = promisify(childProcess.exec);
 
@@ -157,35 +157,27 @@ export default async function installComponent({
 
   if (output.exitCode !== 0) {
     throw new Error(
-      colorette.red(`Failed to add subtree for ${validName}: ${output.stderr}`)
+      red(`Failed to add subtree for ${validName}: ${output.stderr}`)
     );
   }
 
   unsetLocalGit();
 
   console.log(
-    `${colorette.green(colorette.bold(validName))} ${colorette.gray(
-      'Setting up configuration files...'
-    )}`
+    `${green(bold(validName))} ${gray('Setting up configuration files...')}`
   );
   createConfigDir(projectRoot, componentPath);
   createEmptyConfigFile(projectRoot, componentPath);
   createEmptyLinksFile(projectRoot, componentPath);
 
-  console.log(
-    `${colorette.green(colorette.bold(validName))} ${colorette.gray(
-      'Installing commands...'
-    )}`
-  );
+  console.log(`${green(bold(validName))} ${gray('Installing commands...')}`);
   await initializeComponentCommands(projectRoot, componentPath);
 
   const dependencyDefinitions: InstallComponentOutput[] = [];
 
   if (autoInstallDependencies && definition.dependencies?.length) {
     console.log(
-      `${colorette.green(colorette.bold(validName))} ${colorette.gray(
-        'Installing dependencies...'
-      )}`
+      `${green(bold(validName))} ${gray('Installing dependencies...')}`
     );
     for (const dependency of definition.dependencies || []) {
       const depInstallOutput = await installComponent({

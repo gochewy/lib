@@ -18,7 +18,7 @@ describe('fetchComponentDefinition', () => {
       await fetchComponentDefinition(source, version);
     } catch (e) {
       expect((e as { message: string }).message).toEqual(
-        'No version found for component.'
+        'No version found for component while fetching definition.'
       );
     }
   });
