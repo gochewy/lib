@@ -1,8 +1,10 @@
 import childProcess from 'child_process';
+import { red } from 'colorette';
 import { GitProcess } from 'dugite';
 import { createFileSync, existsSync, mkdirSync, writeFileSync } from 'fs-extra';
 import jsyaml from 'js-yaml';
 import { join, resolve } from 'path';
+import { promisify } from 'util';
 import { z } from 'zod';
 import ComponentDefinition from '../../config/component/component-definition';
 import componentLinksSchema from '../../config/component/component-links-schema';
@@ -16,93 +18,11 @@ import {
 import getProjectRootDir from '../../files/get-project-root-dir/get-project-root-dir';
 import { setLocalGit, unsetLocalGit } from '../../state/local-git/local-git';
 import { resourceNameSchema } from '../../utils';
+import log from '../../utils/log/log';
 import fetchComponentDefinition from '../fetch-component-definition/fetch-component-definition';
 import fetchComponentVersions from '../fetch-component-versions/fetch-component-versions';
 import linkComponents from '../link-components/link-components';
-import { promisify } from 'util';
-import { green, bold, red, gray } from 'colorette';
 
-const exec = promisify(childProcess.exec);
-
-async function initializeComponentCommands(
-  projectRoot: string,
-  componentPath: string
-) {
-  const cwd = join(
-    projectRoot,
-    componentPath,
-    CHEWY_COMPONENT_DEFINITION_DIR_NAME,
-    CHEWY_COMPONENT_COMMANDS_DIRECTORY
-  );
-
-  // check if the commands directory exists
-  if (!existsSync(cwd)) {
-    return;
-  }
-
-  try {
-    await exec('yarn install', { cwd });
-    await exec('yarn build', { cwd });
-  } catch (e) {
-    console.error(
-      'Failed to initialize component commands. ' +
-        'You may need to run `yarn install` and `yarn build` manually in the component commands directory for ' +
-        componentPath
-    );
-  }
-}
-
-function createEmptyLinksFile(projectRoot: string, componentPath: string) {
-  const emptyLinks = componentLinksSchema.parse({
-    links: [],
-  });
-
-  const yaml = jsyaml.dump(emptyLinks);
-
-  writeFileSync(
-    resolve(
-      projectRoot,
-      componentPath,
-      CHEWY_COMPONENT_CONFIG_DIR_NAME,
-      CHEWY_COMPONENT_LINKS_FILE_NAME
-    ),
-    yaml
-  );
-}
-
-function createEmptyConfigFile(projectRoot: string, componentPath: string) {
-  createFileSync(
-    resolve(
-      projectRoot,
-      componentPath,
-      CHEWY_COMPONENT_CONFIG_DIR_NAME,
-      CHEWY_COMPONENT_CONFIG_FILE_NAME
-    )
-  );
-}
-
-function createConfigDir(projectRoot: string, componentPath: string) {
-  mkdirSync(
-    resolve(projectRoot, componentPath, CHEWY_COMPONENT_CONFIG_DIR_NAME),
-    {
-      recursive: true,
-    }
-  );
-}
-
-async function fetchUsableVersion(url: string, version: string) {
-  const versions = await fetchComponentVersions(url);
-  const validVersion = versions.find(({ ref }) => ref === version);
-
-  if (!validVersion)
-    throw new Error(
-      `No version found for component ${url}. Available versions are ${versions
-        .map(({ ref }) => ref)
-        .join(', ')}.}`
-    );
-
-  return validVersion;
-}
 interface InstallComponentOptions {
   name?: string;
   url: string;
@@ -163,22 +83,19 @@ export default async function installComponent({
 
   unsetLocalGit();
 
-  console.log(
-    `${green(bold(validName))} ${gray('Setting up configuration files...')}`
-  );
-  createConfigDir(projectRoot, componentPath);
-  createEmptyConfigFile(projectRoot, componentPath);
-  createEmptyLinksFile(projectRoot, componentPath);
+  setupConfiguration(validName, projectRoot, componentPath);
 
-  console.log(`${green(bold(validName))} ${gray('Installing commands...')}`);
-  await initializeComponentCommands(projectRoot, componentPath);
+  await initializeComponentCommands(projectRoot, componentPath, validName);
+  await runInitCommand(projectRoot, componentPath, validName);
 
   const dependencyDefinitions: InstallComponentOutput[] = [];
 
   if (autoInstallDependencies && definition.dependencies?.length) {
-    console.log(
-      `${green(bold(validName))} ${gray('Installing dependencies...')}`
-    );
+    log('Installing dependencies', {
+      level: 'info',
+      source: validName,
+      subtle: true,
+    });
     for (const dependency of definition.dependencies || []) {
       const depInstallOutput = await installComponent({
         url: dependency.repository,
@@ -202,4 +119,178 @@ export default async function installComponent({
     definition,
     dependencyDefinitions,
   };
+}
+
+const childProcessExec = promisify(childProcess.exec);
+
+async function runInitCommand(
+  projectRoot: string,
+  componentPath: string,
+  validName: string
+) {
+  log('Running initialization command...', {
+    source: validName,
+    level: 'info',
+  });
+  const cwd = join(
+    projectRoot,
+    componentPath,
+    CHEWY_COMPONENT_DEFINITION_DIR_NAME,
+    CHEWY_COMPONENT_COMMANDS_DIRECTORY
+  );
+  try {
+    const { stderr, stdout } = await childProcessExec('yarn commands init', {
+      cwd,
+    });
+
+    console.log(stdout);
+    console.error(stderr);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+/**
+ * Each component has its own "commands" in the form of a node-based CLI. The CLI
+ * needs to be built before it can be properly used. This function installs the CLI's dependencies
+ * and runs the build command.
+ *
+ * @param projectRoot The project root directory
+ * @param componentPath The relative path to the component
+ * @param validName The name of the component
+ * @returns
+ */
+async function initializeComponentCommands(
+  projectRoot: string,
+  componentPath: string,
+  validName: string
+) {
+  const cwd = join(
+    projectRoot,
+    componentPath,
+    CHEWY_COMPONENT_DEFINITION_DIR_NAME,
+    CHEWY_COMPONENT_COMMANDS_DIRECTORY
+  );
+
+  if (!existsSync(cwd)) return;
+
+  log('Installing commands...', {
+    level: 'info',
+    source: validName,
+    subtle: true,
+  });
+
+  try {
+    await childProcessExec('yarn install', { cwd });
+    await childProcessExec('yarn build', { cwd });
+  } catch (e) {
+    const errorMessage =
+      'Failed to initialize component commands. ' +
+      'You may need to run `yarn install` and `yarn build` manually in the component commands directory for ' +
+      componentPath;
+    log(errorMessage, {
+      level: 'error',
+      source: componentPath,
+    });
+  }
+}
+
+/**
+ * Creates an empty links file for a component.
+ * Links define the components that fulfill the dependencies of a component.
+ *
+ * @param projectRoot Project root
+ * @param componentPath Relative path to component
+ */
+function createEmptyLinksFile(projectRoot: string, componentPath: string) {
+  const emptyLinks = componentLinksSchema.parse({
+    links: [],
+  });
+
+  const yaml = jsyaml.dump(emptyLinks);
+
+  writeFileSync(
+    resolve(
+      projectRoot,
+      componentPath,
+      CHEWY_COMPONENT_CONFIG_DIR_NAME,
+      CHEWY_COMPONENT_LINKS_FILE_NAME
+    ),
+    yaml
+  );
+}
+
+/**
+ * Creates an empty config file for a component.
+ */
+function createEmptyConfigFile(projectRoot: string, componentPath: string) {
+  createFileSync(
+    resolve(
+      projectRoot,
+      componentPath,
+      CHEWY_COMPONENT_CONFIG_DIR_NAME,
+      CHEWY_COMPONENT_CONFIG_FILE_NAME
+    )
+  );
+}
+
+/**
+ * Creates the configuration directory for the component. This is where all files that
+ * determine how a component runs are stored.
+ *
+ * @param projectRoot The project root
+ * @param componentPath The relative path to the component
+ */
+function createConfigDir(projectRoot: string, componentPath: string) {
+  mkdirSync(
+    resolve(projectRoot, componentPath, CHEWY_COMPONENT_CONFIG_DIR_NAME),
+    {
+      recursive: true,
+    }
+  );
+}
+
+/**
+ * We rely on git sha's to identify the version of a component that we will install. This function
+ * takes a version string (e.g. 'v1.0.0') and returns a version object, which includes the git sha that matches
+ * that version.
+ *
+ * @param url The git url of the component
+ * @param version The desired version of the component
+ * @returns The version object that matches the desired version string
+ */
+async function fetchUsableVersion(url: string, version: string) {
+  const versions = await fetchComponentVersions(url);
+  const validVersion = versions.find(({ ref }) => ref === version);
+
+  if (!validVersion)
+    throw new Error(
+      `No version found for component ${url}. Available versions are ${versions
+        .map(({ ref }) => ref)
+        .join(', ')}.}`
+    );
+
+  return validVersion;
+}
+
+/**
+ * Each component requires a configuration file, a links file, and a directory to hold them.
+ *
+ * @param validName The name of the component
+ * @param projectRoot The project root
+ * @param componentPath The relative path to the component
+ */
+function setupConfiguration(
+  validName: string,
+  projectRoot: string,
+  componentPath: string
+) {
+  log('Setting up configuration files...', {
+    level: 'info',
+    source: validName,
+    subtle: true,
+  });
+  createConfigDir(projectRoot, componentPath);
+  createEmptyConfigFile(projectRoot, componentPath);
+  createEmptyLinksFile(projectRoot, componentPath);
 }

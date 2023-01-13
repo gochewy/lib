@@ -10,6 +10,9 @@ import {
 import getInstalledComponentDefinition from '../get-installed-component-definition/get-installed-component-definition';
 import installComponent from './install-component';
 
+// use real timers
+jest.useRealTimers();
+
 describe('installComponent', () => {
   const rootInstallPath = resolve(CHEWY_BASE_TEST_DIR, `install-component`);
 
@@ -22,8 +25,8 @@ describe('installComponent', () => {
   }, 30000);
 
   it('installs the component', async () => {
-    const name = 'ory-kratos';
-    const url = componentSources['ory-kratos'];
+    const name = 'nextjs';
+    const url = componentSources['nextjs'];
 
     setWorkingDirectory(rootInstallPath);
 
@@ -36,7 +39,7 @@ describe('installComponent', () => {
     checkDefinition(definition);
 
     unsetWorkingDirectory();
-  });
+  }, 30000);
 
   afterAll(async () => {
     await rmfr(rootInstallPath);
