@@ -42,7 +42,7 @@ describe('installComponent', () => {
   }, 60000);
 
   afterAll(async () => {
-    // await rmfr(rootInstallPath);
+    await rmfr(rootInstallPath);
   });
 });
 
