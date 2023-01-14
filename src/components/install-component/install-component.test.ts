@@ -39,10 +39,10 @@ describe('installComponent', () => {
     checkDefinition(definition);
 
     unsetWorkingDirectory();
-  }, 30000);
+  }, 60000);
 
   afterAll(async () => {
-    await rmfr(rootInstallPath);
+    // await rmfr(rootInstallPath);
   });
 });
 

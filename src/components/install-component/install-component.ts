@@ -1,10 +1,9 @@
-import childProcess from 'child_process';
+import { execSync } from 'child_process';
 import { red } from 'colorette';
 import { GitProcess } from 'dugite';
 import { createFileSync, existsSync, mkdirSync, writeFileSync } from 'fs-extra';
 import jsyaml from 'js-yaml';
 import { join, resolve } from 'path';
-import { promisify } from 'util';
 import { z } from 'zod';
 import ComponentDefinition from '../../config/component/component-definition';
 import componentLinksSchema from '../../config/component/component-links-schema';
@@ -85,8 +84,7 @@ export default async function installComponent({
 
   setupConfiguration(validName, projectRoot, componentPath);
 
-  await initializeComponentCommands(projectRoot, componentPath, validName);
-  await runInitCommand(projectRoot, componentPath, validName);
+  initializeComponentCommands(projectRoot, componentPath, validName);
 
   const dependencyDefinitions: InstallComponentOutput[] = [];
 
@@ -121,35 +119,6 @@ export default async function installComponent({
   };
 }
 
-const childProcessExec = promisify(childProcess.exec);
-
-async function runInitCommand(
-  projectRoot: string,
-  componentPath: string,
-  validName: string
-) {
-  log('Running initialization command...', {
-    source: validName,
-    level: 'info',
-  });
-  const cwd = join(
-    projectRoot,
-    componentPath,
-    CHEWY_COMPONENT_DEFINITION_DIR_NAME,
-    CHEWY_COMPONENT_COMMANDS_DIRECTORY
-  );
-  try {
-    const { stderr, stdout } = await childProcessExec('yarn commands init', {
-      cwd,
-    });
-
-    console.log(stdout);
-    console.error(stderr);
-  } catch (error) {
-    console.log(error);
-  }
-}
-
 /**
  * Each component has its own "commands" in the form of a node-based CLI. The CLI
  * needs to be built before it can be properly used. This function installs the CLI's dependencies
@@ -160,7 +129,7 @@ async function runInitCommand(
  * @param validName The name of the component
  * @returns
  */
-async function initializeComponentCommands(
+function initializeComponentCommands(
   projectRoot: string,
   componentPath: string,
   validName: string
@@ -172,27 +141,31 @@ async function initializeComponentCommands(
     CHEWY_COMPONENT_COMMANDS_DIRECTORY
   );
 
-  if (!existsSync(cwd)) return;
+  if (!existsSync(cwd)) {
+    log('No commands found. This is a problem with the component.', {
+      level: 'error',
+      source: validName,
+    });
+    return;
+  }
 
-  log('Installing commands...', {
+  log('Installing command dependencies...', {
     level: 'info',
     source: validName,
     subtle: true,
   });
+  execSync('yarn install && yarn build', {
+    cwd,
+  });
 
-  try {
-    await childProcessExec('yarn install', { cwd });
-    await childProcessExec('yarn build', { cwd });
-  } catch (e) {
-    const errorMessage =
-      'Failed to initialize component commands. ' +
-      'You may need to run `yarn install` and `yarn build` manually in the component commands directory for ' +
-      componentPath;
-    log(errorMessage, {
-      level: 'error',
-      source: componentPath,
-    });
-  }
+  log('Running init...', {
+    level: 'info',
+    source: validName,
+    subtle: true,
+  });
+  execSync('yarn commands-dev init', {
+    cwd,
+  });
 }
 
 /**
