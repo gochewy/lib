@@ -1,9 +1,10 @@
-import { execSync } from 'child_process';
+import { exec } from 'child_process';
 import { red } from 'colorette';
 import { GitProcess } from 'dugite';
 import { createFileSync, existsSync, mkdirSync, writeFileSync } from 'fs-extra';
 import jsyaml from 'js-yaml';
 import { join, resolve } from 'path';
+import { promisify } from 'util';
 import { z } from 'zod';
 import ComponentDefinition from '../../config/component/component-definition';
 import componentLinksSchema from '../../config/component/component-links-schema';
@@ -21,6 +22,8 @@ import log from '../../utils/log/log';
 import fetchComponentDefinition from '../fetch-component-definition/fetch-component-definition';
 import fetchComponentVersions from '../fetch-component-versions/fetch-component-versions';
 import linkComponents from '../link-components/link-components';
+
+const execAsync = promisify(exec);
 
 interface InstallComponentOptions {
   name?: string;
@@ -84,7 +87,7 @@ export default async function installComponent({
 
   setupConfiguration(validName, projectRoot, componentPath);
 
-  initializeComponentCommands(projectRoot, componentPath, validName);
+  await initializeComponentCommands(projectRoot, componentPath, validName);
 
   const dependencyDefinitions: InstallComponentOutput[] = [];
 
@@ -129,7 +132,7 @@ export default async function installComponent({
  * @param validName The name of the component
  * @returns
  */
-function initializeComponentCommands(
+async function initializeComponentCommands(
   projectRoot: string,
   componentPath: string,
   validName: string
@@ -154,7 +157,7 @@ function initializeComponentCommands(
     source: validName,
     subtle: true,
   });
-  execSync('yarn install && yarn build', {
+  await execAsync('yarn install && yarn build', {
     cwd,
   });
 
@@ -163,7 +166,7 @@ function initializeComponentCommands(
     source: validName,
     subtle: true,
   });
-  execSync('yarn commands-dev init', {
+  await execAsync('yarn commands-dev init', {
     cwd,
   });
 }
