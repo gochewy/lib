@@ -4,6 +4,7 @@ import {
   LogLevel,
 } from '../../state/log-level/log-level';
 import { green, gray, white, red, yellow, bold } from 'colorette';
+import getComponentName from '../../components/get-component-name/get-component-name';
 
 interface LogOptions {
   level: LogLevel;
@@ -41,8 +42,17 @@ function getFormattedLevel(level: LogLevel) {
 
 function getFormattedSource(source: string | undefined, level: LogLevel) {
   let formattedSource = '';
-  if (source) {
-    formattedSource = source;
+  let componentName: string | undefined;
+  if (!source) {
+    try {
+      componentName = getComponentName();
+    } catch (e) {
+      componentName = undefined;
+    }
+  }
+  const actualSource = source ?? componentName;
+  if (actualSource) {
+    formattedSource = actualSource;
     switch (level) {
       case 'error':
         formattedSource = bold(red(formattedSource));
@@ -61,3 +71,19 @@ function getFormattedSource(source: string | undefined, level: LogLevel) {
   }
   return formattedSource;
 }
+
+log.error = (message: string, opts: Omit<LogOptions, 'level'>) => {
+  log(message, { ...opts, level: 'error' });
+};
+
+log.warn = (message: string, opts: Omit<LogOptions, 'level'>) => {
+  log(message, { ...opts, level: 'warn' });
+};
+
+log.info = (message: string, opts: Omit<LogOptions, 'level'>) => {
+  log(message, { ...opts, level: 'info' });
+};
+
+log.debug = (message: string, opts: Omit<LogOptions, 'level'>) => {
+  log(message, { ...opts, level: 'debug' });
+};
