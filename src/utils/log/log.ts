@@ -13,7 +13,7 @@ interface LogOptions {
   showTimestamp?: boolean;
 }
 
-export default function log(message: string, opts: LogOptions) {
+const log = function log(message: string, opts: LogOptions) {
   const { level, source, subtle = false, showTimestamp = false } = opts;
   const timestamp = showTimestamp ? `[${new Date().toISOString()}] ` : '';
   const formattedLevel = getFormattedLevel(level);
@@ -25,7 +25,25 @@ export default function log(message: string, opts: LogOptions) {
   if (isLogLevelEnabled(level)) {
     logger(formattedLog);
   }
-}
+};
+
+log.error = (message: string, opts: Omit<LogOptions, 'level'>) => {
+  log(message, { ...opts, level: 'error' });
+};
+
+log.warn = (message: string, opts: Omit<LogOptions, 'level'>) => {
+  log(message, { ...opts, level: 'warn' });
+};
+
+log.info = (message: string, opts: Omit<LogOptions, 'level'>) => {
+  log(message, { ...opts, level: 'info' });
+};
+
+log.debug = (message: string, opts: Omit<LogOptions, 'level'>) => {
+  log(message, { ...opts, level: 'debug' });
+};
+
+export default log;
 
 function getFormattedLevel(level: LogLevel) {
   switch (level) {
@@ -71,19 +89,3 @@ function getFormattedSource(source: string | undefined, level: LogLevel) {
   }
   return formattedSource;
 }
-
-log.error = (message: string, opts: Omit<LogOptions, 'level'>) => {
-  log(message, { ...opts, level: 'error' });
-};
-
-log.warn = (message: string, opts: Omit<LogOptions, 'level'>) => {
-  log(message, { ...opts, level: 'warn' });
-};
-
-log.info = (message: string, opts: Omit<LogOptions, 'level'>) => {
-  log(message, { ...opts, level: 'info' });
-};
-
-log.debug = (message: string, opts: Omit<LogOptions, 'level'>) => {
-  log(message, { ...opts, level: 'debug' });
-};
