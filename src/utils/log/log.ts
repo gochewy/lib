@@ -13,6 +13,13 @@ interface LogOptions {
   showTimestamp?: boolean;
 }
 
+/**
+ * A logging function that will take care of colour formatting as well
+ * as providing contextual information if we're working within a component.
+ *
+ * @param message The message to print to the logs
+ * @param opts Formatting, level, and other information
+ */
 const log = function log(
   message: string,
   opts: LogOptions = { level: 'debug' }

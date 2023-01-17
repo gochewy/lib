@@ -1,6 +1,12 @@
 import { dirname } from 'path';
 import { default as findGit, Git } from 'find-git-exec';
 
+/**
+ * Instead of using the git binary included with dugite,
+ * find the user's local binary and use that instead. Dugite
+ * does not include the subtree command, which is included in
+ * most git versions available out there.
+ */
 export const setLocalGit = async () => {
   let git: Git | undefined = undefined;
 
@@ -14,6 +20,9 @@ export const setLocalGit = async () => {
   }
 };
 
+/**
+ * Revert back to the dugite git binary.
+ */
 export const unsetLocalGit = () => {
   delete process.env.GIT_EXEC_PATH;
   delete process.env.LOCAL_GIT_DIRECTORY;
