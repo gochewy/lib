@@ -1,7 +1,7 @@
 import { exec } from 'child_process';
 import { red } from 'colorette';
 import { GitProcess } from 'dugite';
-import { createFileSync, existsSync, mkdirSync, writeFileSync } from 'fs-extra';
+import { createFileSync, mkdirSync, writeFileSync } from 'fs-extra';
 import jsyaml from 'js-yaml';
 import { join, resolve } from 'path';
 import { promisify } from 'util';
@@ -9,10 +9,8 @@ import { z } from 'zod';
 import ComponentDefinition from '../../config/component/component-definition';
 import componentLinksSchema from '../../config/component/component-links-schema';
 import {
-  CHEWY_COMPONENT_COMMANDS_DIRECTORY,
   CHEWY_COMPONENT_CONFIG_DIR_NAME,
   CHEWY_COMPONENT_CONFIG_FILE_NAME,
-  CHEWY_COMPONENT_DEFINITION_DIR_NAME,
   CHEWY_COMPONENT_LINKS_FILE_NAME,
 } from '../../constants';
 import getProjectRootDir from '../../files/get-project-root-dir/get-project-root-dir';
@@ -22,8 +20,9 @@ import log from '../../utils/log/log';
 import fetchComponentDefinition from '../fetch-component-definition/fetch-component-definition';
 import fetchComponentVersions from '../fetch-component-versions/fetch-component-versions';
 import linkComponents from '../link-components/link-components';
+import initializeComponent from '../initialize-component/initialize-component';
 
-const execAsync = promisify(exec);
+export const execAsync = promisify(exec);
 
 interface InstallComponentOptions {
   name?: string;
@@ -87,7 +86,7 @@ export default async function installComponent({
 
   setupConfiguration(validName, projectRoot, componentPath);
 
-  await initializeComponentCommands(projectRoot, componentPath, validName);
+  await initializeComponent({ name: validName });
 
   const dependencyDefinitions: InstallComponentOutput[] = [];
 
@@ -120,55 +119,6 @@ export default async function installComponent({
     definition,
     dependencyDefinitions,
   };
-}
-
-/**
- * Each component has its own "commands" in the form of a node-based CLI. The CLI
- * needs to be built before it can be properly used. This function installs the CLI's dependencies
- * and runs the build command.
- *
- * @param projectRoot The project root directory
- * @param componentPath The relative path to the component
- * @param validName The name of the component
- * @returns
- */
-async function initializeComponentCommands(
-  projectRoot: string,
-  componentPath: string,
-  validName: string
-) {
-  const cwd = join(
-    projectRoot,
-    componentPath,
-    CHEWY_COMPONENT_DEFINITION_DIR_NAME,
-    CHEWY_COMPONENT_COMMANDS_DIRECTORY
-  );
-
-  if (!existsSync(cwd)) {
-    log('No commands found. This is a problem with the component.', {
-      level: 'error',
-      source: validName,
-    });
-    return;
-  }
-
-  log('Installing command dependencies...', {
-    level: 'info',
-    source: validName,
-    subtle: true,
-  });
-  await execAsync('yarn install && yarn build', {
-    cwd,
-  });
-
-  log('Running init...', {
-    level: 'info',
-    source: validName,
-    subtle: true,
-  });
-  await execAsync('yarn commands-dev init', {
-    cwd,
-  });
 }
 
 /**

@@ -13,7 +13,10 @@ interface LogOptions {
   showTimestamp?: boolean;
 }
 
-const log = function log(message: string, opts: LogOptions) {
+const log = function log(
+  message: string,
+  opts: LogOptions = { level: 'debug' }
+) {
   const { level, source, subtle = false, showTimestamp = false } = opts;
   const timestamp = showTimestamp ? `[${new Date().toISOString()}] ` : '';
   const formattedLevel = getFormattedLevel(level);
@@ -27,19 +30,19 @@ const log = function log(message: string, opts: LogOptions) {
   }
 };
 
-log.error = (message: string, opts: Omit<LogOptions, 'level'>) => {
+log.error = (message: string, opts?: Omit<LogOptions, 'level'>) => {
   log(message, { ...opts, level: 'error' });
 };
 
-log.warn = (message: string, opts: Omit<LogOptions, 'level'>) => {
+log.warn = (message: string, opts?: Omit<LogOptions, 'level'>) => {
   log(message, { ...opts, level: 'warn' });
 };
 
-log.info = (message: string, opts: Omit<LogOptions, 'level'>) => {
+log.info = (message: string, opts?: Omit<LogOptions, 'level'>) => {
   log(message, { ...opts, level: 'info' });
 };
 
-log.debug = (message: string, opts: Omit<LogOptions, 'level'>) => {
+log.debug = (message: string, opts?: Omit<LogOptions, 'level'>) => {
   log(message, { ...opts, level: 'debug' });
 };
 
