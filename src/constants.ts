@@ -34,6 +34,8 @@ export const IS_TESTING = process.env.NODE_ENV === 'test';
  */
 export const IS_CHEWY_DEV_MODE = process.env.IS_CHEWY_DEV_MODE === 'true';
 
+export const CHEWY_DEV_ENV_NAME = process.env.CHEWY_DEV_ENV_NAME || 'dev';
+
 /***********************************************
  * Directories for different parts of Chewy.
  ***********************************************/
