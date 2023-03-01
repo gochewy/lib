@@ -1,10 +1,8 @@
-import { exec } from 'child_process';
 import { red } from 'colorette';
 import { GitProcess } from 'dugite';
 import { createFileSync, mkdirSync, writeFileSync } from 'fs-extra';
 import jsyaml from 'js-yaml';
 import { join, resolve } from 'path';
-import { promisify } from 'util';
 import { z } from 'zod';
 import ComponentDefinition from '../../config/component/component-definition';
 import componentLinksSchema from '../../config/component/component-links-schema';
@@ -20,9 +18,6 @@ import log from '../../utils/log/log';
 import fetchComponentDefinition from '../fetch-component-definition/fetch-component-definition';
 import fetchComponentVersions from '../fetch-component-versions/fetch-component-versions';
 import linkComponents from '../link-components/link-components';
-import initializeComponent from '../initialize-component/initialize-component';
-
-export const execAsync = promisify(exec);
 
 interface InstallComponentOptions {
   name?: string;
@@ -85,8 +80,6 @@ export default async function installComponent({
   unsetLocalGit();
 
   setupConfiguration(validName, projectRoot, componentPath);
-
-  await initializeComponent({ name: validName });
 
   const dependencyDefinitions: InstallComponentOutput[] = [];
 

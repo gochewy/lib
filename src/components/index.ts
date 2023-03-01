@@ -5,3 +5,5 @@ export { default as getComponentList } from './get-component-list/get-component-
 export { default as getInstalledComponentDefinition } from './get-installed-component-definition/get-installed-component-definition';
 export { default as installComponent } from './install-component/install-component';
 export { default as linkComponents } from './link-components/link-components';
+export { default as initializeComponentCommands } from './initialize-component-commands/initialize-component-commands';
+export { default as initializeComponent } from './initialize-component/initialize-component';

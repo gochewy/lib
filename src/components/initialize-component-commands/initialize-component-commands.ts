@@ -2,7 +2,9 @@ import { exec } from 'child_process';
 import { existsSync } from 'fs-extra';
 import { promisify } from 'util';
 import { getComponentCommandsDir } from '../../files';
+import { GetComponentDirOptions } from '../../files/get-component-dir/get-component-dir';
 import log from '../../utils/log/log';
+import getComponentName from '../get-component-name/get-component-name';
 
 const execAsync = promisify(exec);
 
@@ -17,27 +19,25 @@ const execAsync = promisify(exec);
  * @returns
  */
 export default async function initializeComponentCommands(
-  ...opts: Parameters<typeof getComponentCommandsDir>
+  componentOpts: GetComponentDirOptions
 ) {
-  const cwd = getComponentCommandsDir(...opts);
+  const validName = getComponentName(componentOpts);
+  const cwd = getComponentCommandsDir(componentOpts);
 
   if (!existsSync(cwd)) {
-    log.error('No commands found. This is a problem with the component.');
+    log('No commands found. This is a problem with the component.', {
+      level: 'error',
+      source: validName,
+    });
     return;
   }
 
-  log.info('Installing command dependencies...', {
+  log('Installing command dependencies...', {
+    level: 'info',
+    source: validName,
     subtle: true,
   });
   await execAsync('yarn install && yarn build', {
-    cwd,
-  });
-
-  log.info('Running init...', {
-    subtle: true,
-  });
-
-  await execAsync('yarn commands init', {
     cwd,
   });
 }

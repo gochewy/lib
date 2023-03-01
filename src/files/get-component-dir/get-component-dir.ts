@@ -10,7 +10,7 @@ import { getWorkingDirectory } from '../../state/working-directory/working-direc
 import getProjectRootDir from '../get-project-root-dir/get-project-root-dir';
 import searchForNestedFileUpwards from '../search-for-nested-file-upwards/search-for-nested-file-upwards';
 
-type GetComponentDirOptions =
+export type GetComponentDirOptions =
   | {
       name: string;
       type: ComponentType;
