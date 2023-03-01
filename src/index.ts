@@ -6,3 +6,4 @@ export * as project from './project';
 export * as config from './config';
 export * as files from './files';
 export * as utils from './utils';
+export * as environments from './environments';

@@ -127,6 +127,9 @@ export const CHEWY_COMPONENT_DIRECTORY_NAMES = [
 export const CHEWY_PROJECT_CONFIG_FILE_NAME =
   process.env.CHEWY_PROJECT_CONFIG_FILE_NAME || 'chewy-project.yml';
 
+export const CHEWY_ENVIRONMENT_FILE_EXTENSION =
+  process.env.CHEWY_ENVIRONMENT_FILE_EXTENSION || 'chewy-env.yml';
+
 /**
  * The name of the file where the component definition is stored.
  */
