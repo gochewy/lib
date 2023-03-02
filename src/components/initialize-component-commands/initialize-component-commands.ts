@@ -5,6 +5,7 @@ import { getComponentCommandsDir } from '../../files';
 import { GetComponentDirOptions } from '../../files/get-component-dir/get-component-dir';
 import log from '../../utils/log/log';
 import getComponentName from '../get-component-name/get-component-name';
+import { resolve } from 'path';
 
 const execAsync = promisify(exec);
 
@@ -40,4 +41,11 @@ export default async function initializeComponentCommands(
   await execAsync('yarn install && yarn build', {
     cwd,
   });
+  try {
+    await execAsync('yarn install', {
+      cwd: resolve(cwd, 'deployment'),
+    });
+  } catch (error) {
+    log.error('Failed to install deployment dependencies');
+  }
 }
