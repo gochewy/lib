@@ -8,7 +8,6 @@ describe('fetchComponentVersions', () => {
       componentSources['ory-kratos']
     );
     const refs = versions.map(({ ref }) => ref);
-    console.log('@@ refs: ', refs);
     const ref = IS_CHEWY_CONTRIBUTOR ? 'main' : '0.1.1-branch';
     expect(refs).toContain(ref);
   });

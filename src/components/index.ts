@@ -7,3 +7,6 @@ export { default as installComponent } from './install-component/install-compone
 export { default as linkComponents } from './link-components/link-components';
 export { default as initializeComponentCommands } from './initialize-component-commands/initialize-component-commands';
 export { default as initializeComponent } from './initialize-component/initialize-component';
+export { default as fetchUsableVersion } from './fetch-usable-version/fetch-usable-version';
+export { default as updateComponent } from './update-component/update-component';
+export { default as getComponentName } from './get-component-name/get-component-name';

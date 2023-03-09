@@ -1,5 +1,4 @@
 import path from 'path';
-import { cwd } from 'process';
 import {
   CHEWY_PROJECT_CONFIG_DIR_NAME,
   CHEWY_PROJECT_CONFIG_FILE_NAME,
@@ -13,9 +12,8 @@ export default function getProjectRootDir() {
   if (installingDir) return path.resolve(installingDir);
 
   const workingDirectory = getWorkingDirectory();
-  if (workingDirectory) return workingDirectory;
 
-  const dir = searchForNestedFileUpwards(cwd(), [
+  const dir = searchForNestedFileUpwards(workingDirectory, [
     CHEWY_PROJECT_CONFIG_DIR_NAME,
     CHEWY_PROJECT_CONFIG_FILE_NAME,
   ]);
