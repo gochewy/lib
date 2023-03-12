@@ -1,4 +1,5 @@
 import { ProjectConfigInput } from '../../config/project';
+import { createEnvironmentSecretsGitignore } from '../../environments';
 import {
   setRootInstallationPath,
   unsetRootInstallationPath,
@@ -22,6 +23,7 @@ export default async function installRoot(
   createProjectConfig(config);
   createComponentDirs();
   await initializeRootRepo();
+  createEnvironmentSecretsGitignore();
 
   unsetRootInstallationPath();
 }
