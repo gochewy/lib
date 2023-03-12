@@ -15,7 +15,9 @@ export default async function initializeComponent(
   const cwd = getComponentCommandsDir(componentOpts);
 
   if (!existsSync(cwd)) {
-    log.error('No commands found. This is a problem with the component.');
+    log.error('Cannot run commands.', {
+      source: validName,
+    });
     return;
   }
 
@@ -24,7 +26,10 @@ export default async function initializeComponent(
     source: validName,
   });
 
-  await execAsync('yarn commands init', {
+  const commandsCommand =
+    process.env.NODE_ENV === 'development' ? 'commands-dev' : 'commands';
+
+  await execAsync(`yarn ${commandsCommand} init`, {
     cwd,
   });
 }

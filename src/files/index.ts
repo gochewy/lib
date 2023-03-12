@@ -8,4 +8,7 @@ export { default as getProjectConfigFile } from './get-project-config-file/get-p
 export { default as getProjectRootDir } from './get-project-root-dir/get-project-root-dir';
 export { default as getTestPath } from './get-test-path/get-test-path';
 export { default as searchForNestedFileUpwards } from './search-for-nested-file-upwards/search-for-nested-file-upwards';
-
+export { default as getComponentDeploymentDir } from './get-component-deployment-dir/get-component-deployment-dir';
+export { default as getEnvironmentSecretFile } from './get-environment-secret-file/get-environment-secret-file';
+export { default as getProjectEnvironmentDir } from './get-project-environment-dir/get-project-environment-dir';
+export { default as getGlobalEnvironmentsDir } from './get-global-environments-dir/get-global-environments-dir';

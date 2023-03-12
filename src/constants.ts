@@ -90,19 +90,19 @@ export const CHEWY_SOURCE_DIR_NAME =
  * The absolutely path to the directory where the global config file is stored (in the user's home directory).
  */
 export const CHEWY_GLOBAL_CONFIG_DIR_PATH =
-  process.env.CHEWY_GLOBAL_CONFIG_DIR_PATH || `${homedir()}/.chewy`;
+  process.env.CHEWY_GLOBAL_CONFIG_DIR_PATH || path.resolve(homedir(), '.chewy');
+
+/**
+ * The name of the directory where environment secrets are stored for the current user.
+ */
+export const CHEWY_GLOBAL_ENVIRONMENTS_DIR_NAME =
+  process.env.CHEWY_GLOBAL_ENVIRONMENTS_DIR_NAME || 'environments';
 
 /**
  * The absolutely path to the directory where the global config file is stored (in the user's home directory).
  */
 export const CHEWY_GLOBAL_COMPONENT_CACHE_DIR_NAME =
   process.env.CHEWY_GLOBAL_COMPONENT_CACHE_DIR_NAME || `component-cache`;
-
-/**
- * The directory where environment definitions are stored.
- */
-export const CHEWY_ENVIRONMENT_DEFINITION_DIR_NAME =
-  process.env.CHEWY_ENVIRONMENT_DEFINITION_DIR_NAME || 'environments';
 
 /**
  * Component CLI plugin directory.
@@ -112,6 +112,9 @@ export const CHEWY_COMPONENT_CLI_PLUGIN_DIR_NAME =
 
 export const CHEWY_COMPONENT_COMMANDS_DIRECTORY =
   process.env.CHEWY_COMPONENT_COMMANDS_DIRECTORY || 'commands';
+
+export const CHEWY_COMPONENT_DEPLOYMENT_DIRECTORY =
+  process.env.CHEWY_COMPONENT_DEPLOYMENT_DIRECTORY || 'deployment';
 
 export const CHEWY_COMPONENT_DIRECTORY_NAMES = [
   CHEWY_INFRA_DIR_NAME,

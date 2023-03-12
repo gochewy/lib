@@ -1,7 +1,7 @@
 import { exec } from 'child_process';
 import { existsSync } from 'fs-extra';
 import { promisify } from 'util';
-import { getComponentCommandsDir } from '../../files';
+import getComponentDeploymentDir from '../../files/get-component-deployment-dir/get-component-deployment-dir';
 import { GetComponentDirOptions } from '../../files/get-component-dir/get-component-dir';
 import log from '../../utils/log/log';
 import getComponentName from '../get-component-name/get-component-name';
@@ -9,30 +9,29 @@ import getComponentName from '../get-component-name/get-component-name';
 const execAsync = promisify(exec);
 
 /**
- * Each component has its own "commands" in the form of a node-based CLI. The CLI
- * needs to be built before it can be properly used. This function installs the CLI's dependencies
- * and runs the build command.
+ * Each component has its own "deployment" system in the form of a Pulumi program. The program
+ * has dependencies that need to be installed before it can be properly used.
  */
-export default async function initializeComponentCommands(
+export default async function initializeComponentDeployment(
   componentOpts: GetComponentDirOptions
 ) {
   const validName = getComponentName(componentOpts);
-  const cwd = getComponentCommandsDir(componentOpts);
+  const cwd = getComponentDeploymentDir(componentOpts);
 
   if (!existsSync(cwd)) {
-    log('No commands found. This is a problem with the component.', {
+    log('No deployment system found. This is a problem with the component.', {
       level: 'error',
       source: validName,
     });
     return;
   }
 
-  log('Installing command dependencies...', {
+  log('Installing deployment dependencies...', {
     level: 'info',
     source: validName,
     subtle: true,
   });
-  await execAsync('yarn install && yarn build', {
+  await execAsync('yarn install', {
     cwd,
   });
 }

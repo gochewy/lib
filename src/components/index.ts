@@ -10,3 +10,4 @@ export { default as initializeComponent } from './initialize-component/initializ
 export { default as fetchUsableVersion } from './fetch-usable-version/fetch-usable-version';
 export { default as updateComponent } from './update-component/update-component';
 export { default as getComponentName } from './get-component-name/get-component-name';
+export { default as initializeComponentDeployment } from './initialize-component-deployment/initialize-component-deployment';
