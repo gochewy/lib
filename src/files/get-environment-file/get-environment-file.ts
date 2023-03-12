@@ -1,6 +1,6 @@
 import { resolve } from 'path';
 import { CHEWY_ENVIRONMENT_FILE_EXTENSION } from '../../constants';
-import { getProjectConfigDir } from '../../files';
+import { getProjectConfigDir } from '..';
 
 export default function getEnvironmentFile(environment: string) {
   const projectConfigDir = getProjectConfigDir();

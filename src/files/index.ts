@@ -10,5 +10,5 @@ export { default as getTestPath } from './get-test-path/get-test-path';
 export { default as searchForNestedFileUpwards } from './search-for-nested-file-upwards/search-for-nested-file-upwards';
 export { default as getComponentDeploymentDir } from './get-component-deployment-dir/get-component-deployment-dir';
 export { default as getEnvironmentSecretFile } from './get-environment-secret-file/get-environment-secret-file';
-export { default as getProjectEnvironmentDir } from './get-project-environment-dir/get-project-environment-dir';
-export { default as getGlobalEnvironmentsDir } from './get-global-environments-dir/get-global-environments-dir';
+export { default as getEnvironmentFile } from './get-environment-file/get-environment-file';
+export { default as getProjectEnvironmentSecretsDir } from './get-project-environment-secrets-dir/get-project-environment-secrets-dir';

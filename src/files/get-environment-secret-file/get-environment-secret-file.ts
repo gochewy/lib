@@ -1,4 +1,4 @@
-import getProjectEnvironmentDir from '../get-project-environment-dir/get-project-environment-dir';
+import getProjectEnvironmentDir from '../get-project-environment-secrets-dir/get-project-environment-secrets-dir';
 import { resolve } from 'path';
 
 export default function getEnvironmentSecretFile(
