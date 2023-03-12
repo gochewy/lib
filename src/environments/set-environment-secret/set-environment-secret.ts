@@ -1,4 +1,4 @@
-import { writeFileSync } from 'fs-extra';
+import { outputFileSync } from 'fs-extra';
 import { getEnvironmentSecretFile } from '../../files';
 
 export default function setEnvironmentSecret(
@@ -6,5 +6,5 @@ export default function setEnvironmentSecret(
   secret: string
 ) {
   const secretFile = getEnvironmentSecretFile(environmentName);
-  writeFileSync(secretFile, secret);
+  outputFileSync(secretFile, secret);
 }
