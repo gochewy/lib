@@ -5,6 +5,7 @@ export { default as getComponentDeploymentDir } from './get-component-deployment
 export { default as getComponentDir } from './get-component-dir/get-component-dir';
 export { default as getComponentLinksFile } from './get-component-links-file/get-component-links-file';
 export { default as getDevVolumesDir } from './get-dev-volumes-dir/get-dev-volumes-dir';
+export { default as getDevVolumeDir } from './get-dev-volume-dir/get-dev-volume-dir';
 export { default as getEnvironmentFile } from './get-environment-file/get-environment-file';
 export { default as getEnvironmentSecretFile } from './get-environment-secret-file/get-environment-secret-file';
 export { default as getProjectConfigDir } from './get-project-config-dir/get-project-config-dir';
