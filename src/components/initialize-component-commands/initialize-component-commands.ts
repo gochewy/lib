@@ -32,7 +32,14 @@ export default async function initializeComponentCommands(
     source: validName,
     subtle: true,
   });
-  await execAsync('yarn install && yarn build', {
-    cwd,
-  });
+  try {
+    await execAsync('yarn install && yarn build', {
+      cwd,
+    });
+  } catch (err) {
+    log.error(`⚠️⚠️⚠️ Failed to install command dependencies!`, {
+      source: validName,
+    });
+    throw err;
+  }
 }
