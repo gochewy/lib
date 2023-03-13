@@ -1,5 +1,5 @@
 import { ProjectConfigInput } from '../../config/project';
-import { createDevVolumesGitignore } from '../../dev';
+import createDevVolumesGitignore from '../../dev/create-dev-volumes-gitignore/create-dev-volumes-gitignore';
 import { createEnvironmentSecretsGitignore } from '../../environments';
 import {
   setRootInstallationPath,

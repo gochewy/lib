@@ -109,7 +109,7 @@ export const CHEWY_PROJECT_ENVIRONMENT_SECRETS_DIR_NAME =
  * The name of the directory where development volumes are stored for the current project.
  */
 export const CHEWY_DEV_VOLUMES_DIR_NAME =
-  process.env.CHEWY_DEV_VOLUMES_DIR_NAME || 'volumes';
+  process.env.CHEWY_DEV_VOLUMES_DIR_NAME || 'dev-volumes';
 
 /**
  * Component CLI plugin directory.
