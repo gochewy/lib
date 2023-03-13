@@ -1,4 +1,4 @@
-import { getComponentDir } from '../../files';
+import getComponentDir from '../../files/get-component-dir/get-component-dir';
 import getComponentName from '../get-component-name/get-component-name';
 import getInstalledComponentDefinition from '../get-installed-component-definition/get-installed-component-definition';
 

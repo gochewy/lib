@@ -2,6 +2,7 @@ import { red } from 'colorette';
 import { GitProcess } from 'dugite';
 import { getComponentDir, getProjectRootDir } from '../../files';
 import { setLocalGit, unsetLocalGit } from '../../state';
+import log from '../../utils/log/log';
 import fetchUsableVersion from '../fetch-usable-version/fetch-usable-version';
 import getInstalledComponentDefinition from '../get-installed-component-definition/get-installed-component-definition';
 
@@ -36,6 +37,8 @@ export default async function updateComponent(
         }`
       )
     );
+  } else {
+    log.info(output.stdout);
   }
 
   unsetLocalGit();
