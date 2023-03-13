@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 export * as constants from './constants';
 export * as components from './components';
+export * as dev from './dev';
 export * as state from './state';
 export * as project from './project';
 export * as config from './config';
