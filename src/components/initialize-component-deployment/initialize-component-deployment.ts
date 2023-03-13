@@ -31,7 +31,15 @@ export default async function initializeComponentDeployment(
     source: validName,
     subtle: true,
   });
-  await execAsync('yarn install', {
-    cwd,
-  });
+  try {
+    await execAsync('yarn install', {
+      cwd,
+    });
+  } catch (err) {
+    log('Failed to install deployment dependencies.', {
+      level: 'error',
+      source: validName,
+    });
+    throw err;
+  }
 }
