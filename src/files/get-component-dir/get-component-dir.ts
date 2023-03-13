@@ -18,6 +18,7 @@ export type GetComponentDirOptions =
   | {
       name: string;
     };
+// TODO: Add a way to get the component dir from a component ID.
 
 export default function getComponentDir(opts?: GetComponentDirOptions) {
   if (!opts) {
