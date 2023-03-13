@@ -1,5 +1,6 @@
 import { DepGraph } from 'dependency-graph';
 import {
+  getComponentId,
   getComponentLinks,
   getComponentList,
   getInstalledComponentDefinition,
@@ -9,9 +10,10 @@ export default function getDependencyGraph() {
   const components = getComponentList().map(component => {
     const links = getComponentLinks(component);
     const definition = getInstalledComponentDefinition(component);
+    const id = getComponentId(component);
     return {
       ...component,
-      id: `${component.type}/${component.name}`,
+      id,
       links,
       definition,
     };
@@ -23,7 +25,7 @@ export default function getDependencyGraph() {
   });
   components.forEach(component => {
     component.links?.links?.forEach(link => {
-      const linkId = `${link.type}/${link.name}`;
+      const linkId = getComponentId(link);
       graph.addDependency(component.id, linkId);
     });
   });
