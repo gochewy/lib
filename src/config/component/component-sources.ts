@@ -7,6 +7,7 @@ interface ChewyComponents {
   postgres: string;
   'ory-kratos': string;
   'ory-oathkeeper': string;
+  'docker-development-host': string;
 }
 
 const componentSources: ChewyComponents = IS_CHEWY_CONTRIBUTOR
@@ -17,6 +18,8 @@ const componentSources: ChewyComponents = IS_CHEWY_CONTRIBUTOR
       postgres: '/workspace/chewy-global/components/postgres',
       'ory-kratos': '/workspace/chewy-global/components/ory-kratos',
       'ory-oathkeeper': '/workspace/chewy-global/components/ory-oathkeeper',
+      'docker-development-host':
+        '/workspace/chewy-global/components/docker-development-host',
     } as const)
   : ({
       hasura: 'https://github.com/gochewy/hasura.git',
@@ -25,6 +28,8 @@ const componentSources: ChewyComponents = IS_CHEWY_CONTRIBUTOR
       postgres: 'https://github.com/gochewy/postgres.git',
       'ory-kratos': 'https://github.com/gochewy/ory-kratos.git',
       'ory-oathkeeper': 'https://github.com/gochewy/ory-oathkeeper.git',
+      'docker-development-host':
+        'https://github.com/gochewy/docker-development-host.git',
     } as const);
 
 export default componentSources;

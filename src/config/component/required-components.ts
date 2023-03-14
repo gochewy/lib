@@ -8,6 +8,7 @@ const requiredComponents: ComponentNames[] = [
   'ory-oathkeeper',
   'hasura',
   'nestjs',
+  'docker-development-host',
 ];
 
 export default requiredComponents;
