@@ -3,8 +3,10 @@ import { existsSync } from 'fs-extra';
 import { promisify } from 'util';
 import getComponentDeploymentDir from '../../files/get-component-deployment-dir/get-component-deployment-dir';
 import { GetComponentDirOptions } from '../../files/get-component-dir/get-component-dir';
+import getProjectConfig from '../../project/get-project-config/get-project-config';
 import log from '../../utils/log/log';
 import getComponentName from '../get-component-name/get-component-name';
+import getInstalledComponentDefinition from '../get-installed-component-definition/get-installed-component-definition';
 
 const execAsync = promisify(exec);
 
@@ -17,6 +19,12 @@ export default async function initializeComponentDeployment(
 ) {
   const validName = getComponentName(componentOpts);
   const cwd = getComponentDeploymentDir(componentOpts);
+  const componentDef = getInstalledComponentDefinition(componentOpts);
+  const projectConfig = getProjectConfig();
+
+  const yarnCacheDir = `/tmp/${projectConfig.id}-${
+    componentDef.type
+  }-${validName || 'unknown'}-deployment-cache`;
 
   if (!existsSync(cwd)) {
     log('No deployment system found. This is a problem with the component.', {
@@ -32,7 +40,7 @@ export default async function initializeComponentDeployment(
     subtle: true,
   });
   try {
-    await execAsync('yarn install', {
+    await execAsync(`yarn install --cache-folder ${yarnCacheDir}`, {
       cwd,
     });
   } catch (err) {
