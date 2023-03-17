@@ -6,6 +6,7 @@ import { join, resolve } from 'path';
 import { z } from 'zod';
 import ComponentDefinition from '../../config/component/component-definition';
 import componentLinksSchema from '../../config/component/component-links-schema';
+import { ChewyComponentNames } from '../../config/component/component-sources';
 import {
   CHEWY_COMPONENT_CONFIG_DIR_NAME,
   CHEWY_COMPONENT_CONFIG_FILE_NAME,
@@ -105,6 +106,18 @@ export default async function installComponent({
         name: validName,
       });
     }
+  }
+
+  const dockerDevHost: ChewyComponentNames = 'docker-development-host';
+
+  if (validName !== dockerDevHost) {
+    linkComponents(
+      { name: dockerDevHost, type: 'infrastructure' },
+      'development-host',
+      {
+        name: validName,
+      }
+    );
   }
 
   return {

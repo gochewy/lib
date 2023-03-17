@@ -10,6 +10,8 @@ interface ChewyComponents {
   'docker-development-host': string;
 }
 
+export type ChewyComponentNames = keyof ChewyComponents;
+
 const componentSources: ChewyComponents = IS_CHEWY_CONTRIBUTOR
   ? ({
       hasura: '/workspace/chewy-global/components/hasura',

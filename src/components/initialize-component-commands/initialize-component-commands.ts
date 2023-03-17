@@ -27,6 +27,8 @@ export default async function initializeComponentCommands(
     componentDef.type
   }-${validName || 'unknown'}-commands-cache`;
 
+  console.log('@@ yarnCacheDir', yarnCacheDir);
+
   if (!existsSync(cwd)) {
     log('No commands found. This is a problem with the component.', {
       level: 'error',
@@ -42,7 +44,8 @@ export default async function initializeComponentCommands(
   });
   try {
     await execAsync(
-      `yarn install --cache-folder ${yarnCacheDir} && yarn build`,
+      // `yarn install --cache-folder ${yarnCacheDir} && yarn build`,
+      `yarn install && yarn build`,
       {
         cwd,
       }

@@ -11,4 +11,5 @@ export { default as initializeComponentDeployment } from './initialize-component
 export { default as initializeComponent } from './initialize-component/initialize-component';
 export { default as installComponent } from './install-component/install-component';
 export { default as linkComponents } from './link-components/link-components';
+export { default as runCommand } from './run-command/run-command';
 export { default as updateComponent } from './update-component/update-component';

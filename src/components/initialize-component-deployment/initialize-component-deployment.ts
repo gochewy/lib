@@ -26,6 +26,8 @@ export default async function initializeComponentDeployment(
     componentDef.type
   }-${validName || 'unknown'}-deployment-cache`;
 
+  console.log('@@ yarnCacheDir', yarnCacheDir);
+
   if (!existsSync(cwd)) {
     log('No deployment system found. This is a problem with the component.', {
       level: 'error',
@@ -40,9 +42,13 @@ export default async function initializeComponentDeployment(
     subtle: true,
   });
   try {
-    await execAsync(`yarn install --cache-folder ${yarnCacheDir}`, {
-      cwd,
-    });
+    await execAsync(
+      // `yarn install --cache-folder ${yarnCacheDir}`,
+      `yarn install`,
+      {
+        cwd,
+      }
+    );
   } catch (err) {
     log('Failed to install deployment dependencies.', {
       level: 'error',
