@@ -1,4 +1,4 @@
-// import runCommand from '../../components/run-command/run-command';
+import runCommand from '../../components/run-command/run-command';
 import { blue, greenBright, bold } from 'colorette';
 import getDependencyGraph from '../get-dependency-graph/get-dependency-graph';
 
@@ -24,10 +24,10 @@ async function deployComponent(
       } component ${greenBright(bold(component.name))}`
     );
 
-    // runCommand({
-    //   dirOpts: component,
-    //   command: ['deploy', environment],
-    // });
+    runCommand({
+      dirOpts: component,
+      command: ['deploy', environment],
+    });
   }
 
   const dependants = graph.dependantsOf(id);
