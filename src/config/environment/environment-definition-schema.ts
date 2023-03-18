@@ -10,6 +10,7 @@ const environmentVariableSchema = z.object({
 const environmentDefinitionSchema = z.object({
   name: z.string(),
   config: z.array(environmentVariableSchema),
+  type: z.enum(['infrastructure', 'application']).optional(),
 });
 
 export default environmentDefinitionSchema;

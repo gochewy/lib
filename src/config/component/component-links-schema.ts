@@ -7,10 +7,11 @@ const componentLinksSchema = z.object({
       z.object({
         name: z.string(),
         type: componentTypeSchema,
-        repository: z.string(),
         role: z.string(),
+        repository: z.string(),
         unique: z.boolean().default(true),
-        environments: z.array(z.string()).default(['*']),
+        sourceEnvironments: z.array(z.string()).optional(),
+        targetEnvironment: z.string().optional(),
       })
     )
     .optional(),
