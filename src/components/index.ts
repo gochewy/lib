@@ -6,6 +6,7 @@ export { default as getComponentLinks } from './get-component-links/get-componen
 export { default as getComponentList } from './get-component-list/get-component-list';
 export { default as getComponentName } from './get-component-name/get-component-name';
 export { default as getInstalledComponentDefinition } from './get-installed-component-definition/get-installed-component-definition';
+export { default as getStackName } from './get-stack-name/get-stack-name';
 export { default as initializeComponentCommands } from './initialize-component-commands/initialize-component-commands';
 export { default as initializeComponentDeployment } from './initialize-component-deployment/initialize-component-deployment';
 export { default as initializeComponent } from './initialize-component/initialize-component';

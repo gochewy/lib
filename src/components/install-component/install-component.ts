@@ -11,6 +11,7 @@ import {
   CHEWY_COMPONENT_CONFIG_DIR_NAME,
   CHEWY_COMPONENT_CONFIG_FILE_NAME,
   CHEWY_COMPONENT_LINKS_FILE_NAME,
+  CHEWY_DEV_ENV_NAME,
 } from '../../constants';
 import getProjectRootDir from '../../files/get-project-root-dir/get-project-root-dir';
 import { setLocalGit, unsetLocalGit } from '../../state/local-git/local-git';
@@ -116,7 +117,8 @@ export default async function installComponent({
       'development-host',
       {
         name: validName,
-      }
+      },
+      [CHEWY_DEV_ENV_NAME]
     );
   }
 

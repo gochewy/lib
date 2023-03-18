@@ -6,7 +6,14 @@ import {
   getInstalledComponentDefinition,
 } from '../../components';
 
-export default function getDependencyGraph() {
+/**
+ *  NOTE TO SELF:
+ *  - Each infra component specifies in its config which envs it is deployed to.
+ *  - Each service/source component specifies in its config which infra components
+ *    (specified by env as well) it depends on.
+ */
+
+export default function getDependencyGraph(environment = 'dev') {
   const components = getComponentList().map(component => {
     const links = getComponentLinks(component);
     const definition = getInstalledComponentDefinition(component);
