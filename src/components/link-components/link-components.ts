@@ -9,7 +9,8 @@ export default function linkComponents(
   dependency: NonNullable<Parameters<typeof getComponentDir>[0]>,
   role: string,
   dependent: NonNullable<Parameters<typeof getComponentDir>[0]>,
-  environments: string[] = ['*']
+  sourceEnvironments?: string[],
+  targetEnvironment?: string
 ) {
   const links = getComponentLinks(dependent)?.links || [];
   const dependentDefinition = getInstalledComponentDefinition(dependent);
@@ -40,7 +41,8 @@ export default function linkComponents(
     type: dependencyComponentDefinition.type,
     repository: dependencyComponentDefinition.repository,
     unique: roleIsUnique,
-    environments,
+    sourceEnvironments,
+    targetEnvironment,
   });
 
   const linkFile = getComponentLinksFile(dependent);
