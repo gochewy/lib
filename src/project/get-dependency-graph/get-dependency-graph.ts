@@ -11,6 +11,7 @@ import {
  *  - Each infra component specifies in its config which envs it is deployed to.
  *  - Each service/source component specifies in its config which infra components
  *    (specified by env as well) it depends on.
+ *  - Maybe there is a special "infrastructure" environment, that only deploys infra.
  */
 
 export default function getDependencyGraph(environment = 'dev') {
