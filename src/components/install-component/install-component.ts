@@ -111,14 +111,17 @@ export default async function installComponent({
 
   const dockerDevHost: ChewyComponentNames = 'docker-development-host';
 
-  if (validName !== dockerDevHost) {
+  if (definition.type !== 'infrastructure') {
     linkComponents(
       { name: dockerDevHost, type: 'infrastructure' },
       'development-host',
       {
         name: validName,
       },
-      [CHEWY_DEV_ENV_NAME]
+      // Essentially the following is saying for all application components,
+      // "if you're in the dev environment, you run on the docker dev host"
+      [CHEWY_DEV_ENV_NAME],
+      CHEWY_DEV_ENV_NAME
     );
   }
 

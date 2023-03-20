@@ -38,6 +38,8 @@ export default function getComponentDir(opts?: GetComponentDirOptions) {
     const path = `${getProjectRootDir()}/${opts.type}/${opts.name}`;
 
     if (existsSync(path)) return path;
+    console.log('@@ debug: ', opts);
+    console.log('path', path);
     throw Error('A component with that name does not exist.');
   } else {
     const found: string[] = [];
