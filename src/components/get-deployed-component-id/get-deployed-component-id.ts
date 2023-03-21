@@ -2,7 +2,7 @@ import { GetComponentDirOptions } from '../../files/get-component-dir/get-compon
 import getComponentId from '../get-component-id/get-component-id';
 
 export default function getDeployedComponentId(
-  dirOpts: GetComponentDirOptions,
+  dirOpts: GetComponentDirOptions | undefined,
   environment: string
 ) {
   const id = getComponentId(dirOpts);
