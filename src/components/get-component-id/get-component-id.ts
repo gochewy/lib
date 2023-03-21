@@ -8,5 +8,5 @@ export default function getComponentId(
   const definition = getInstalledComponentDefinition(...params);
   const componentName = getComponentName(...params);
   if (!componentName) throw Error('Could not get component name.');
-  return `${definition.type}/${componentName}`;
+  return `${definition.type}--${componentName}`;
 }

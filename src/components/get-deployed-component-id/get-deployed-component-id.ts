@@ -6,5 +6,5 @@ export default function getDeployedComponentId(
   environment: string
 ) {
   const id = getComponentId(dirOpts);
-  return `${environment}/${id}`;
+  return `${environment}--${id}`;
 }
