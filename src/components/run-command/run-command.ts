@@ -1,4 +1,4 @@
-import { execSync } from 'node:child_process';
+import { execSync } from 'child_process';
 import getComponentCommandsDir from '../../files/get-component-commands-dir/get-component-commands-dir';
 import { GetComponentDirOptions } from '../../files/get-component-dir/get-component-dir';
 

@@ -52,9 +52,17 @@ export default async function installTestProject({
   setWorkingDirectory(rootInstallPath);
 
   await installComponent({
+    name: 'docker-development-host',
+    url: componentSources['docker-development-host'],
+    version: CHEWY_VERSION,
+    autoInstallDependencies: true,
+  });
+
+  await installComponent({
     name: testComponentName,
     url: testComponentUrl,
     version: CHEWY_VERSION,
+    autoInstallDependencies: true,
   });
 
   unsetWorkingDirectory();

@@ -30,10 +30,18 @@ describe('installComponent', () => {
 
     setWorkingDirectory(rootInstallPath);
 
+    await installComponent({
+      name: 'docker-development-host',
+      url: componentSources['docker-development-host'],
+      version: CHEWY_VERSION,
+      autoInstallDependencies: true,
+    });
+
     const { definition } = await installComponent({
       name,
       url,
       version: CHEWY_VERSION,
+      autoInstallDependencies: true,
     });
 
     checkDefinition(definition);
