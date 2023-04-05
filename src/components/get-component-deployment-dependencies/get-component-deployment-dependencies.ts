@@ -1,10 +1,10 @@
 import buildDependencyGraph from '../../project/build-dependency-graph/build-dependency-graph';
 import * as pulumi from '@pulumi/pulumi';
 import getStackName from '../get-stack-name/get-stack-name';
+import parseDeployedId from '../parse-deployed-id/parse-deployed-id';
 
 interface DeploymentDependenciesOpts {
   deployedComponentId: string;
-  environment: string;
 }
 
 /**
@@ -13,8 +13,9 @@ interface DeploymentDependenciesOpts {
  */
 export default function getComponentDeploymentDependencies({
   deployedComponentId,
-  environment,
 }: DeploymentDependenciesOpts) {
+  const { environment } = parseDeployedId(deployedComponentId);
+
   const graph = buildDependencyGraph(environment);
 
   const dependencies = graph.dependenciesOf(deployedComponentId);

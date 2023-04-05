@@ -36,6 +36,8 @@ export const IS_CHEWY_DEV_MODE = process.env.IS_CHEWY_DEV_MODE === 'true';
 
 export const CHEWY_DEV_ENV_NAME = process.env.CHEWY_DEV_ENV_NAME || 'dev';
 
+export const CHEWY_ID_SEPARATOR = process.env.CHEWY_ID_SEPARATOR || '--';
+
 /***********************************************
  * Directories for different parts of Chewy.
  ***********************************************/

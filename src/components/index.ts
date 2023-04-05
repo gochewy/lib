@@ -7,6 +7,7 @@ export { default as getComponentLinks } from './get-component-links/get-componen
 export { default as getComponentList } from './get-component-list/get-component-list';
 export { default as getComponentName } from './get-component-name/get-component-name';
 export { default as getDeployedComponentId } from './get-deployed-component-id/get-deployed-component-id';
+export { default as getInfraTarget } from './get-infra-target/get-infra-target';
 export { default as getInstalledComponentDefinition } from './get-installed-component-definition/get-installed-component-definition';
 export { default as getStackName } from './get-stack-name/get-stack-name';
 export { default as initializeComponentCommands } from './initialize-component-commands/initialize-component-commands';
@@ -14,5 +15,6 @@ export { default as initializeComponentDeployment } from './initialize-component
 export { default as initializeComponent } from './initialize-component/initialize-component';
 export { default as installComponent } from './install-component/install-component';
 export { default as linkComponents } from './link-components/link-components';
+export { default as parseDeployedId } from './parse-deployed-id/parse-deployed-id';
 export { default as runCommand } from './run-command/run-command';
 export { default as updateComponent } from './update-component/update-component';
