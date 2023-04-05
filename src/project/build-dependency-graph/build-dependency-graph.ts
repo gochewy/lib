@@ -1,10 +1,8 @@
 import { DepGraph } from 'dependency-graph';
-import {
-  getComponentLinks,
-  getComponentList,
-  getDeployedComponentId,
-  getInstalledComponentDefinition,
-} from '../../components';
+import getComponentLinks from '../../components/get-component-links/get-component-links';
+import getInstalledComponentDefinition from '../../components/get-installed-component-definition/get-installed-component-definition';
+import getDeployedComponentId from '../../components/get-deployed-component-id/get-deployed-component-id';
+import getComponentList from '../../components/get-component-list/get-component-list';
 
 export default function buildDependencyGraph(environment: string) {
   /**
