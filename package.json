@@ -46,6 +46,7 @@
     }
   ],
   "dependencies": {
+    "@pulumi/pulumi": "^3.61.0",
     "@types/fs-extra": "^9.0.13",
     "@types/js-yaml": "^4.0.5",
     "@types/node-fetch": "^2",
