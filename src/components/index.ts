@@ -1,6 +1,7 @@
 export { default as fetchComponentDefinition } from './fetch-component-definition/fetch-component-definition';
 export { default as fetchComponentVersions } from './fetch-component-versions/fetch-component-versions';
 export { default as fetchUsableVersion } from './fetch-usable-version/fetch-usable-version';
+export { default as getComponentDeploymentDependencies } from './get-component-deployment-dependencies/get-component-deployment-dependencies';
 export { default as getComponentId } from './get-component-id/get-component-id';
 export { default as getComponentLinks } from './get-component-links/get-component-links';
 export { default as getComponentList } from './get-component-list/get-component-list';
